@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Core.Infrastructure.Extensions;
+using SkateboardNeverDie.Domain.QueryData;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
@@ -15,16 +19,41 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
             _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
         }
 
-        public DbSet<Skater> Skaters => _applicationDbContext.Skaters;
-
         public async Task AddAsync(Skater skater)
         {
             await _applicationDbContext.Skaters.AddAsync(skater);
         }
 
-        public async Task<Skater> GetByIdAsync(Guid id)
+        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
         {
-            return await Skaters.AsNoTracking().FirstOrDefaultAsync(_ => _.Id == id);
+            return await _applicationDbContext.Skaters.GetPagedResultAsync(
+                page,
+                pageSize,
+                _ => new SkaterQueryData
+                {
+                    Id = _.Id,
+                    FirstName = _.FirstName,
+                    LastName = _.LastName,
+                    Nickname = _.Nickname,
+                    Birthdate = _.Birthdate,
+                    NaturalStance = _.NaturalStanceId
+                });
+        }
+
+        public async Task<SkaterQueryData> GetByIdAsync(Guid id)
+        {
+            return await _applicationDbContext.Skaters.AsNoTracking()
+                .Where(_ => _.Id == id)
+                .Select(_ => new SkaterQueryData
+                {
+                    Id = _.Id,
+                    FirstName = _.FirstName,
+                    LastName = _.LastName,
+                    Nickname = _.Nickname,
+                    Birthdate = _.Birthdate,
+                    NaturalStance = _.NaturalStanceId
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

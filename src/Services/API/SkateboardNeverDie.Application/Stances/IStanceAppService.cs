@@ -1,11 +1,11 @@
-﻿using SkateboardNeverDie.Application.Stances.Dtos;
-using SkateboardNeverDie.Core.Application;
+﻿using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.Stances.QueryData;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Stances
 {
     public interface IStanceAppService
     {
-        Task<PagedResult<StanceDto>> GetAllAsync(int page, int pageSize);
+        Task<PagedResult<StanceQueryData>> GetAllAsync(int page, int pageSize);
     }
 }

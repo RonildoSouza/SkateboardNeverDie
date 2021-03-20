@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Skaters;
 using SkateboardNeverDie.Application.Skaters.Dtos;
-using SkateboardNeverDie.Core.Application;
+using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.QueryData;
 using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -25,7 +26,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         }
 
         [HttpGet(Name = SkaterRouteNames.GetSkaters)]
-        [ProducesResponseType(typeof(HateoasResult<PagedResult<SkaterDto>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HateoasResult<PagedResult<SkaterQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
         {
             var skaterDtos = await _skaterAppService.GetAllAsync(page, pageSize);
@@ -33,8 +34,8 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         }
 
         [HttpGet("{id}", Name = SkaterRouteNames.GetSkater)]
-        [ProducesResponseType(typeof(HateoasResult<SkaterDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
             var skaterDto = await _skaterAppService.GetByIdAsync(id);
@@ -42,8 +43,8 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         }
 
         [HttpPost(Name = SkaterRouteNames.CreateSkater)]
-        [ProducesResponseType(typeof(HateoasResult<SkaterDto>), (int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(CreateSkaterDto createSkaterDto)
         {
             var skaterDto = await _skaterAppService.CreateSkaterAsync(createSkaterDto);

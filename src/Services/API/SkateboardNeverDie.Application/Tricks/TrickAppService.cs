@@ -1,8 +1,6 @@
-﻿using SkateboardNeverDie.Application.Tricks.Dtos;
-using SkateboardNeverDie.Core.Application;
-using SkateboardNeverDie.Core.Domain;
-using SkateboardNeverDie.Core.Infrastructure.Extensions;
+﻿using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Tricks;
+using SkateboardNeverDie.Domain.Tricks.QueryData;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Tricks
@@ -19,16 +17,9 @@ namespace SkateboardNeverDie.Application.Tricks
             _trickRepository = trickRepository;
         }
 
-        public async Task<PagedResult<TrickDto>> GetAllAsync(int page, int pageSize)
+        public async Task<PagedResult<TrickQueryData>> GetAllAsync(int page, int pageSize)
         {
-            return await _trickRepository.Tricks.GetPagedResultAsync(
-                page,
-                pageSize,
-                _ => new TrickDto
-                {
-                    Id = _.Id,
-                    Name = _.Name
-                });
+            return await _trickRepository.GetAllAsync(page, pageSize);
         }
     }
 }

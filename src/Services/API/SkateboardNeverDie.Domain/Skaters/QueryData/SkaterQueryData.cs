@@ -1,9 +1,10 @@
-﻿using SkateboardNeverDie.Domain.Stances;
+﻿using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.Stances;
 using System;
 
-namespace SkateboardNeverDie.Application.Skaters.Dtos
+namespace SkateboardNeverDie.Domain.QueryData
 {
-    public class SkaterDto
+    public class SkaterQueryData : IQueryData
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

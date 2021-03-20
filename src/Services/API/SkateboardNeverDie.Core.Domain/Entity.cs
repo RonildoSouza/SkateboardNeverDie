@@ -1,6 +1,8 @@
 ﻿namespace SkateboardNeverDie.Core.Domain
 {
-    public abstract class Entity<TId>
+    public interface IEntity { }
+
+    public abstract class Entity<TId> : IEntity
     {
         public TId Id { get; protected set; }
     }

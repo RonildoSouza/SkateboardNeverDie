@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Tricks;
-using SkateboardNeverDie.Application.Tricks.Dtos;
-using SkateboardNeverDie.Core.Application;
-using System.Net;
+using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.Tricks.QueryData;
+using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Tricks;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -22,8 +23,8 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             _hateoas = hateoas;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(HateoasResult<PagedResult<TrickDto>>), (int)HttpStatusCode.OK)]
+        [HttpGet(Name = TrickRouteNames.GetTricks)]
+        [ProducesResponseType(typeof(HateoasResult<PagedResult<TrickQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
         {
             var trickDtos = await _trickAppService.GetAllAsync(page, pageSize);

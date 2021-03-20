@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Core.Infrastructure.Extensions;
 using SkateboardNeverDie.Domain.Stances;
+using SkateboardNeverDie.Domain.Stances.QueryData;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
+using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Infrastructure.Domain.Stances
 {
@@ -14,6 +17,16 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Stances
             _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
         }
 
-        public DbSet<Stance> Stances => _applicationDbContext.Stances;
+        public async Task<PagedResult<StanceQueryData>> GetAllAsync(int page, int pageSize)
+        {
+            return await _applicationDbContext.Stances.GetPagedResultAsync(
+                page,
+                pageSize,
+                _ => new StanceQueryData
+                {
+                    Id = _.Id,
+                    Name = _.Id.ToString(),
+                });
+        }
     }
 }

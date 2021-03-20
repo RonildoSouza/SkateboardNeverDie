@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.QueryData;
 using System;
 using System.Threading.Tasks;
 
@@ -6,9 +7,8 @@ namespace SkateboardNeverDie.Domain.Skaters
 {
     public interface ISkaterRepository
     {
-        public DbSet<Skater> Skaters { get; }
-
         Task AddAsync(Skater skater);
-        Task<Skater> GetByIdAsync(Guid id);
+        Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize);
+        Task<SkaterQueryData> GetByIdAsync(Guid id);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
 using SkateboardNeverDie.Application.Skaters.Dtos;
 using SkateboardNeverDie.Application.Skaters.Validations;
-using SkateboardNeverDie.Core.Application;
 using SkateboardNeverDie.Core.Domain;
-using SkateboardNeverDie.Core.Infrastructure.Extensions;
+using SkateboardNeverDie.Domain.QueryData;
 using SkateboardNeverDie.Domain.Skaters;
 using System;
 using System.Threading.Tasks;
@@ -21,41 +20,17 @@ namespace SkateboardNeverDie.Application.Skaters
             _skaterRepository = skaterRepository;
         }
 
-        public async Task<PagedResult<SkaterDto>> GetAllAsync(int page, int pageSize)
+        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
         {
-            return await _skaterRepository.Skaters.GetPagedResultAsync(
-                page,
-                pageSize,
-                _ => new SkaterDto
-                {
-                    Id = _.Id,
-                    FirstName = _.FirstName,
-                    LastName = _.LastName,
-                    Nickname = _.Nickname,
-                    Birthdate = _.Birthdate,
-                    NaturalStance = _.NaturalStanceId
-                });
+            return await _skaterRepository.GetAllAsync(page, pageSize);
         }
 
-        public async Task<SkaterDto> GetByIdAsync(Guid id)
+        public async Task<SkaterQueryData> GetByIdAsync(Guid id)
         {
-            var skater = await _skaterRepository.GetByIdAsync(id);
-
-            if (skater == null)
-                return null;
-
-            return new SkaterDto
-            {
-                Id = skater.Id,
-                FirstName = skater.FirstName,
-                LastName = skater.LastName,
-                Nickname = skater.Nickname,
-                Birthdate = skater.Birthdate,
-                NaturalStance = skater.NaturalStanceId
-            };
+            return await _skaterRepository.GetByIdAsync(id);
         }
 
-        public async Task<SkaterDto> CreateSkaterAsync(CreateSkaterDto createSkaterDto)
+        public async Task<SkaterQueryData> CreateSkaterAsync(CreateSkaterDto createSkaterDto)
         {
             await new CreateSkaterValidator().ValidateAndThrowAsync(createSkaterDto);
 
@@ -73,7 +48,7 @@ namespace SkateboardNeverDie.Application.Skaters
 
             if (await _unitOfWork.CommitAsync())
             {
-                return new SkaterDto
+                return new SkaterQueryData
                 {
                     Id = skater.Id,
                     FirstName = skater.FirstName,

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Stances;
-using SkateboardNeverDie.Application.Stances.Dtos;
-using SkateboardNeverDie.Core.Application;
+using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.Stances.QueryData;
 using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Stances;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -24,7 +24,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         }
 
         [HttpGet(Name = StanceRouteNames.GetStances)]
-        [ProducesResponseType(typeof(HateoasResult<PagedResult<StanceDto>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(HateoasResult<PagedResult<StanceQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
         {
             var stanceDtos = await _stanceAppService.GetAllAsync(page, pageSize);

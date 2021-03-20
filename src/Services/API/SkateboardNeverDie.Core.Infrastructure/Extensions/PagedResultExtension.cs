@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using SkateboardNeverDie.Core.Application;
+using SkateboardNeverDie.Core.Domain;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -11,8 +11,8 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
     public static class PagedResultExtension
     {
         public static async Task<PagedResult<TResult>> GetPagedResultAsync<TEntity, TResult>([NotNull] this IQueryable<TEntity> query, int page, int pageSize, Expression<Func<TEntity, TResult>> selector)
-            where TEntity : class
-            where TResult : class
+            where TEntity : class, IEntity
+            where TResult : IQueryData
         {
             var result = new PagedResult<TResult>
             {

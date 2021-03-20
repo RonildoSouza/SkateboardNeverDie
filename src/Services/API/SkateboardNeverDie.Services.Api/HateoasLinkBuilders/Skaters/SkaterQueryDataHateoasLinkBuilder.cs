@@ -1,12 +1,12 @@
 ﻿using Simple.Hateoas;
 using Simple.Hateoas.Models;
-using SkateboardNeverDie.Application.Skaters.Dtos;
+using SkateboardNeverDie.Domain.QueryData;
 
 namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
 {
-    public class SkaterDtoHateoasLinkBuilder : IHateoasLinkBuilder<SkaterDto>
+    public class SkaterQueryDataHateoasLinkBuilder : IHateoasLinkBuilder<SkaterQueryData>
     {
-        public HateoasResult<SkaterDto> Build(HateoasResult<SkaterDto> hateoasResult)
+        public HateoasResult<SkaterQueryData> Build(HateoasResult<SkaterQueryData> hateoasResult)
         {
             return hateoasResult
                 .AddSelfLink(_ => new { id = _.Id }, SkaterRouteNames.GetSkater);
