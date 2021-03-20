@@ -27,6 +27,7 @@ namespace SkateboardNeverDie.Services.Api
             Configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
+                .AddJsonFile($"hosting.{env.EnvironmentName}.json")
                 .Build();
         }
 
