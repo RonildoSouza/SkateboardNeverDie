@@ -1,5 +1,6 @@
 ﻿using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Tricks.QueryData;
+using System;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Domain.Tricks
@@ -8,5 +9,6 @@ namespace SkateboardNeverDie.Domain.Tricks
     {
         Task AddAsync(Trick trick);
         Task<PagedResult<TrickQueryData>> GetAllAsync(int page, int pageSize);
+        Task<TrickQueryData> GetByIdAsync(Guid id);
     }
 }

@@ -4,6 +4,7 @@ using SkateboardNeverDie.Application.Tricks.Validations;
 using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Tricks;
 using SkateboardNeverDie.Domain.Tricks.QueryData;
+using System;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Tricks
@@ -18,6 +19,11 @@ namespace SkateboardNeverDie.Application.Tricks
         {
             _unitOfWork = unitOfWork;
             _trickRepository = trickRepository;
+        }
+
+        public async Task<TrickQueryData> GetByIdAsync(Guid id)
+        {
+            return await _trickRepository.GetByIdAsync(id);
         }
 
         public async Task<PagedResult<TrickQueryData>> GetAllAsync(int page, int pageSize)

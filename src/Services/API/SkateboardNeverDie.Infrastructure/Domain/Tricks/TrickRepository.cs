@@ -1,9 +1,11 @@
-﻿using SkateboardNeverDie.Core.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Core.Infrastructure.Extensions;
 using SkateboardNeverDie.Domain.Tricks;
 using SkateboardNeverDie.Domain.Tricks.QueryData;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Infrastructure.Domain.Tricks
@@ -30,8 +32,22 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Tricks
                 _ => new TrickQueryData
                 {
                     Id = _.Id,
-                    Name = _.Name
+                    Name = _.Name,
+                    Description = _.Description
                 });
+        }
+
+        public async Task<TrickQueryData> GetByIdAsync(Guid id)
+        {
+            return await _applicationDbContext.Tricks.AsNoTracking()
+                .Where(_ => _.Id == id)
+                .Select(_ => new TrickQueryData
+                {
+                    Id = _.Id,
+                    Name = _.Name,
+                    Description = _.Description
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

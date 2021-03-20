@@ -33,6 +33,15 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return Ok(_hateoas.Create(tricks));
         }
 
+        [HttpGet("{id}", Name = TrickRouteNames.GetTrick)]
+        [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var skater = await _trickAppService.GetByIdAsync(id);
+            return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Trick is not found!");
+        }
+
         [HttpPost(Name = TrickRouteNames.CreateTrick)]
         [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

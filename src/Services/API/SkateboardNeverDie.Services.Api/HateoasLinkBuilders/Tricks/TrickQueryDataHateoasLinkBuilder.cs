@@ -9,7 +9,7 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Tricks
         public HateoasResult<TrickQueryData> Build(HateoasResult<TrickQueryData> hateoasResult)
         {
             return hateoasResult
-                /*.AddSelfLink(_ => new { id = _.Id }, TrickRouteNames.GetTrick)*/;
+                .AddSelfLink(_ => new { id = _.Id }, TrickRouteNames.GetTrick);
         }
     }
 }

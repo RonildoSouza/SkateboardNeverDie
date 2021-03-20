@@ -20,14 +20,14 @@ namespace SkateboardNeverDie.Application.Skaters
             _skaterRepository = skaterRepository;
         }
 
-        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
-        {
-            return await _skaterRepository.GetAllAsync(page, pageSize);
-        }
-
         public async Task<SkaterQueryData> GetByIdAsync(Guid id)
         {
             return await _skaterRepository.GetByIdAsync(id);
+        }
+
+        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
+        {
+            return await _skaterRepository.GetAllAsync(page, pageSize);
         }
 
         public async Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto)
