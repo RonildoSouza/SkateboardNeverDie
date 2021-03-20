@@ -27,8 +27,8 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [ProducesResponseType(typeof(HateoasResult<PagedResult<StanceQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
         {
-            var stanceDtos = await _stanceAppService.GetAllAsync(page, pageSize);
-            return Ok(_hateoas.Create(stanceDtos));
+            var stances = await _stanceAppService.GetAllAsync(page, pageSize);
+            return Ok(_hateoas.Create(stances));
         }
     }
 }

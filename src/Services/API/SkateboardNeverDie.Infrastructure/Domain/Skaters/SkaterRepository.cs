@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Core.Infrastructure.Extensions;
-using SkateboardNeverDie.Domain.QueryData;
 using SkateboardNeverDie.Domain.Skaters;
+using SkateboardNeverDie.Domain.Skaters.QueryData;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
 using System.Linq;

@@ -2,8 +2,8 @@
 using SkateboardNeverDie.Application.Skaters.Dtos;
 using SkateboardNeverDie.Application.Skaters.Validations;
 using SkateboardNeverDie.Core.Domain;
-using SkateboardNeverDie.Domain.QueryData;
 using SkateboardNeverDie.Domain.Skaters;
+using SkateboardNeverDie.Domain.Skaters.QueryData;
 using System;
 using System.Threading.Tasks;
 
@@ -30,7 +30,7 @@ namespace SkateboardNeverDie.Application.Skaters
             return await _skaterRepository.GetByIdAsync(id);
         }
 
-        public async Task<SkaterQueryData> CreateSkaterAsync(CreateSkaterDto createSkaterDto)
+        public async Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto)
         {
             await new CreateSkaterValidator().ValidateAndThrowAsync(createSkaterDto);
 

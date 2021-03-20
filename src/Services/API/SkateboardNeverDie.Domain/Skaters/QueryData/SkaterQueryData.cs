@@ -2,7 +2,7 @@
 using SkateboardNeverDie.Domain.Stances;
 using System;
 
-namespace SkateboardNeverDie.Domain.QueryData
+namespace SkateboardNeverDie.Domain.Skaters.QueryData
 {
     public class SkaterQueryData : IQueryData
     {

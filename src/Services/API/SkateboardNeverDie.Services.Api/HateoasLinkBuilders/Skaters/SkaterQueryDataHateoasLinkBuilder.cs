@@ -1,6 +1,6 @@
 ﻿using Simple.Hateoas;
 using Simple.Hateoas.Models;
-using SkateboardNeverDie.Domain.QueryData;
+using SkateboardNeverDie.Domain.Skaters.QueryData;
 
 namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
 {

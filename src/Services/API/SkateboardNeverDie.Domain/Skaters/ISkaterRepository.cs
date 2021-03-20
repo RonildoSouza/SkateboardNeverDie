@@ -1,5 +1,5 @@
 ﻿using SkateboardNeverDie.Core.Domain;
-using SkateboardNeverDie.Domain.QueryData;
+using SkateboardNeverDie.Domain.Skaters.QueryData;
 using System;
 using System.Threading.Tasks;
 

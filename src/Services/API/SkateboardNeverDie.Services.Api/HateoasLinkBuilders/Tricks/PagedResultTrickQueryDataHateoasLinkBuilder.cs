@@ -12,7 +12,8 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Tricks
             return hateoasResult
                 .AddSelfLink(_ => new { page = _.CurrentPage, pageSize = _.PageSize }, TrickRouteNames.GetTricks)
                 .AddNextLink(_ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, TrickRouteNames.GetTricks, _ => _.CurrentPage < _.PageCount)
-                .AddPrevLink(_ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, TrickRouteNames.GetTricks, _ => _.CurrentPage > 1);
+                .AddPrevLink(_ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, TrickRouteNames.GetTricks, _ => _.CurrentPage > 1)
+                .AddLink(TrickRouteNames.CreateTrick, HttpMethod.Post);
         }
     }
 }

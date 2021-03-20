@@ -3,5 +3,7 @@
     public static class TrickRouteNames
     {
         public const string GetTricks = "get-tricks";
+        public const string GetTrick = "get-trick";
+        public const string CreateTrick = "create-trick";
     }
 }

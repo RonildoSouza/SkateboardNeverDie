@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Tricks;
+using SkateboardNeverDie.Application.Tricks.Dtos;
 using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Tricks.QueryData;
 using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Tricks;
+using System;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -27,8 +29,17 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [ProducesResponseType(typeof(HateoasResult<PagedResult<TrickQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
         {
-            var trickDtos = await _trickAppService.GetAllAsync(page, pageSize);
-            return Ok(_hateoas.Create(trickDtos));
+            var tricks = await _trickAppService.GetAllAsync(page, pageSize);
+            return Ok(_hateoas.Create(tricks));
+        }
+
+        [HttpPost(Name = TrickRouteNames.CreateTrick)]
+        [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Post(CreateTrickDto createTrickDto)
+        {
+            var trick = await _trickAppService.CreateAsync(createTrickDto);
+            return trick != null ? Created(string.Empty, _hateoas.Create(trick)) : BadRequest("Trick is not created!");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SkateboardNeverDie.Application.Skaters.Dtos;
 using SkateboardNeverDie.Core.Domain;
-using SkateboardNeverDie.Domain.QueryData;
+using SkateboardNeverDie.Domain.Skaters.QueryData;
 using System;
 using System.Threading.Tasks;
 
@@ -10,6 +10,6 @@ namespace SkateboardNeverDie.Application.Skaters
     {
         Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize);
         Task<SkaterQueryData> GetByIdAsync(Guid id);
-        Task<SkaterQueryData> CreateSkaterAsync(CreateSkaterDto createSkaterDto);
+        Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto);
     }
 }
