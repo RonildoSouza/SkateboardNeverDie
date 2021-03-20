@@ -1,0 +1,77 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Domain", "src\Services\API\SkateboardNeverDie.Domain\SkateboardNeverDie.Domain.csproj", "{DA614047-CBDE-4645-B7B5-8E380B926AA0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Domain", "src\Services\API\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj", "{D21BFD28-F940-46D5-B9AB-895A23C8F804}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Infrastructure", "src\Services\API\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj", "{C253D22D-1F9F-40B7-84ED-CE30D6E2827B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Infrastructure", "src\Services\API\SkateboardNeverDie.Infrastructure\SkateboardNeverDie.Infrastructure.csproj", "{1818CD37-6E8F-48C5-B391-F1242778FD1E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Application", "src\Services\API\SkateboardNeverDie.Application\SkateboardNeverDie.Application.csproj", "{E8E35722-8FA3-46F0-887D-FB4E06F61B4C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Services.Api", "src\Services\API\SkateboardNeverDie.Services.Api\SkateboardNeverDie.Services.Api.csproj", "{64C56444-A5DE-4460-A6C8-793541AD0250}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{AFE5E59A-BC5D-4E2C-A78B-613572C44032}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Application", "src\Services\API\SkateboardNeverDie.Core.Application\SkateboardNeverDie.Core.Application.csproj", "{5DD5CA56-DBDF-4C62-BA20-099478C1BC99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Infrastructure.Configuration", "src\Services\API\SkateboardNeverDie.Infrastructure.Configuration\SkateboardNeverDie.Infrastructure.Configuration.csproj", "{884B4581-2C63-4CE4-8F8E-8B361ECFE766}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA614047-CBDE-4645-B7B5-8E380B926AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA614047-CBDE-4645-B7B5-8E380B926AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA614047-CBDE-4645-B7B5-8E380B926AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA614047-CBDE-4645-B7B5-8E380B926AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D21BFD28-F940-46D5-B9AB-895A23C8F804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D21BFD28-F940-46D5-B9AB-895A23C8F804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D21BFD28-F940-46D5-B9AB-895A23C8F804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D21BFD28-F940-46D5-B9AB-895A23C8F804}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C253D22D-1F9F-40B7-84ED-CE30D6E2827B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C253D22D-1F9F-40B7-84ED-CE30D6E2827B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C253D22D-1F9F-40B7-84ED-CE30D6E2827B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C253D22D-1F9F-40B7-84ED-CE30D6E2827B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1818CD37-6E8F-48C5-B391-F1242778FD1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1818CD37-6E8F-48C5-B391-F1242778FD1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1818CD37-6E8F-48C5-B391-F1242778FD1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1818CD37-6E8F-48C5-B391-F1242778FD1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E35722-8FA3-46F0-887D-FB4E06F61B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E35722-8FA3-46F0-887D-FB4E06F61B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E35722-8FA3-46F0-887D-FB4E06F61B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E35722-8FA3-46F0-887D-FB4E06F61B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64C56444-A5DE-4460-A6C8-793541AD0250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C56444-A5DE-4460-A6C8-793541AD0250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C56444-A5DE-4460-A6C8-793541AD0250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C56444-A5DE-4460-A6C8-793541AD0250}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD5CA56-DBDF-4C62-BA20-099478C1BC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD5CA56-DBDF-4C62-BA20-099478C1BC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD5CA56-DBDF-4C62-BA20-099478C1BC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD5CA56-DBDF-4C62-BA20-099478C1BC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{884B4581-2C63-4CE4-8F8E-8B361ECFE766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{884B4581-2C63-4CE4-8F8E-8B361ECFE766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{884B4581-2C63-4CE4-8F8E-8B361ECFE766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{884B4581-2C63-4CE4-8F8E-8B361ECFE766}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D21BFD28-F940-46D5-B9AB-895A23C8F804} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
+		{C253D22D-1F9F-40B7-84ED-CE30D6E2827B} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
+		{64C56444-A5DE-4460-A6C8-793541AD0250} = {AFE5E59A-BC5D-4E2C-A78B-613572C44032}
+		{5DD5CA56-DBDF-4C62-BA20-099478C1BC99} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A2404780-6F88-468D-9CDA-A9DFFE306183}
+	EndGlobalSection
+EndGlobal
