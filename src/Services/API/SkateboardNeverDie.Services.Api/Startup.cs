@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
+using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 
@@ -27,7 +28,6 @@ namespace SkateboardNeverDie.Services.Api
             Configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
-                .AddJsonFile($"hosting.{env.EnvironmentName}.json")
                 .Build();
         }
 

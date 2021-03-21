@@ -1,16 +1,17 @@
-﻿using Refit;
-using SkateboardNeverDie.Services;
+﻿using SkateboardNeverDie.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Xamarin.Forms;
 
 namespace SkateboardNeverDie.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
         //public ISkateboardNeverDieApi<Skater> DataStore => DependencyService.Get<ISkateboardNeverDieApi<Skater>>();
-        protected ISkateboardNeverDieApi SkateboardNeverDieApi => RestService.For<ISkateboardNeverDieApi>(string.Empty);
+        //protected ISkateboardNeverDieApi SkateboardNeverDieApi => RestService.For<ISkateboardNeverDieApi>("https://192.168.100.100:5001");
+        protected ISkateboardNeverDieApi SkateboardNeverDieApi => DependencyService.Get<ISkateboardNeverDieApi>();
 
         bool _isBusy = false;
         public bool IsBusy
