@@ -2,17 +2,21 @@
 using SkateboardNeverDie.Services;
 using System;
 using System.Net.Http;
-using System.Net.Security;
 using Xamarin.Forms;
 
 namespace SkateboardNeverDie
 {
     public partial class App : Application
     {
+        public static bool IsDevelopment = false;
+
         public App()
         {
-            InitializeComponent();
+#if DEBUG
+            IsDevelopment = true;
+#endif
 
+            InitializeComponent();
             RegisterSkateboardNeverDieApi();
 
             MainPage = new AppShell();
@@ -30,28 +34,12 @@ namespace SkateboardNeverDie
         {
         }
 
-        private void RegisterSkateboardNeverDieApi()
+        void RegisterSkateboardNeverDieApi()
         {
-            var development = false;
-
-#if DEBUG
-            development = true;
-#endif
-
             // https://developer.android.com/studio/run/emulator-networking
-            var apiUrl = development ? "https://10.0.2.2:5001" : string.Empty;
-            var httpClientHandler = new HttpClientHandler
-            {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
-                {
-                    if (development)
-                        return true;
+            var apiUrl = IsDevelopment ? "https://10.0.2.2:5001" : "https://skateboardneverdieservicesapi.azurewebsites.net";
 
-                    return sslPolicyErrors == SslPolicyErrors.None;
-                }
-            };
-
-            var httpClient = new HttpClient(httpClientHandler)
+            var httpClient = new HttpClient(new AuthHeaderHandler())
             {
                 BaseAddress = new Uri(apiUrl)
             };

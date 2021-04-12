@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
@@ -23,6 +24,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             _hateoas = hateoas;
         }
 
+        [Authorize("Read")]
         [HttpGet(Name = StanceRouteNames.GetStances)]
         [ProducesResponseType(typeof(HateoasResult<PagedResult<StanceQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)

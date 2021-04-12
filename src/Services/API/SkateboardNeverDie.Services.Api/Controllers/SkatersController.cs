@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Validation.AspNetCore;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Skaters;
@@ -25,6 +27,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             _hateoas = hateoas;
         }
 
+        [Authorize("Read")]
         [HttpGet(Name = SkaterRouteNames.GetSkaters)]
         [ProducesResponseType(typeof(HateoasResult<PagedResult<SkaterQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
@@ -33,6 +36,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return Ok(_hateoas.Create(skaters));
         }
 
+        [Authorize("Read")]
         [HttpGet("{id}", Name = SkaterRouteNames.GetSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,6 +46,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater is not found!");
         }
 
+        [Authorize("Write")]
         [HttpPost(Name = SkaterRouteNames.CreateSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

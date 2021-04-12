@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
@@ -25,6 +26,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             _hateoas = hateoas;
         }
 
+        [Authorize("Read")]
         [HttpGet(Name = TrickRouteNames.GetTricks)]
         [ProducesResponseType(typeof(HateoasResult<PagedResult<TrickQueryData>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
@@ -33,6 +35,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return Ok(_hateoas.Create(tricks));
         }
 
+        [Authorize("Read")]
         [HttpGet("{id}", Name = TrickRouteNames.GetTrick)]
         [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,6 +45,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Trick is not found!");
         }
 
+        [Authorize("Write")]
         [HttpPost(Name = TrickRouteNames.CreateTrick)]
         [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -9,8 +9,6 @@ namespace SkateboardNeverDie.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        //public ISkateboardNeverDieApi<Skater> DataStore => DependencyService.Get<ISkateboardNeverDieApi<Skater>>();
-        //protected ISkateboardNeverDieApi SkateboardNeverDieApi => RestService.For<ISkateboardNeverDieApi>("https://192.168.100.100:5001");
         protected ISkateboardNeverDieApi SkateboardNeverDieApi => DependencyService.Get<ISkateboardNeverDieApi>();
 
         bool _isBusy = false;
