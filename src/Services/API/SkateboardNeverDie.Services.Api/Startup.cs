@@ -25,23 +25,23 @@ namespace SkateboardNeverDie.Services.Api
 {
     public class Startup
     {
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
+
         public Startup(IWebHostEnvironment env)
         {
-            Environment = env;
+            _environment = env;
 
-            Configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
                 .Build();
         }
-
-        private IWebHostEnvironment Environment { get; }
-        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authSettigns = Configuration.GetSection(nameof(AuthSettings)).Get<AuthSettings>();
+            var authSettigns = _configuration.GetSection(nameof(AuthSettings)).Get<AuthSettings>();
 
             services.AddCors();
             services.AddControllers()
@@ -149,13 +149,15 @@ namespace SkateboardNeverDie.Services.Api
 
             services
                 .AddApplication()
-                .AddInfrastructure(Configuration.GetConnectionString("DefaultConnection"));
+                .AddInfrastructure(_configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSimpleHateoas();
 
             services.AddProblemDetails(options =>
             {
-                options.IncludeExceptionDetails = (ctx, ex) => Environment.IsDevelopment();
+                options.IncludeExceptionDetails = (ctx, ex) => _environment.IsDevelopment();
 
                 // 4xx
                 options.Map<ValidationException>(ex => new ProblemDetails

@@ -1,4 +1,6 @@
-﻿using OpenIddict.Abstractions;
+﻿using IdentityModel.OidcClient;
+using OpenIddict.Abstractions;
+using SkateboardNeverDie.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,24 +10,18 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services
 {
-    public class AuthService
+    internal sealed class AuthService : IAuthService
     {
-        const string ClientId = "skateboard-mobile";
-        const string ClientSecret = "PVHcNBpJX9SmaSk2H+PGHw==";
-
-        readonly string _exchangeUrl;
         readonly HttpClientHandler _httpClientHandler;
         readonly HttpClient _httpClient;
 
         public AuthService()
         {
-            // https://developer.android.com/studio/run/emulator-networking
-            _exchangeUrl = App.IsDevelopment ? "https://10.0.2.2:5003/connect/token" : "https://skateboardneverdieservicesauth.azurewebsites.net/connect/token";
             _httpClientHandler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
                 {
-                    if (App.IsDevelopment)
+                    if (GlobalSetting.IsDevelopment())
                         return true;
 
                     return sslPolicyErrors == SslPolicyErrors.None;
@@ -34,17 +30,17 @@ namespace SkateboardNeverDie.Services
             _httpClient = new HttpClient(_httpClientHandler);
         }
 
-        public async Task<TokenResponse> GetTokenAsync()
+        public async Task<TokenResponse> ClientCredentialsFlowAsync()
         {
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 ["grant_type"] = "client_credentials",
-                ["client_id"] = ClientId,
-                ["client_secret"] = ClientSecret,
-                ["scope"] = "offline_access skateboard-api.read"
+                ["client_id"] = GlobalSetting.ClientId,
+                ["client_secret"] = GlobalSetting.ClientSecret,
+                ["scope"] = GlobalSetting.ScopeClientCredentials
             });
 
-            var response = await _httpClient.PostAsync(_exchangeUrl, content);
+            var response = await _httpClient.PostAsync($"{GlobalSetting.AuthorityUrl}/connect/token", content);
             var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
 
             if (!string.IsNullOrEmpty(payload.Error))
@@ -53,17 +49,17 @@ namespace SkateboardNeverDie.Services
             return new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
         }
 
-        public async Task<TokenResponse> RefreshTokenAsync(string refreshToken)
+        public async Task<TokenResponse> RefreshTokenFlowAsync(string refreshToken)
         {
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
             {
                 ["grant_type"] = "refresh_token",
-                ["client_id"] = ClientId,
-                ["client_secret"] = ClientSecret,
+                ["client_id"] = GlobalSetting.ClientId,
+                ["client_secret"] = GlobalSetting.ClientSecret,
                 ["refresh_token"] = refreshToken
             });
 
-            var response = await _httpClient.PostAsync(_exchangeUrl, content);
+            var response = await _httpClient.PostAsync(GlobalSetting.AuthorityUrl, content);
             var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
 
             if (!string.IsNullOrEmpty(payload.Error))
@@ -71,19 +67,31 @@ namespace SkateboardNeverDie.Services
 
             return new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
         }
-    }
 
-    public sealed class TokenResponse
-    {
-        public TokenResponse(string accessToken, string refreshToken, long expiresIn)
+        public async Task<TokenResponse> AuthorizationCodeFlowAsync()
         {
-            AccessToken = accessToken;
-            RefreshToken = refreshToken;
-            ExpiresIn = expiresIn;
+            var options = new OidcClientOptions
+            {
+                Authority = GlobalSetting.AuthorityUrl,
+                ClientId = GlobalSetting.ClientId,
+                ClientSecret = GlobalSetting.ClientSecret,
+                Scope = GlobalSetting.ScopeAuthorizationCode,
+                RedirectUri = GlobalSetting.RedirectUri,
+                Browser = new Browser()
+            };
+
+            var oidcClient = new OidcClient(options);
+            var loginResult = await oidcClient.LoginAsync();
+
+            if (loginResult.IsError)
+                throw new InvalidOperationException("An error occurred while retrieving an access token.");
+
+            return new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.AccessTokenExpiration.Second);
         }
 
-        public string AccessToken { get; }
-        public string RefreshToken { get; }
-        public long ExpiresIn { get; }
+        public async Task LogoutAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

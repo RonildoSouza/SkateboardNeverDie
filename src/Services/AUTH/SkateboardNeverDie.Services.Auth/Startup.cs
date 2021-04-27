@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Abstractions;
 using SkateboardNeverDie.Services.Auth.Infrastructure;
 using System;
@@ -14,35 +15,41 @@ namespace SkateboardNeverDie.Services.Auth
 {
     public class Startup
     {
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
+
         public Startup(IWebHostEnvironment env)
         {
-            Environment = env;
+            _environment = env;
 
-            Configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json")
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", false, true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true, true)
                 .Build();
         }
-
-        private IWebHostEnvironment Environment { get; }
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
             services.AddControllersWithViews();
+            services.AddRazorPages();
+
+            services.AddCors();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-#if DEBUG
-                options.EnableSensitiveDataLogging();
-#endif
+                options.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
 
                 // Register the entity sets needed by OpenIddict
                 options.UseOpenIddict<Guid>();
             });
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders()
+                    .AddDefaultUI();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
@@ -52,10 +59,21 @@ namespace SkateboardNeverDie.Services.Auth
                 options.ClaimsIdentity.UserNameClaimType = OpenIddictConstants.Claims.Name;
                 options.ClaimsIdentity.UserIdClaimType = OpenIddictConstants.Claims.Subject;
                 options.ClaimsIdentity.RoleClaimType = OpenIddictConstants.Claims.Role;
+
+                // Note: to require account confirmation before login,
+                // register an email sender service (IEmailSender) and
+                // set options.SignIn.RequireConfirmedAccount to true.
+                //
+                // For more information, visit https://aka.ms/aspaccountconf.
+                options.SignIn.RequireConfirmedAccount = false;
             });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie();
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/identity/account/login";
+                        options.LogoutPath = "/identity/account/logout";
+                    });
 
             services.AddOpenIddict()
 
@@ -74,17 +92,18 @@ namespace SkateboardNeverDie.Services.Auth
                 {
                     // Enable the token endpoint.
                     options.SetAuthorizationEndpointUris("/connect/authorize")
+                           .SetLogoutEndpointUris("/connect/logout")
                            .SetTokenEndpointUris("/connect/token")
                            .SetUserinfoEndpointUris("/connect/userinfo");
 
                     // Enable flows.
                     options.AllowClientCredentialsFlow()
-                           .AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange()
+                           .AllowAuthorizationCodeFlow()//.RequireProofKeyForCodeExchange()
                            .AllowRefreshTokenFlow();
 
                     // Register the signing and encryption credentials.
-                    options.AddDevelopmentEncryptionCertificate()
-                           .AddDevelopmentSigningCertificate();
+                    options.AddEphemeralEncryptionKey()
+                           .AddEphemeralSigningKey();
 
                     // Register scopes (permissions)
                     options.RegisterScopes(
@@ -99,12 +118,21 @@ namespace SkateboardNeverDie.Services.Auth
                     options.UseAspNetCore()
                            .EnableTokenEndpointPassthrough()
                            .EnableAuthorizationEndpointPassthrough()
-                           .EnableUserinfoEndpointPassthrough();
+                           .EnableLogoutEndpointPassthrough()
+                           .EnableUserinfoEndpointPassthrough()
+                           .EnableStatusCodePagesIntegration();
 
-                    if (Environment.IsDevelopment())
+                    if (_environment.IsDevelopment())
                     {
-                        options.DisableAccessTokenEncryption();
-                        options.SetIssuer(new Uri("https://localhost:5003"));
+                        options.AddEphemeralEncryptionKey()
+                               .AddEphemeralSigningKey()
+                               .DisableAccessTokenEncryption()
+                               .SetIssuer(new Uri("https://localhost:5003"));
+                    }
+                    else
+                    {
+                        options.AddEncryptionKey(new SymmetricSecurityKey(Convert.FromBase64String("PsL3WtvyJY5XLDVtwew/2GWG77FF29eiLsgXuVCYEge2VIFE4dmHVBu72JsApl1RqFCiguIl2lLEOHN9QoWfyQ==")));
+                        options.AddSigningKey(new SymmetricSecurityKey(Convert.FromBase64String("6TydNhReMOYyAsRcgh+ep/6mIoBbZEecoqtB9XVxreYxFcgXE4EUNmhAct1U83+VQYb8DnkaUdUPeOtfhciPWw==")));
                     }
                 })
 
@@ -113,6 +141,13 @@ namespace SkateboardNeverDie.Services.Auth
             // Register the worker responsible of seeding the database with the sample clients.
             // Note: in a real world application, this step should be part of a setup script.
             services.AddHostedService<TestData>();
+
+            // Added after AddMvc()
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/account/login";
+                options.LogoutPath = $"/account/logout";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,14 +156,18 @@ namespace SkateboardNeverDie.Services.Auth
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                app.UseStatusCodePagesWithReExecute("~/error");
+
+                //app.UseExceptionHandler("/Error");
+                //app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -146,6 +185,7 @@ namespace SkateboardNeverDie.Services.Auth
             {
                 options.MapControllers();
                 options.MapDefaultControllerRoute();
+                options.MapRazorPages();
             });
         }
     }

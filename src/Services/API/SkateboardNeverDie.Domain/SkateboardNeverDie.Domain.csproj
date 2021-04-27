@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

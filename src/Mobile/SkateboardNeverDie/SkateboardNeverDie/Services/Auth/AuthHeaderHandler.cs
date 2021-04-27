@@ -1,25 +1,25 @@
-﻿using Newtonsoft.Json;
+﻿using SkateboardNeverDie.Models;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Security;
 using System.Threading;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace SkateboardNeverDie.Services
 {
     internal class AuthHeaderHandler : HttpClientHandler
     {
-        public const string TokenResponseKey = "token_response";
-
         readonly AuthService _authService;
+
+        ISecureStorageManager SecureStorageManager => DependencyService.Get<ISecureStorageManager>();
 
         public AuthHeaderHandler()
         {
             ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) =>
             {
-                if (App.IsDevelopment)
+                if (GlobalSetting.IsDevelopment())
                     return true;
 
                 return sslPolicyErrors == SslPolicyErrors.None;
@@ -30,42 +30,25 @@ namespace SkateboardNeverDie.Services
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var tokenResponse = await GetAsync<TokenResponse>(TokenResponseKey);
+            var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
 
             // Get client credentials token
             if (tokenResponse == null || string.IsNullOrEmpty(tokenResponse.AccessToken))
             {
-                tokenResponse = await _authService.GetTokenAsync().ConfigureAwait(false);
-                await SetAsync(TokenResponseKey, tokenResponse);
+                tokenResponse = await _authService.ClientCredentialsFlowAsync().ConfigureAwait(false);
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
             }
 
             // Execute refresh token
-            if (DateTime.UtcNow.AddSeconds(-tokenResponse.ExpiresIn) > DateTime.UtcNow)
+            if (DateTimeOffset.UtcNow.AddSeconds(-tokenResponse.ExpiresIn) > DateTimeOffset.UtcNow)
             {
-                tokenResponse = await _authService.RefreshTokenAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
-                await SetAsync(TokenResponseKey, tokenResponse);
+                tokenResponse = await _authService.RefreshTokenFlowAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
             }
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);
 
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-        }
-
-        async Task SetAsync(string key, object obj)
-        {
-            var value = JsonConvert.SerializeObject(obj);
-            SecureStorage.Remove(key);
-            await SecureStorage.SetAsync(key, value);
-        }
-
-        async Task<T> GetAsync<T>(string key)
-        {
-            var value = await SecureStorage.GetAsync(key);
-
-            if (string.IsNullOrEmpty(value))
-                return default;
-
-            return JsonConvert.DeserializeObject<T>(value);
         }
     }
 }

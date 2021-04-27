@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkateboardNeverDie.Application\SkateboardNeverDie.Application.csproj" />
-    <ProjectReference Include="..\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\SkateboardNeverDie.Domain\SkateboardNeverDie.Domain.csproj" />
   </ItemGroup>
 

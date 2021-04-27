@@ -9,12 +9,10 @@
     <Compile Remove="ViewModels\AboutViewModel.cs" />
     <Compile Remove="ViewModels\ItemDetailViewModel.cs" />
     <Compile Remove="ViewModels\ItemsViewModel.cs" />
-    <Compile Remove="ViewModels\LoginViewModel.cs" />
     <Compile Remove="ViewModels\NewItemViewModel.cs" />
     <Compile Remove="Views\AboutPage.xaml.cs" />
     <Compile Remove="Views\ItemDetailPage.xaml.cs" />
     <Compile Remove="Views\ItemsPage.xaml.cs" />
-    <Compile Remove="Views\LoginPage.xaml.cs" />
     <Compile Remove="Views\NewItemPage.xaml.cs" />
   </ItemGroup>
 
@@ -22,11 +20,11 @@
     <EmbeddedResource Remove="Views\AboutPage.xaml" />
     <EmbeddedResource Remove="Views\ItemDetailPage.xaml" />
     <EmbeddedResource Remove="Views\ItemsPage.xaml" />
-    <EmbeddedResource Remove="Views\LoginPage.xaml" />
     <EmbeddedResource Remove="Views\NewItemPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IdentityModel.OidcClient" Version="3.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="OpenIddict.Abstractions" Version="3.0.3" />
     <PackageReference Include="Refit" Version="6.0.38" />
