@@ -2,6 +2,7 @@
 using SkateboardNeverDie.Services;
 using System;
 using System.Net.Http;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SkateboardNeverDie
@@ -14,7 +15,7 @@ namespace SkateboardNeverDie
             RegisterSkateboardNeverDieApi();
 
             DependencyService.RegisterSingleton<ISecureStorageManager>(new SecureStorageManager());
-            DependencyService.Register<IAuthService, AuthService>();
+            DependencyService.Register<ISingleSignOnService, SingleSignOnService>();
 
             MainPage = new AppShell();
         }
@@ -27,7 +28,7 @@ namespace SkateboardNeverDie
 
         void RegisterSkateboardNeverDieApi()
         {
-            var httpClient = new HttpClient(new AuthHeaderHandler())
+            var httpClient = new HttpClient(new AuthorizationHeaderHandler())
             {
                 BaseAddress = new Uri(GlobalSetting.ApiUrl)
             };

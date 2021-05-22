@@ -11,18 +11,18 @@ namespace SkateboardNeverDie
         internal const string RedirectUri = "myapp://";
 
         // https://developer.android.com/studio/run/emulator-networking
-        internal static string AuthorityUrl => IsDevelopment() ? "https://10.0.2.2:5003" : "https://skateboardneverdieservicesauth.azurewebsites.net";
+        internal static string SsoUrl => "https://skateboardneverdieservicessinglesignon.azurewebsites.net";
         internal static string ApiUrl => IsDevelopment() ? "https://10.0.2.2:5001" : "https://skateboardneverdieservicesapi.azurewebsites.net";
         internal static string ScopeClientCredentials => $"{StandardScopes.OfflineAccess} skateboard-api.read";
-        internal static string ScopeAuthorizationCode => $"{ScopeClientCredentials} {StandardScopes.OpenId} {StandardScopes.Profile} {StandardScopes.Email} {StandardScopes.OfflineAccess} roles";
+        internal static string ScopeAuthorizationCode => $"{ScopeClientCredentials} {StandardScopes.OpenId} {StandardScopes.Profile} {StandardScopes.Email} roles";
 
         internal static bool IsDevelopment()
         {
             var isDevelopment = false;
 
-//#if DEBUG
-//            isDevelopment = true;
-//#endif
+#if !DEBUG
+            isDevelopment = true;
+#endif
 
             return isDevelopment;
         }

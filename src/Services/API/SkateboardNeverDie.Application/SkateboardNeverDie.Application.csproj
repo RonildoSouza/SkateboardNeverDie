@@ -5,13 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="10.0.2" />
+    <PackageReference Include="FluentValidation" Version="10.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Application\SkateboardNeverDie.Core.Application.csproj" />
-    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\SkateboardNeverDie.Domain\SkateboardNeverDie.Domain.csproj" />
   </ItemGroup>
 

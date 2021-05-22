@@ -6,7 +6,7 @@ namespace SkateboardNeverDie.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        IAuthService AuthService => DependencyService.Get<IAuthService>();
+        ISingleSignOnService SingleSignOnService => DependencyService.Get<ISingleSignOnService>();
         ISecureStorageManager SecureStorageManager => DependencyService.Get<ISecureStorageManager>();
 
         public Command LoginCommand { get; }
@@ -20,13 +20,13 @@ namespace SkateboardNeverDie.ViewModels
 
         private async void OnLoginClicked(object obj)
         {
-            var tokenResponse = await AuthService.AuthorizationCodeFlowAsync();
+            var tokenResponse = await SingleSignOnService.AuthorizationCodeFlowAsync();
             await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
         }
 
         private async void OnLogoutClicked(object obj)
         {
-            //await AuthService.LogoutAsync();
+            //await SingleSignOnService.LogoutAsync();
             //SecureStorage.Remove(GlobalSetting.TokenResponseKey);
         }
     }

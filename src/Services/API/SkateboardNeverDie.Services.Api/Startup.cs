@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -41,7 +42,7 @@ namespace SkateboardNeverDie.Services.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authSettigns = _configuration.GetSection(nameof(AuthSettings)).Get<AuthSettings>();
+            var singleSignOnSettigns = _configuration.GetSection(nameof(SingleSignOnSettings)).Get<SingleSignOnSettings>();
 
             services.AddCors();
             services.AddControllers()
@@ -206,7 +207,7 @@ namespace SkateboardNeverDie.Services.Api
                 {
                     // Note: the validation handler uses OpenID Connect discovery
                     // to retrieve the address of the introspection endpoint.
-                    options.SetIssuer(authSettigns.Url);
+                    options.SetIssuer(singleSignOnSettigns.Issuer);
 
                     //// Configure the validation handler to use introspection and register the client
                     //// credentials used when communicating with the remote introspection endpoint.
@@ -229,15 +230,16 @@ namespace SkateboardNeverDie.Services.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(options =>
-                {
-                    foreach (var description in provider.ApiVersionDescriptions)
-                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-
-                    options.DocExpansion(DocExpansion.List);
-                });
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+
+                options.DocExpansion(DocExpansion.List);
+            });
 
             app.UseProblemDetails();
 

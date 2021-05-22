@@ -135,11 +135,11 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\SkateboardNeverDie\SkateboardNeverDie.csproj">
-      <Project>{6E490E73-E16B-48AC-AAC1-4CE4DBFB27B7}</Project>
+      <Project>{b7773969-a9a3-4b42-a4e9-0223dc9064c2}</Project>
       <Name>SkateboardNeverDie</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
