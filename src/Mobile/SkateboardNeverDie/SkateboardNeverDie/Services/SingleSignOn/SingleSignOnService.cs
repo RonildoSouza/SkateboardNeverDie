@@ -4,6 +4,7 @@ using SkateboardNeverDie.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Security;
 using System.Threading.Tasks;
@@ -91,9 +92,34 @@ namespace SkateboardNeverDie.Services
             return new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn);
         }
 
-        public async Task LogoutAsync()
+        public async Task LogoutAsync(string accessToken)
         {
-            throw new NotImplementedException();
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            //var x = await _httpClient.GetAsync($"{GlobalSetting.SsoUrl}/connect/logout");
+
+            var oidcClientOptions = new OidcClientOptions
+            {
+                Authority = GlobalSetting.SsoUrl,
+                //PostLogoutRedirectUri = $"{GlobalSetting.SsoUrl}/connect/logout",
+                //PostLogoutRedirectUri = GlobalSetting.RedirectUri,
+                ClientId = GlobalSetting.ClientId,
+                //ClientSecret = GlobalSetting.ClientSecret,
+                Scope = IdentityModel.OidcConstants.StandardScopes.OpenId,//GlobalSetting.ScopeAuthorizationCode,
+                RedirectUri = GlobalSetting.RedirectUri,
+                Browser = new Browser()
+            };
+
+            var oidcClient = new OidcClient(oidcClientOptions);
+
+            var loginResult = await oidcClient.LogoutAsync();
+        }
+
+        public async Task<UserInfo> UserInfoAsync(string accessToken)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var response = await _httpClient.GetAsync($"{GlobalSetting.SsoUrl}/connect/userinfo");
+
+            return await response.Content.ReadFromJsonAsync<UserInfo>();
         }
     }
 }

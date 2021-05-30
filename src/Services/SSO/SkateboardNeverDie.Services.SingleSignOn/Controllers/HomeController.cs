@@ -22,6 +22,11 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
             return View();
         }
 
+        public IActionResult Terms()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View();

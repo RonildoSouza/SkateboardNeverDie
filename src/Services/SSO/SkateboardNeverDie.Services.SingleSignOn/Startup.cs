@@ -31,7 +31,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            //services.AddRazorPages();
 
             services.AddCors();
 
@@ -48,7 +48,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
                     .AddDefaultTokenProviders()
-                    .AddDefaultUI();
+                    /*.AddDefaultUI()*/;
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
@@ -67,12 +67,12 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                 options.SignIn.RequireConfirmedAccount = false;
             });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        options.LoginPath = "/identity/account/login";
-                        options.LogoutPath = "/identity/account/logout";
-                    });
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //        .AddCookie(options =>
+            //        {
+            //            options.LoginPath = "/identity/account/login";
+            //            options.LogoutPath = "/identity/account/logout";
+            //        });
 
             services.AddOpenIddict()
 
@@ -93,7 +93,8 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     options.SetAuthorizationEndpointUris("/connect/authorize")
                            .SetLogoutEndpointUris("/connect/logout")
                            .SetTokenEndpointUris("/connect/token")
-                           .SetUserinfoEndpointUris("/connect/userinfo");
+                           .SetUserinfoEndpointUris("/connect/userinfo")
+                           .SetIntrospectionEndpointUris("/connect/introspect");
 
                     // Enable flows.
                     options.AllowClientCredentialsFlow()
@@ -102,8 +103,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
 
                     // Register the signing and encryption credentials.
                     options.AddEphemeralEncryptionKey()
-                           .AddEphemeralSigningKey()
-                           .DisableAccessTokenEncryption();
+                           .AddEphemeralSigningKey();
 
                     if (_environment.IsDevelopment())
                     {
@@ -168,7 +168,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
             {
                 options.MapControllers();
                 options.MapDefaultControllerRoute();
-                options.MapRazorPages();
+                //options.MapRazorPages();
             });
         }
     }
