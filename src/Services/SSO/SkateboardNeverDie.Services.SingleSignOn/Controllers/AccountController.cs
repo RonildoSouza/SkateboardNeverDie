@@ -111,6 +111,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
         }
 
         #region Private Methods
+
         void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -130,7 +131,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
-        #endregion
 
+        #endregion
     }
 }

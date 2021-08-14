@@ -8,7 +8,7 @@ namespace SkateboardNeverDie.Services
         Task<TokenResponse> ClientCredentialsFlowAsync();
         Task<TokenResponse> RefreshTokenFlowAsync(string refreshToken);
         Task<TokenResponse> AuthorizationCodeFlowAsync();
-        Task LogoutAsync(string accessToken);
+        Task<bool> LogoutAsync(string identityToken);
         Task<UserInfo> UserInfoAsync(string accessToken);
     }
 }

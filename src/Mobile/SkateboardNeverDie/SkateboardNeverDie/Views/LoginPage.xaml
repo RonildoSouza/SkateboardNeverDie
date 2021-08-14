@@ -7,9 +7,9 @@
              x:Class="SkateboardNeverDie.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">                    
+        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
             <Label Text="{Binding UserInfo.Email}"/>
-            
+
             <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
             <Button VerticalOptions="Center" Text="Logout" Command="{Binding LogoutCommand}"/>
         </StackLayout>

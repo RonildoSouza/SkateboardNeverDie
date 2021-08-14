@@ -23,9 +23,6 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
-    //public class AuthorizationController : ControllerBase
     public class AuthorizationController : Controller
     {
         private readonly ILogger<AuthorizationController> _logger;
@@ -386,7 +383,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
         [HttpGet("~/connect/logout")]
         public IActionResult Logout() => View();
 
-        [ActionName(nameof(Logout)), HttpPost("~/connect/logout"), ValidateAntiForgeryToken]
+        [HttpPost("~/connect/logout"), ActionName(nameof(Logout)), ValidateAntiForgeryToken]
         public async Task<IActionResult> LogoutPost()
         {
             // Ask ASP.NET Core Identity to delete the local and external cookies created
@@ -399,10 +396,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
             // the RedirectUri specified in the authentication properties if none was set.
             return SignOut(
                 authenticationSchemes: OpenIddictServerAspNetCoreDefaults.AuthenticationScheme,
-                properties: new AuthenticationProperties
-                {
-                    RedirectUri = "/"
-                });
+                properties: new AuthenticationProperties { RedirectUri = "/" });
         }
 
         private static IEnumerable<string> GetDestinations(Claim claim, ClaimsPrincipal claimsPrincipal)

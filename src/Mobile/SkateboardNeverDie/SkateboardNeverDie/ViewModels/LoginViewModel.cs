@@ -41,8 +41,13 @@ namespace SkateboardNeverDie.ViewModels
         {
             try
             {
-                await SingleSignOnService.LogoutAsync("");
-                SecureStorage.Remove(GlobalSetting.TokenResponseKey);
+                var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
+
+                if (await SingleSignOnService.LogoutAsync(tokenResponse.IdentityToken))
+                {
+                    SecureStorage.Remove(GlobalSetting.TokenResponseKey);
+                    UserInfo = null;
+                }
             }
             catch (Exception ex)
             {

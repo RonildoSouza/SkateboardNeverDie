@@ -31,7 +31,6 @@ namespace SkateboardNeverDie.Services.SingleSignOn
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddRazorPages();
 
             services.AddCors();
 
@@ -47,8 +46,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()
-                    .AddDefaultTokenProviders()
-                    /*.AddDefaultUI()*/;
+                    .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
             // of the legacy WS-Federation claims it uses by default (ClaimTypes),
@@ -67,12 +65,12 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                 options.SignIn.RequireConfirmedAccount = false;
             });
 
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //        .AddCookie(options =>
-            //        {
-            //            options.LoginPath = "/identity/account/login";
-            //            options.LogoutPath = "/identity/account/logout";
-            //        });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/account/login";
+                        options.LogoutPath = "/account/logoff";
+                    });
 
             services.AddOpenIddict()
 
@@ -103,12 +101,13 @@ namespace SkateboardNeverDie.Services.SingleSignOn
 
                     // Register the signing and encryption credentials.
                     options.AddEphemeralEncryptionKey()
-                           .AddEphemeralSigningKey();
+                           .AddEphemeralSigningKey()
+                           .DisableAccessTokenEncryption();
 
                     if (_environment.IsDevelopment())
                     {
                         options.DisableAccessTokenEncryption()
-                               .SetIssuer(new Uri("https://localhost:5003"));
+                               .SetIssuer(new Uri("https://localhost:5003/"));
                     }
 
                     // Register scopes (permissions)
@@ -168,7 +167,6 @@ namespace SkateboardNeverDie.Services.SingleSignOn
             {
                 options.MapControllers();
                 options.MapDefaultControllerRoute();
-                //options.MapRazorPages();
             });
         }
     }

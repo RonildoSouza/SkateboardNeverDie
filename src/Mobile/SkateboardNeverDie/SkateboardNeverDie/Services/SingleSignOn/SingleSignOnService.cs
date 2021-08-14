@@ -72,46 +72,24 @@ namespace SkateboardNeverDie.Services
 
         public async Task<TokenResponse> AuthorizationCodeFlowAsync()
         {
-            var oidcClientOptions = new OidcClientOptions
-            {
-                Authority = GlobalSetting.SsoUrl,
-                ClientId = GlobalSetting.ClientId,
-                ClientSecret = GlobalSetting.ClientSecret,
-                Scope = GlobalSetting.ScopeAuthorizationCode,
-                RedirectUri = GlobalSetting.RedirectUri,
-                Browser = new Browser()
-            };
-
-            var oidcClient = new OidcClient(oidcClientOptions);
-
+            var oidcClient = CreateOidcClient();
             var loginResult = await oidcClient.LoginAsync();
 
             if (loginResult.IsError)
                 throw new InvalidOperationException("An error occurred while retrieving an access token.");
 
-            return new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn);
+            return new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
         }
 
-        public async Task LogoutAsync(string accessToken)
+        public async Task<bool> LogoutAsync(string identityToken)
         {
-            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            //var x = await _httpClient.GetAsync($"{GlobalSetting.SsoUrl}/connect/logout");
-
-            var oidcClientOptions = new OidcClientOptions
+            var oidcClient = CreateOidcClient();
+            var loginResult = await oidcClient.LogoutAsync(new LogoutRequest
             {
-                Authority = GlobalSetting.SsoUrl,
-                //PostLogoutRedirectUri = $"{GlobalSetting.SsoUrl}/connect/logout",
-                //PostLogoutRedirectUri = GlobalSetting.RedirectUri,
-                ClientId = GlobalSetting.ClientId,
-                //ClientSecret = GlobalSetting.ClientSecret,
-                Scope = IdentityModel.OidcConstants.StandardScopes.OpenId,//GlobalSetting.ScopeAuthorizationCode,
-                RedirectUri = GlobalSetting.RedirectUri,
-                Browser = new Browser()
-            };
+                IdTokenHint = identityToken
+            });
 
-            var oidcClient = new OidcClient(oidcClientOptions);
-
-            var loginResult = await oidcClient.LogoutAsync();
+            return !loginResult.IsError;
         }
 
         public async Task<UserInfo> UserInfoAsync(string accessToken)
@@ -120,6 +98,22 @@ namespace SkateboardNeverDie.Services
             var response = await _httpClient.GetAsync($"{GlobalSetting.SsoUrl}/connect/userinfo");
 
             return await response.Content.ReadFromJsonAsync<UserInfo>();
+        }
+
+        OidcClient CreateOidcClient()
+        {
+            var oidcClientOptions = new OidcClientOptions
+            {
+                Authority = GlobalSetting.SsoUrl,
+                ClientId = GlobalSetting.ClientId,
+                ClientSecret = GlobalSetting.ClientSecret,
+                Scope = GlobalSetting.ScopeAuthorizationCode,
+                RedirectUri = GlobalSetting.RedirectUri,
+                PostLogoutRedirectUri = GlobalSetting.RedirectUri,
+                Browser = new WebAuthenticatorBrowser()
+            };
+
+            return new OidcClient(oidcClientOptions);
         }
     }
 }

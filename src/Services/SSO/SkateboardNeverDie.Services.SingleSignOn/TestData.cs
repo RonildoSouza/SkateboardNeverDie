@@ -26,68 +26,6 @@ namespace SkateboardNeverDie.Services.SingleSignOn
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            if (await manager.FindByClientIdAsync("mvc", cancellationToken) is null)
-            {
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
-                {
-                    ClientId = "mvc",
-                    ClientSecret = "mvc-secret",
-                    DisplayName = "MVC client application",
-                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
-                    PostLogoutRedirectUris = { new Uri("https://localhost:44338/signout-callback-oidc") },
-                    RedirectUris = { new Uri("https://localhost:44338/signin-oidc"), new Uri("http://localhost:7890/") },
-                    Permissions =
-                    {
-                        OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        OpenIddictConstants.Permissions.Endpoints.Logout,
-                        OpenIddictConstants.Permissions.Endpoints.Token,
-
-                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-
-                        OpenIddictConstants.Permissions.ResponseTypes.Code,
-
-                        OpenIddictConstants.Permissions.Scopes.Email,
-                        OpenIddictConstants.Permissions.Scopes.Profile,
-                        OpenIddictConstants.Permissions.Scopes.Roles,
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.read",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.write",
-                    },
-                    Requirements =
-                    {
-                        OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange
-                    }
-                }, cancellationToken);
-            }
-
-            if (await manager.FindByClientIdAsync("skateboard-api", cancellationToken) is null)
-            {
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
-                {
-                    ClientId = "skateboard-api",
-                    ClientSecret = "YVqJpVvDso4hoZAy3XUmww==",
-                    DisplayName = "Skateboard API",
-                    Type = OpenIddictConstants.ClientTypes.Confidential,
-                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
-                    PostLogoutRedirectUris = { new Uri("https://localhost:5003/signout-callback-oidc") },
-                    RedirectUris = { new Uri("https://localhost:5003/signin-oidc") },
-                    Permissions =
-                    {
-                        OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        OpenIddictConstants.Permissions.Endpoints.Logout,
-                        OpenIddictConstants.Permissions.Endpoints.Token,
-
-                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
-                        OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
-
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.read",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.write",
-                    }
-                }, cancellationToken);
-            }
-
             if (await manager.FindByClientIdAsync("skateboard-mobile", cancellationToken) is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
@@ -97,8 +35,8 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     DisplayName = "Skateboard Mobile",
                     Type = OpenIddictConstants.ClientTypes.Confidential,
                     ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
-                    PostLogoutRedirectUris = { new Uri("https://localhost:44338/signout-callback-oidc") },
-                    RedirectUris = { new Uri("https://localhost:44338/signin-oidc"), new Uri("myapp://") },
+                    PostLogoutRedirectUris = { new Uri("myapp://") },
+                    RedirectUris = { new Uri("myapp://") },
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
@@ -119,6 +57,33 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     Requirements =
                     {
                         OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange
+                    }
+                }, cancellationToken);
+            }
+
+            if (await manager.FindByClientIdAsync("skateboard-api", cancellationToken) is null)
+            {
+                await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                {
+                    ClientId = "skateboard-api",
+                    ClientSecret = "YVqJpVvDso4hoZAy3XUmww==",
+                    DisplayName = "Skateboard API",
+                    Type = OpenIddictConstants.ClientTypes.Confidential,
+                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
+                    PostLogoutRedirectUris = { new Uri("myapp://") },
+                    RedirectUris = { new Uri("myapp://") },
+                    Permissions =
+                    {
+                        OpenIddictConstants.Permissions.Endpoints.Authorization,
+                        OpenIddictConstants.Permissions.Endpoints.Logout,
+                        OpenIddictConstants.Permissions.Endpoints.Token,
+
+                        OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+                        OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
+
+                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api",
+                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.read",
+                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.write",
                     }
                 }, cancellationToken);
             }

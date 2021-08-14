@@ -23,7 +23,7 @@
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>SkateboardNeverDie</string>
+	<string>Skateboard Never Die</string>
 	<key>CFBundleIdentifier</key>
 	<string>br.com.ronildosouza.SkateboardNeverDie</string>
 	<key>CFBundleVersion</key>
