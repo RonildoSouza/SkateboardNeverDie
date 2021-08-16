@@ -9,16 +9,12 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using SkateboardNeverDie.Services.Api.Settings;
-using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
-using System.Collections.Generic;
 using System.IO.Compression;
 using System.Net.Http;
 
@@ -45,98 +41,21 @@ namespace SkateboardNeverDie.Services.Api
             var singleSignOnSettigns = _configuration.GetSection(nameof(SingleSignOnSettings)).Get<SingleSignOnSettings>();
 
             services.AddCors();
-            services.AddControllers()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                });
-
             services.AddRouting(options =>
             {
                 options.LowercaseUrls = true;
-            });
-
-            services.AddApiVersioning(options =>
+            })
+            .AddControllers()
+            .AddNewtonsoftJson(options =>
             {
-                options.ReportApiVersions = true;
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
 
-            services.AddVersionedApiExplorer(options =>
+            if (_environment.IsDevelopment())
             {
-                options.GroupNameFormat = "'v'VVV";
-                options.SubstituteApiVersionInUrl = true;
-            });
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Skateboard Never Die API", Version = "v1.0" });
-
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. " +
-                                      "\r\n\r\n Enter 'Bearer' [space] and then your token in the text input below." +
-                                      "\r\n\r\nExample: \"Bearer eyJhbGciOiJSUzI1NiIs...\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-
-                        },
-                        new List<string>()
-                    }
-                });
-
-                //options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                //{
-                //    Name = "Authorization",
-                //    In = ParameterLocation.Header,
-                //    Type = SecuritySchemeType.OAuth2,
-                //    Scheme = "Bearer",
-                //    Flows = new OpenApiOAuthFlows
-                //    {
-                //        ClientCredentials = new OpenApiOAuthFlow
-                //        {
-                //            TokenUrl = new Uri($"{authSettigns.Url}/connect/token"),
-                //            Scopes = new Dictionary<string, string>()
-                //            {
-                //                { "skateboard-api.read", "skateboard-api.read" },
-                //                { "skateboard-api.write", "skateboard-api.write" },
-                //            }
-                //        }
-                //    }
-                //});
-
-                //options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //            Reference = new OpenApiReference
-                //            {
-                //                Type = ReferenceType.SecurityScheme,
-                //                Id = "oauth2"
-                //            },
-
-                //        },
-                //        new List<string>()
-                //    }
-                //});
-            });
+                services.AddDatabaseDeveloperPageExceptionFilter();
+            }
 
             services.Configure<GzipCompressionProviderOptions>(options =>
             {
@@ -148,11 +67,11 @@ namespace SkateboardNeverDie.Services.Api
                 options.EnableForHttps = true;
             });
 
+            services.AddSwaggerWithApiVersioning(_configuration);
+
             services
                 .AddApplication()
                 .AddInfrastructure(_configuration.GetConnectionString("DefaultConnection"));
-
-            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddSimpleHateoas();
 
@@ -181,7 +100,7 @@ namespace SkateboardNeverDie.Services.Api
                 {
                     policy.RequireAssertion(context =>
                     {
-                        return context.User.HasScope("skateboard-api.read");
+                        return context.User.HasScope("skateboard-api:read");
                     });
                 });
 
@@ -190,7 +109,7 @@ namespace SkateboardNeverDie.Services.Api
                     //policy.RequireClaim(OpenIddictConstants.Claims.Role, "admin");
                     policy.RequireAssertion(context =>
                     {
-                        return context.User.HasScope("skateboard-api.write") && context.User.HasScope("skateboard-api.read");
+                        return context.User.HasScope("skateboard-api:read") && context.User.HasScope("skateboard-api:skaters:write");
                     });
                 });
             });
@@ -209,13 +128,6 @@ namespace SkateboardNeverDie.Services.Api
                     // to retrieve the address of the introspection endpoint.
                     options.SetIssuer(singleSignOnSettigns.Issuer);
 
-                    //// Configure the validation handler to use introspection and register the client
-                    //// credentials used when communicating with the remote introspection endpoint.
-                    //options
-                    //    .UseIntrospection()
-                    //    .SetClientId("api-skateboard")
-                    //    .SetClientSecret("YVqJpVvDso4hoZAy3XUmww==");
-
                     // Register the System.Net.Http integration.
                     options.UseSystemNetHttp();
 
@@ -225,21 +137,14 @@ namespace SkateboardNeverDie.Services.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
+            if (_environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                foreach (var description in provider.ApiVersionDescriptions)
-                    options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-
-                options.DocExpansion(DocExpansion.List);
-            });
+            app.UseSwagger(provider);
 
             app.UseProblemDetails();
 

@@ -24,22 +24,27 @@ namespace SkateboardNeverDie.Services.SingleSignOn
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             await context.Database.EnsureCreatedAsync(cancellationToken);
 
-            var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
+            var openIddictApplicationManager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            if (await manager.FindByClientIdAsync("skateboard-mobile", cancellationToken) is null)
+            if (await openIddictApplicationManager.FindByClientIdAsync("skateboard-api", cancellationToken) is null)
             {
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                await openIddictApplicationManager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
-                    ClientId = "skateboard-mobile",
-                    ClientSecret = "PVHcNBpJX9SmaSk2H+PGHw==",
-                    DisplayName = "Skateboard Mobile",
+                    ClientId = "skateboard-api",
+                    ClientSecret = "YVqJpVvDso4hoZAy3XUmww==",
+                    DisplayName = "Skateboard API",
                     Type = OpenIddictConstants.ClientTypes.Confidential,
-                    ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
-                    PostLogoutRedirectUris = { new Uri("myapp://") },
-                    RedirectUris = { new Uri("myapp://") },
+                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
+                    //PostLogoutRedirectUris = { new Uri("myapp://") },
+                    RedirectUris =
+                    {
+                        new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html")
+                    },
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
+                        //OpenIddictConstants.Permissions.Endpoints.Logout,
                         OpenIddictConstants.Permissions.Endpoints.Token,
 
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
@@ -52,7 +57,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                         OpenIddictConstants.Permissions.Scopes.Email,
                         OpenIddictConstants.Permissions.Scopes.Profile,
                         OpenIddictConstants.Permissions.Scopes.Roles,
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.read",
+                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api:read",
                     },
                     Requirements =
                     {
@@ -61,17 +66,22 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                 }, cancellationToken);
             }
 
-            if (await manager.FindByClientIdAsync("skateboard-api", cancellationToken) is null)
+            if (await openIddictApplicationManager.FindByClientIdAsync("skateboard-mobile", cancellationToken) is null)
             {
-                await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                await openIddictApplicationManager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
-                    ClientId = "skateboard-api",
-                    ClientSecret = "YVqJpVvDso4hoZAy3XUmww==",
-                    DisplayName = "Skateboard API",
+                    ClientId = "skateboard-mobile",
+                    ClientSecret = "PVHcNBpJX9SmaSk2H+PGHw==",
+                    DisplayName = "Skateboard Mobile",
                     Type = OpenIddictConstants.ClientTypes.Confidential,
-                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
+                    ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
                     PostLogoutRedirectUris = { new Uri("myapp://") },
-                    RedirectUris = { new Uri("myapp://") },
+                    RedirectUris =
+                    {
+                        new Uri("myapp://"),
+                        new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html")
+                    },
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
@@ -79,11 +89,20 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                         OpenIddictConstants.Permissions.Endpoints.Token,
 
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
+                        OpenIddictConstants.Permissions.GrantTypes.ClientCredentials,
                         OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
 
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.read",
-                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api.write",
+                        OpenIddictConstants.Permissions.ResponseTypes.Code,
+                        OpenIddictConstants.Permissions.ResponseTypes.Token,
+
+                        OpenIddictConstants.Permissions.Scopes.Email,
+                        OpenIddictConstants.Permissions.Scopes.Profile,
+                        OpenIddictConstants.Permissions.Scopes.Roles,
+                        $"{OpenIddictConstants.Permissions.Prefixes.Scope}skateboard-api:read",
+                    },
+                    Requirements =
+                    {
+                        OpenIddictConstants.Requirements.Features.ProofKeyForCodeExchange
                     }
                 }, cancellationToken);
             }

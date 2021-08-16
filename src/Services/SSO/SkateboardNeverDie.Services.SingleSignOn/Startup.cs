@@ -91,8 +91,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     options.SetAuthorizationEndpointUris("/connect/authorize")
                            .SetLogoutEndpointUris("/connect/logout")
                            .SetTokenEndpointUris("/connect/token")
-                           .SetUserinfoEndpointUris("/connect/userinfo")
-                           .SetIntrospectionEndpointUris("/connect/introspect");
+                           .SetUserinfoEndpointUris("/connect/userinfo");
 
                     // Enable flows.
                     options.AllowClientCredentialsFlow()
@@ -115,9 +114,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                         OpenIddictConstants.Scopes.Email,
                         OpenIddictConstants.Scopes.Profile,
                         OpenIddictConstants.Scopes.Roles,
-                        "skateboard-api",
-                        "skateboard-api.read",
-                        "skateboard-api.write");
+                        "skateboard-api:read");
 
                     // Register the ASP.NET Core host and configure the ASP.NET Core options.
                     options.UseAspNetCore()
