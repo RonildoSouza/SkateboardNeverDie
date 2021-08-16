@@ -95,7 +95,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
 
                     // Enable flows.
                     options.AllowClientCredentialsFlow()
-                           .AllowAuthorizationCodeFlow()//.RequireProofKeyForCodeExchange()
+                           .AllowAuthorizationCodeFlow().RequireProofKeyForCodeExchange()
                            .AllowRefreshTokenFlow();
 
                     // Register the signing and encryption credentials.
@@ -109,7 +109,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                                .SetIssuer(new Uri("https://localhost:5003/"));
                     }
 
-                    // Register scopes (permissions)
+                    // Register scopes (permissions) to explicit consent type
                     options.RegisterScopes(
                         OpenIddictConstants.Scopes.Email,
                         OpenIddictConstants.Scopes.Profile,

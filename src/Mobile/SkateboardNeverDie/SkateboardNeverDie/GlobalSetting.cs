@@ -12,7 +12,8 @@ namespace SkateboardNeverDie
 
         // https://developer.android.com/studio/run/emulator-networking
         internal const string SsoUrl = "https://skateboardneverdieservicessinglesignon.azurewebsites.net";
-        internal static string ApiUrl => IsDevelopment() ? "https://10.0.2.2:5001" : "https://skateboardneverdieservicesapi.azurewebsites.net";
+        internal static string ApiUrl => "https://skateboardneverdieservicesapi.azurewebsites.net";
+        //internal static string ApiUrl => "https://10.0.2.2:5001";
         internal static string ScopeClientCredentials => $"{StandardScopes.OfflineAccess} skateboard-api:read";
         internal static string ScopeAuthorizationCode => $"{ScopeClientCredentials} {StandardScopes.OpenId} {StandardScopes.Profile} {StandardScopes.Email} roles";
 
@@ -20,7 +21,7 @@ namespace SkateboardNeverDie
         {
             var isDevelopment = false;
 
-#if !DEBUG
+#if DEBUG
             isDevelopment = true;
 #endif
 

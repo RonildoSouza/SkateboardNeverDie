@@ -84,12 +84,12 @@ namespace SkateboardNeverDie.Services
         public async Task<bool> LogoutAsync(string identityToken)
         {
             var oidcClient = CreateOidcClient();
-            var loginResult = await oidcClient.LogoutAsync(new LogoutRequest
+            var logoutResult = await oidcClient.LogoutAsync(new LogoutRequest
             {
                 IdTokenHint = identityToken
             });
 
-            return !loginResult.IsError;
+            return !logoutResult.IsError;
         }
 
         public async Task<UserInfo> UserInfoAsync(string accessToken)
