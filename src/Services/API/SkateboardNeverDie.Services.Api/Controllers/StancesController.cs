@@ -7,6 +7,7 @@ using SkateboardNeverDie.Application.Stances;
 using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Stances.QueryData;
 using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Stances;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -27,9 +28,9 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [Authorize("Read")]
         [HttpGet(Name = StanceRouteNames.GetStances)]
         [ProducesResponseType(typeof(HateoasResult<PagedResult<StanceQueryData>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Get(int page = 1, int pageSize = 10, CancellationToken cancelationToken = default)
         {
-            var stances = await _stanceAppService.GetAllAsync(page, pageSize);
+            var stances = await _stanceAppService.GetAllAsync(page, pageSize, cancelationToken);
             return Ok(_hateoas.Create(stances));
         }
     }

@@ -10,6 +10,7 @@ using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Skaters.QueryData;
 using SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.Api.Controllers
@@ -30,9 +31,9 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [Authorize("Read")]
         [HttpGet(Name = SkaterRouteNames.GetSkaters)]
         [ProducesResponseType(typeof(HateoasResult<PagedResult<SkaterQueryData>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> Get(int page = 1, int pageSize = 10, CancellationToken cancelationToken = default)
         {
-            var skaters = await _skaterAppService.GetAllAsync(page, pageSize);
+            var skaters = await _skaterAppService.GetAllAsync(page, pageSize, cancelationToken);
             return Ok(_hateoas.Create(skaters));
         }
 
@@ -40,9 +41,9 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [HttpGet("{id}", Name = SkaterRouteNames.GetSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(Guid id, CancellationToken cancelationToken = default)
         {
-            var skater = await _skaterAppService.GetByIdAsync(id);
+            var skater = await _skaterAppService.GetByIdAsync(id, cancelationToken);
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater is not found!");
         }
 
@@ -50,9 +51,9 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [HttpPost(Name = SkaterRouteNames.CreateSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(CreateSkaterDto createSkaterDto)
+        public async Task<IActionResult> Post(CreateSkaterDto createSkaterDto, CancellationToken cancelationToken = default)
         {
-            var skater = await _skaterAppService.CreateAsync(createSkaterDto);
+            var skater = await _skaterAppService.CreateAsync(createSkaterDto, cancelationToken);
             return skater != null ? Created(string.Empty, _hateoas.Create(skater)) : BadRequest("Skater is not created!");
         }
     }

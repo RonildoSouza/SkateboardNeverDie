@@ -8,5 +8,12 @@ namespace SkateboardNeverDie.Domain.Tricks.QueryData
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public static TrickQueryData Convert(Trick trick)
+            => new()
+            {
+                Id = trick.Id,
+                Name = trick.Name
+            };
     }
 }

@@ -6,6 +6,7 @@ using SkateboardNeverDie.Domain.Skaters.QueryData;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
@@ -19,12 +20,12 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
             _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
         }
 
-        public async Task AddAsync(Skater skater)
+        public async Task AddAsync(Skater skater, CancellationToken cancelationToken)
         {
-            await _applicationDbContext.Skaters.AddAsync(skater);
+            await _applicationDbContext.Skaters.AddAsync(skater, cancelationToken);
         }
 
-        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
+        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken)
         {
             return await _applicationDbContext.Skaters.GetPagedResultAsync(
                 page,
@@ -37,10 +38,11 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                     Nickname = _.Nickname,
                     Birthdate = _.Birthdate,
                     NaturalStance = _.NaturalStanceId
-                });
+                },
+                cancelationToken);
         }
 
-        public async Task<SkaterQueryData> GetByIdAsync(Guid id)
+        public async Task<SkaterQueryData> GetByIdAsync(Guid id, CancellationToken cancelationToken)
         {
             return await _applicationDbContext.Skaters.AsNoTracking()
                 .Where(_ => _.Id == id)
@@ -53,7 +55,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                     Birthdate = _.Birthdate,
                     NaturalStance = _.NaturalStanceId
                 })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancelationToken);
         }
     }
 }

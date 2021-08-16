@@ -23,6 +23,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.SubstituteApiVersionInUrl = true;
             });
 
+            services.AddSwaggerGenNewtonsoftSupport();
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Skateboard Never Die API", Version = "v1.0" });

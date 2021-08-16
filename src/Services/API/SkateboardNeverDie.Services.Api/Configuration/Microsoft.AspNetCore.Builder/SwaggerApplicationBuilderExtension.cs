@@ -14,9 +14,10 @@ namespace Microsoft.AspNetCore.Builder
                     options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
 
                 options.OAuthUsePkce();
+                options.OAuthAppName("SkateboardNeverDie Single Sign-On");
                 options.OAuthClientId("skateboard-api");
 
-                options.DocExpansion(DocExpansion.List);
+                options.DocExpansion(DocExpansion.None);
             });
 
             return app;

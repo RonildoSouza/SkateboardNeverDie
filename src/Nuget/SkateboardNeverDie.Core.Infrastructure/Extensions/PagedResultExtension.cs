@@ -4,13 +4,14 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Core.Infrastructure.Extensions
 {
     public static class PagedResultExtension
     {
-        public static async Task<PagedResult<TResult>> GetPagedResultAsync<TEntity, TResult>([NotNull] this IQueryable<TEntity> query, int page, int pageSize, Expression<Func<TEntity, TResult>> selector)
+        public static async Task<PagedResult<TResult>> GetPagedResultAsync<TEntity, TResult>([NotNull] this IQueryable<TEntity> query, int page, int pageSize, Expression<Func<TEntity, TResult>> selector, CancellationToken cancelationToken)
             where TEntity : class, IEntity
             where TResult : IQueryData
         {
@@ -20,7 +21,7 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
                 PageSize = pageSize,
             };
 
-            result.RowCount = await query.AsNoTracking().CountAsync();
+            result.RowCount = await query.AsNoTracking().CountAsync(cancelationToken);
 
             var pageCount = (double)result.RowCount / pageSize;
             result.PageCount = (int)Math.Ceiling(pageCount);
@@ -31,7 +32,7 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
                                         .Select(selector)
                                         .Skip(skip)
                                         .Take(pageSize)
-                                        .ToListAsync();
+                                        .ToListAsync(cancelationToken);
 
             return result;
         }

@@ -30,6 +30,7 @@
     <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.0" />
     <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.1.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.1.5" />
   </ItemGroup>
 

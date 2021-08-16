@@ -1,6 +1,7 @@
 ﻿using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Stances;
 using SkateboardNeverDie.Domain.Stances.QueryData;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Stances
@@ -14,9 +15,9 @@ namespace SkateboardNeverDie.Application.Stances
             _stanceRepository = skaterRepository;
         }
 
-        public async Task<PagedResult<StanceQueryData>> GetAllAsync(int page, int pageSize)
+        public async Task<PagedResult<StanceQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken)
         {
-            return await _stanceRepository.GetAllAsync(page, pageSize);
+            return await _stanceRepository.GetAllAsync(page, pageSize, cancelationToken);
         }
     }
 }

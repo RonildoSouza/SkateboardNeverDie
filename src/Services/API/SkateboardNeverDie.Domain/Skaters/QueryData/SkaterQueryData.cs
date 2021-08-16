@@ -12,5 +12,16 @@ namespace SkateboardNeverDie.Domain.Skaters.QueryData
         public string Nickname { get; set; }
         public DateTime Birthdate { get; set; }
         public StanceType NaturalStance { get; set; }
+
+        public static SkaterQueryData Convert(Skater skater)
+            => new()
+            {
+                Id = skater.Id,
+                FirstName = skater.FirstName,
+                LastName = skater.LastName,
+                Nickname = skater.Nickname,
+                Birthdate = skater.Birthdate,
+                NaturalStance = skater.NaturalStanceId
+            };
     }
 }

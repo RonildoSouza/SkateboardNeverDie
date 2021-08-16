@@ -5,6 +5,7 @@ using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Domain.Skaters.QueryData;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Skaters
@@ -20,19 +21,19 @@ namespace SkateboardNeverDie.Application.Skaters
             _skaterRepository = skaterRepository;
         }
 
-        public async Task<SkaterQueryData> GetByIdAsync(Guid id)
+        public async Task<SkaterQueryData> GetByIdAsync(Guid id, CancellationToken cancelationToken)
         {
-            return await _skaterRepository.GetByIdAsync(id);
+            return await _skaterRepository.GetByIdAsync(id, cancelationToken);
         }
 
-        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize)
+        public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken)
         {
-            return await _skaterRepository.GetAllAsync(page, pageSize);
+            return await _skaterRepository.GetAllAsync(page, pageSize, cancelationToken);
         }
 
-        public async Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto)
+        public async Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto, CancellationToken cancelationToken)
         {
-            await new CreateSkaterValidator().ValidateAndThrowAsync(createSkaterDto);
+            await new CreateSkaterValidator().ValidateAndThrowAsync(createSkaterDto, cancelationToken);
 
             var skater = new Skater(
                 createSkaterDto.FirstName,
@@ -44,20 +45,10 @@ namespace SkateboardNeverDie.Application.Skaters
             foreach (var skaterTrick in createSkaterDto.SkaterTricks)
                 skater.AddTrick(skaterTrick.TrickId, skaterTrick.Variations);
 
-            await _skaterRepository.AddAsync(skater);
+            await _skaterRepository.AddAsync(skater, cancelationToken);
 
-            if (await _unitOfWork.CommitAsync())
-            {
-                return new SkaterQueryData
-                {
-                    Id = skater.Id,
-                    FirstName = skater.FirstName,
-                    LastName = skater.LastName,
-                    Nickname = skater.Nickname,
-                    Birthdate = skater.Birthdate,
-                    NaturalStance = skater.NaturalStanceId
-                };
-            }
+            if (await _unitOfWork.CommitAsync(cancelationToken))
+                return SkaterQueryData.Convert(skater);
 
             return null;
         }
