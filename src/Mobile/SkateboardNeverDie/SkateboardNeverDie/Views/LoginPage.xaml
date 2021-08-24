@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:viewmodels="clr-namespace:SkateboardNeverDie.ViewModels" x:DataType="viewmodels:LoginViewModel"
              mc:Ignorable="d"
              x:Class="SkateboardNeverDie.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Label Text="{Binding UserInfo.Email}"/>
+            <Label Text="{Binding AccessToken}"/>
 
             <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
             <Button VerticalOptions="Center" Text="Logout" Command="{Binding LogoutCommand}"/>

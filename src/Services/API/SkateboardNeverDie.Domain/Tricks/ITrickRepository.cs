@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Domain.Tricks
 {
-    public interface ITrickRepository
+    public interface ITrickRepository : IRepository<Trick>
     {
         Task AddAsync(Trick trick, CancellationToken cancelationToken = default);
         Task<PagedResult<TrickQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken = default);

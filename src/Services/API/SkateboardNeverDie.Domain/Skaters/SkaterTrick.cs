@@ -2,6 +2,7 @@
 using SkateboardNeverDie.Domain.Tricks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SkateboardNeverDie.Domain.Skaters
 {
@@ -22,6 +23,16 @@ namespace SkateboardNeverDie.Domain.Skaters
 
         internal static SkaterTrick Create(Guid trickId, List<SkaterTrickVariation> variations)
         {
+            if (trickId == default)
+            {
+                throw new ArgumentException($"The argument {nameof(trickId)} can't be default Guid!");
+            }
+
+            if (!variations?.Any() ?? true)
+            {
+                throw new ArgumentException($"The argument {nameof(variations)} can't be null or empty!");
+            }
+
             return new SkaterTrick(trickId, variations);
         }
     }

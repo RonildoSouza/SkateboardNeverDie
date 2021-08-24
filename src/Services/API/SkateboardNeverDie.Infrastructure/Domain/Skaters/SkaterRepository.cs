@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Core.Infrastructure;
 using SkateboardNeverDie.Core.Infrastructure.Extensions;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Domain.Skaters.QueryData;
@@ -11,23 +12,19 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
 {
-    public sealed class SkaterRepository : ISkaterRepository
+    public sealed class SkaterRepository : Repository<Skater, ApplicationDbContext>, ISkaterRepository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
-
-        public SkaterRepository(ApplicationDbContext applicationDbContext)
-        {
-            _applicationDbContext = applicationDbContext ?? throw new ArgumentNullException(nameof(applicationDbContext));
-        }
+        public SkaterRepository(ApplicationDbContext context)
+            : base(context) { }
 
         public async Task AddAsync(Skater skater, CancellationToken cancelationToken)
         {
-            await _applicationDbContext.Skaters.AddAsync(skater, cancelationToken);
+            await Context.Skaters.AddAsync(skater, cancelationToken);
         }
 
         public async Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken)
         {
-            return await _applicationDbContext.Skaters.GetPagedResultAsync(
+            return await Context.Skaters.GetPagedResultAsync(
                 page,
                 pageSize,
                 _ => new SkaterQueryData
@@ -44,7 +41,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
 
         public async Task<SkaterQueryData> GetByIdAsync(Guid id, CancellationToken cancelationToken)
         {
-            return await _applicationDbContext.Skaters.AsNoTracking()
+            return await Context.Skaters.AsNoTracking()
                 .Where(_ => _.Id == id)
                 .Select(_ => new SkaterQueryData
                 {

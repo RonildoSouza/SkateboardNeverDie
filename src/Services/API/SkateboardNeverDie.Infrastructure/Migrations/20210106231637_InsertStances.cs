@@ -15,11 +15,11 @@ namespace SkateboardNeverDie.Infrastructure.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.InsertData("Stances", new string[] { "Id" }, new string[] { "Goofy" });
-            migrationBuilder.InsertData("Stances", new string[] { "Id" }, new string[] { "Regular" });
-            migrationBuilder.InsertData("Stances", new string[] { "Id" }, new string[] { "Nollie" });
-            migrationBuilder.InsertData("Stances", new string[] { "Id" }, new string[] { "Fakie" });
-            migrationBuilder.InsertData("Stances", new string[] { "Id" }, new string[] { "Switch" });
+            migrationBuilder.DeleteData("Stances", new string[] { "Id" }, new string[] { "Goofy" });
+            migrationBuilder.DeleteData("Stances", new string[] { "Id" }, new string[] { "Regular" });
+            migrationBuilder.DeleteData("Stances", new string[] { "Id" }, new string[] { "Nollie" });
+            migrationBuilder.DeleteData("Stances", new string[] { "Id" }, new string[] { "Fakie" });
+            migrationBuilder.DeleteData("Stances", new string[] { "Id" }, new string[] { "Switch" });
         }
     }
 }

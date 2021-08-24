@@ -47,7 +47,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater is not found!");
         }
 
-        [Authorize("Write")]
+        [Authorize("Skaters:Write")]
         [HttpPost(Name = SkaterRouteNames.CreateSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

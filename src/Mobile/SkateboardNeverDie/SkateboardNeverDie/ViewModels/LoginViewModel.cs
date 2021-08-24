@@ -15,11 +15,11 @@ namespace SkateboardNeverDie.ViewModels
         public Command LoginCommand { get; }
         public Command LogoutCommand { get; }
 
-        UserInfo _userInfo = null;
-        public UserInfo UserInfo
+        string _accessToken = null;
+        public string AccessToken
         {
-            get { return _userInfo; }
-            set { SetProperty(ref _userInfo, value); }
+            get => _accessToken;
+            set => SetProperty(ref _accessToken, value);
         }
 
         public LoginViewModel()
@@ -32,7 +32,7 @@ namespace SkateboardNeverDie.ViewModels
         {
             var tokenResponse = await SingleSignOnService.AuthorizationCodeFlowAsync();
 
-            UserInfo = await SingleSignOnService.UserInfoAsync(tokenResponse.AccessToken);
+            AccessToken = tokenResponse.AccessToken;
 
             await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
         }
@@ -43,10 +43,9 @@ namespace SkateboardNeverDie.ViewModels
             {
                 var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
 
-                if (await SingleSignOnService.LogoutAsync(tokenResponse.IdentityToken))
+                if (await SingleSignOnService.LogoutAsync(tokenResponse.IdentityToken) && SecureStorage.Remove(GlobalSetting.TokenResponseKey))
                 {
-                    SecureStorage.Remove(GlobalSetting.TokenResponseKey);
-                    UserInfo = null;
+                    AccessToken = null;
                 }
             }
             catch (Exception ex)

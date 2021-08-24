@@ -4,7 +4,7 @@
              x:Class="SkateboardNeverDie.Views.TricksPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
-             xmlns:model="clr-namespace:SkateboardNeverDie.Models"  
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:TricksViewModel"
              x:Name="BrowseItemsPage">
 
     <RefreshView x:DataType="local:TricksViewModel" Command="{Binding LoadTricksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">

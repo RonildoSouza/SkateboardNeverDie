@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Domain.Skaters
 {
-    public interface ISkaterRepository
+    public interface ISkaterRepository : IRepository<Skater>
     {
         Task AddAsync(Skater skater, CancellationToken cancelationToken = default);
         Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken = default);

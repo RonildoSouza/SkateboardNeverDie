@@ -12,7 +12,6 @@ namespace SkateboardNeverDie.Services.SingleSignOn.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _applicationDbContext;
-        private static bool _databaseChecked;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,

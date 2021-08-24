@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Domain.Stances
 {
-    public interface IStanceRepository
+    public interface IStanceRepository : IRepository<Stance>
     {
         Task<PagedResult<StanceQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken = default);
     }

@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SkateboardNeverDie.Core.Domain;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Infrastructure.Database;
-using SkateboardNeverDie.Infrastructure.Domain;
 using SkateboardNeverDie.Infrastructure.Domain.Skaters;
 using System;
 
@@ -31,7 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
                         .AsImplementedInterfaces()
                         .WithScopedLifetime());
 
-            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+            services.AddScoped(typeof(IUnitOfWork), typeof(ApplicationDbContext));
 
             return services;
         }

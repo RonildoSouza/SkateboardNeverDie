@@ -12,12 +12,10 @@ namespace SkateboardNeverDie.Application.Skaters
 {
     public sealed class SkaterAppService : ISkaterAppService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ISkaterRepository _skaterRepository;
 
-        public SkaterAppService(IUnitOfWork unitOfWork, ISkaterRepository skaterRepository)
+        public SkaterAppService(ISkaterRepository skaterRepository)
         {
-            _unitOfWork = unitOfWork;
             _skaterRepository = skaterRepository;
         }
 
@@ -47,7 +45,7 @@ namespace SkateboardNeverDie.Application.Skaters
 
             await _skaterRepository.AddAsync(skater, cancelationToken);
 
-            if (await _unitOfWork.CommitAsync(cancelationToken))
+            if (await _skaterRepository.UnitOfWork.CommitAsync(cancelationToken))
                 return SkaterQueryData.Convert(skater);
 
             return null;

@@ -42,7 +42,10 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                 options.UseOpenIddict<Guid>();
             });
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            if (_environment.IsDevelopment())
+            {
+                services.AddDatabaseDeveloperPageExceptionFilter();
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>()

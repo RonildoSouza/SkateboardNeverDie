@@ -21,14 +21,14 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
                 PageSize = pageSize,
             };
 
-            result.RowCount = await query.AsNoTracking().CountAsync(cancelationToken);
+            result.RowCount = await query.AsNoTrackingWithIdentityResolution().CountAsync(cancelationToken);
 
             var pageCount = (double)result.RowCount / pageSize;
             result.PageCount = (int)Math.Ceiling(pageCount);
 
             var skip = (page - 1) * pageSize;
 
-            result.Results = await query.AsNoTracking()
+            result.Results = await query.AsNoTrackingWithIdentityResolution()
                                         .Select(selector)
                                         .Skip(skip)
                                         .Take(pageSize)

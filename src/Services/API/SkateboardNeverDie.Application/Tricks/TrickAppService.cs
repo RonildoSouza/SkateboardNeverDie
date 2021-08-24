@@ -10,15 +10,12 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Application.Tricks
 {
-
     public sealed class TrickAppService : ITrickAppService
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ITrickRepository _trickRepository;
 
-        public TrickAppService(IUnitOfWork unitOfWork, ITrickRepository trickRepository)
+        public TrickAppService(ITrickRepository trickRepository)
         {
-            _unitOfWork = unitOfWork;
             _trickRepository = trickRepository;
         }
 
@@ -40,7 +37,7 @@ namespace SkateboardNeverDie.Application.Tricks
 
             await _trickRepository.AddAsync(trick, cancelationToken);
 
-            if (await _unitOfWork.CommitAsync(cancelationToken))
+            if (await _trickRepository.UnitOfWork.CommitAsync(cancelationToken))
                 return TrickQueryData.Convert(trick);
 
             return null;

@@ -13,4 +13,8 @@
     <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Security\Services\" />
+  </ItemGroup>
+
 </Project>

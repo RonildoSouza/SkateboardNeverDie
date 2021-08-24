@@ -4,7 +4,7 @@
              x:Class="SkateboardNeverDie.Views.SkatersPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
-             xmlns:model="clr-namespace:SkateboardNeverDie.Models"  
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkatersViewModel"
              x:Name="BrowseItemsPage">
 
     <!--<ContentPage.ToolbarItems>

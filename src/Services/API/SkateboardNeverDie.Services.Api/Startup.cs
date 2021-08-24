@@ -106,12 +106,12 @@ namespace SkateboardNeverDie.Services.Api
                     });
                 });
 
-                options.AddPolicy("Write", policy =>
+                options.AddPolicy("Skaters:Write", policy =>
                 {
-                    //policy.RequireClaim(OpenIddictConstants.Claims.Role, "admin");
                     policy.RequireAssertion(context =>
                     {
-                        return context.User.HasScope("skateboard-api:read") && context.User.HasScope("skateboard-api:skaters:write");
+                        // TODO: Check permissions in memory storage
+                        return context.User.HasClaim(OpenIddictConstants.Claims.Role, "admin") || context.User.HasScope("skateboard-api:read");
                     });
                 });
             });

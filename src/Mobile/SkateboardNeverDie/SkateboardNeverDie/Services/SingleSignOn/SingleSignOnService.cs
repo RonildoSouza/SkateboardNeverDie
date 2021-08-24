@@ -4,7 +4,6 @@ using SkateboardNeverDie.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Security;
 using System.Threading.Tasks;
@@ -13,8 +12,8 @@ namespace SkateboardNeverDie.Services
 {
     internal sealed class SingleSignOnService : ISingleSignOnService
     {
-        readonly HttpClientHandler _httpClientHandler;
-        readonly HttpClient _httpClient;
+        private readonly HttpClientHandler _httpClientHandler;
+        private readonly HttpClient _httpClient;
 
         public SingleSignOnService()
         {
@@ -32,6 +31,18 @@ namespace SkateboardNeverDie.Services
             _httpClient = new HttpClient(_httpClientHandler);
         }
 
+        private OidcClient OidcClient
+            => new OidcClient(new OidcClientOptions
+            {
+                Authority = GlobalSetting.SsoUrl,
+                ClientId = GlobalSetting.ClientId,
+                ClientSecret = GlobalSetting.ClientSecret,
+                Scope = GlobalSetting.ScopeAuthorizationCode,
+                RedirectUri = GlobalSetting.RedirectUri,
+                PostLogoutRedirectUri = GlobalSetting.RedirectUri,
+                Browser = new WebAuthenticatorBrowser()
+            });
+
         public async Task<TokenResponse> ClientCredentialsFlowAsync()
         {
             var content = new FormUrlEncodedContent(new Dictionary<string, string>
@@ -45,10 +56,9 @@ namespace SkateboardNeverDie.Services
             var response = await _httpClient.PostAsync($"{GlobalSetting.SsoUrl}/connect/token", content);
             var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
 
-            if (!string.IsNullOrEmpty(payload.Error))
-                throw new InvalidOperationException("An error occurred while retrieving an access token.");
-
-            return new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
+            return !string.IsNullOrEmpty(payload.Error)
+                ? throw new InvalidOperationException("An error occurred while retrieving an access token.")
+                : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
         }
 
         public async Task<TokenResponse> RefreshTokenFlowAsync(string refreshToken)
@@ -64,56 +74,28 @@ namespace SkateboardNeverDie.Services
             var response = await _httpClient.PostAsync(GlobalSetting.SsoUrl, content);
             var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
 
-            if (!string.IsNullOrEmpty(payload.Error))
-                throw new InvalidOperationException("An error occurred while retrieving an refresh token.");
-
-            return new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
+            return !string.IsNullOrEmpty(payload.Error)
+                ? throw new InvalidOperationException("An error occurred while retrieving an refresh token.")
+                : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
         }
 
         public async Task<TokenResponse> AuthorizationCodeFlowAsync()
         {
-            var oidcClient = CreateOidcClient();
-            var loginResult = await oidcClient.LoginAsync();
+            var loginResult = await OidcClient.LoginAsync();
 
-            if (loginResult.IsError)
-                throw new InvalidOperationException("An error occurred while retrieving an access token.");
-
-            return new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
+            return loginResult.IsError
+                ? throw new InvalidOperationException("An error occurred while retrieving an access token.")
+                : new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
         }
 
         public async Task<bool> LogoutAsync(string identityToken)
         {
-            var oidcClient = CreateOidcClient();
-            var logoutResult = await oidcClient.LogoutAsync(new LogoutRequest
+            var logoutResult = await OidcClient.LogoutAsync(new LogoutRequest
             {
                 IdTokenHint = identityToken
             });
 
             return !logoutResult.IsError;
-        }
-
-        public async Task<UserInfo> UserInfoAsync(string accessToken)
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var response = await _httpClient.GetAsync($"{GlobalSetting.SsoUrl}/connect/userinfo");
-
-            return await response.Content.ReadFromJsonAsync<UserInfo>();
-        }
-
-        OidcClient CreateOidcClient()
-        {
-            var oidcClientOptions = new OidcClientOptions
-            {
-                Authority = GlobalSetting.SsoUrl,
-                ClientId = GlobalSetting.ClientId,
-                ClientSecret = GlobalSetting.ClientSecret,
-                Scope = GlobalSetting.ScopeAuthorizationCode,
-                RedirectUri = GlobalSetting.RedirectUri,
-                PostLogoutRedirectUri = GlobalSetting.RedirectUri,
-                Browser = new WebAuthenticatorBrowser()
-            };
-
-            return new OidcClient(oidcClientOptions);
         }
     }
 }
