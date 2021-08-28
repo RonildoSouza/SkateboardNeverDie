@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Infrastructure.Caching\SkateboardNeverDie.Core.Infrastructure.Caching.csproj" />
     <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\SkateboardNeverDie.Application\SkateboardNeverDie.Application.csproj" />
     <ProjectReference Include="..\SkateboardNeverDie.Domain\SkateboardNeverDie.Domain.csproj" />

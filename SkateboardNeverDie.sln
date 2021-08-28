@@ -39,6 +39,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Infrastructure", "src\Nuget\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj", "{83DC0A79-C9C0-4157-8634-5544EB52EDAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkateboardNeverDie.Core.Infrastructure.Caching", "src\Nuget\SkateboardNeverDie.Core.Infrastructure.Caching\SkateboardNeverDie.Core.Infrastructure.Caching.csproj", "{649520BA-84D0-4BF5-8F29-865301FB22D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,18 @@ Global
 		{83DC0A79-C9C0-4157-8634-5544EB52EDAF}.Release|iPhone.Build.0 = Release|Any CPU
 		{83DC0A79-C9C0-4157-8634-5544EB52EDAF}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{83DC0A79-C9C0-4157-8634-5544EB52EDAF}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|iPhone.Build.0 = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{649520BA-84D0-4BF5-8F29-865301FB22D0}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -240,6 +254,7 @@ Global
 		{19284BF0-2B07-43A6-ACA0-8753DE62D8A5} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
 		{3B2A9A52-877E-4930-A92D-B30386D48F79} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
 		{83DC0A79-C9C0-4157-8634-5544EB52EDAF} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
+		{649520BA-84D0-4BF5-8F29-865301FB22D0} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2404780-6F88-468D-9CDA-A9DFFE306183}

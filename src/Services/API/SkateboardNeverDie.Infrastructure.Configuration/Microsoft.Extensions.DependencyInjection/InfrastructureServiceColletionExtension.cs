@@ -5,6 +5,7 @@ using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Infrastructure.Database;
 using SkateboardNeverDie.Infrastructure.Domain.Skaters;
 using System;
+using System.Collections.Generic;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -31,6 +32,11 @@ namespace Microsoft.Extensions.DependencyInjection
                         .WithScopedLifetime());
 
             services.AddScoped(typeof(IUnitOfWork), typeof(ApplicationDbContext));
+
+            services.AddCacheService(new Dictionary<Type, TimeSpan>
+            {
+
+            });
 
             return services;
         }
