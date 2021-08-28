@@ -32,9 +32,15 @@ namespace SkateboardNeverDie.ViewModels
         {
             var tokenResponse = await SingleSignOnService.AuthorizationCodeFlowAsync();
 
-            AccessToken = tokenResponse.AccessToken;
-
-            await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+            if (tokenResponse != null)
+            {
+                AccessToken = tokenResponse.AccessToken;
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+            }
+            else
+            {
+                AccessToken = "CLOSED THE LOGIN PAGE!";
+            }
         }
 
         private async void OnLogoutClicked(object obj)

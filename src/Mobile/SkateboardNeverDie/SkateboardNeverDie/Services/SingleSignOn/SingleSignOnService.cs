@@ -81,11 +81,21 @@ namespace SkateboardNeverDie.Services
 
         public async Task<TokenResponse> AuthorizationCodeFlowAsync()
         {
-            var loginResult = await OidcClient.LoginAsync();
+            try
+            {
+                var loginResult = await OidcClient.LoginAsync();
 
-            return loginResult.IsError
-                ? throw new InvalidOperationException("An error occurred while retrieving an access token.")
-                : new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
+                return loginResult.IsError
+                    ? throw new InvalidOperationException(loginResult.Error)
+                    : new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("System.Threading.Tasks.TaskCanceledException"))
+                    return null;
+
+                throw;
+            }
         }
 
         public async Task<bool> LogoutAsync(string identityToken)
