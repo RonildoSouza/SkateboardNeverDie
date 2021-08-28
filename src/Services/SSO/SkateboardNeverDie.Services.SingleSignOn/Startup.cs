@@ -71,8 +71,8 @@ namespace SkateboardNeverDie.Services.SingleSignOn
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {
-                        options.LoginPath = "/account/login";
-                        options.LogoutPath = "/account/logoff";
+                        options.LoginPath = "/login";
+                        options.LogoutPath = "/logoff";
                     });
 
             services.AddOpenIddict()

@@ -23,12 +23,12 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-                    <div class="d-grid gap-2">
+                    @*<div class="d-grid gap-2">
                         <div class="checkbox">
                             <input asp-for="RememberMe" />
                             <label asp-for="RememberMe"></label>
                         </div>
-                    </div>
+                    </div>*@
 
                     <br />
                     <div class="d-grid gap-2">
@@ -38,8 +38,6 @@
                     <br />
                     <p>
                         <a href="#"><small>Forgot password?</small></a>
-                        <br />
-                        Don't have an account? <a asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]">Register here</a>
                     </p>
                 </form>
             </section>
