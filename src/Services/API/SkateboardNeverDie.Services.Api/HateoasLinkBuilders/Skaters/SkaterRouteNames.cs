@@ -5,5 +5,6 @@
         public const string GetSkaters = "get-skaters";
         public const string GetSkater = "get-skater";
         public const string CreateSkater = "create-skater";
+        public const string DeleteSkater = "delete-skater";
     }
 }

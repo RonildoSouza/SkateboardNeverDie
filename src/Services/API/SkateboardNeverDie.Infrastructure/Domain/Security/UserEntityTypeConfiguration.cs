@@ -24,6 +24,10 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
                 .HasMaxLength(256);
 
             builder.HasIndex(e => e.Email);
+
+            builder.HasMany(e => e.UserPermissions)
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId);
         }
     }
 }

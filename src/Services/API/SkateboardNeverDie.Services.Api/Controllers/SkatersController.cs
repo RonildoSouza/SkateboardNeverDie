@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OpenIddict.Validation.AspNetCore;
 using Simple.Hateoas;
 using Simple.Hateoas.Models;
 using SkateboardNeverDie.Application.Skaters;
@@ -47,7 +46,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater is not found!");
         }
 
-        [Authorize("Skaters:Write")]
+        [Authorize("Skaters:Add")]
         [HttpPost(Name = SkaterRouteNames.CreateSkater)]
         [ProducesResponseType(typeof(HateoasResult<SkaterQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -55,6 +54,15 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         {
             var skater = await _skaterAppService.CreateAsync(createSkaterDto, cancelationToken);
             return skater != null ? Created(string.Empty, _hateoas.Create(skater)) : BadRequest("Skater is not created!");
+        }
+
+        [Authorize("Skaters:Remove")]
+        [HttpDelete("{id}", Name = SkaterRouteNames.DeleteSkater)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancelationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

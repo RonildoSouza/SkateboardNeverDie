@@ -22,18 +22,9 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
 
             builder.HasIndex(e => e.Id).IsUnique();
 
-            builder.OwnsMany(e => e.UserPermissions, x =>
-            {
-                x.WithOwner().HasForeignKey(_ => _.PermissionId);
-
-                x.ToTable("UserPermissions");
-
-                x.Property(e => e.PermissionId);
-                x.Property(e => e.UserId).IsRequired();
-                x.HasKey(e => e.Id);
-
-                x.HasOne(e => e.User);
-            });
+            builder.HasMany(e => e.UserPermissions)
+                .WithOne(e => e.Permission)
+                .HasForeignKey(e => e.PermissionId);
         }
     }
 }

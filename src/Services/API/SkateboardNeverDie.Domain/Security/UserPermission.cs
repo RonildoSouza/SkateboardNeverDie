@@ -17,6 +17,7 @@ namespace SkateboardNeverDie.Domain.Security
         public string PermissionId { get; private set; }
 
         public virtual User User { get; private set; }
+        public virtual Permission Permission { get; private set; }
 
         internal static UserPermission Create(Guid userId, string permissionId)
         {

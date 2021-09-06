@@ -46,7 +46,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
             return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Trick is not found!");
         }
 
-        [Authorize("Write")]
+        [Authorize("Tricks:Add")]
         [HttpPost(Name = TrickRouteNames.CreateTrick)]
         [ProducesResponseType(typeof(HateoasResult<TrickQueryData>), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

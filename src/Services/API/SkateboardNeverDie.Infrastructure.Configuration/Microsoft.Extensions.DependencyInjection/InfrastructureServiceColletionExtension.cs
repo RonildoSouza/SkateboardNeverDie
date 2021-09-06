@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SkateboardNeverDie.Core.Domain;
+using SkateboardNeverDie.Domain.Security.Services;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Infrastructure.Database;
+using SkateboardNeverDie.Infrastructure.Domain.Security.Services;
 using SkateboardNeverDie.Infrastructure.Domain.Skaters;
 using System;
 using System.Collections.Generic;
@@ -31,11 +33,17 @@ namespace Microsoft.Extensions.DependencyInjection
                         .AsImplementedInterfaces()
                         .WithScopedLifetime());
 
+            services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IUserCacheService), typeof(UserCacheService))
+                    .AddClasses(_ => _.Where(type => type.Name.EndsWith("Service")))
+                        .AsImplementedInterfaces()
+                        .WithScopedLifetime());
+
             services.AddScoped(typeof(IUnitOfWork), typeof(ApplicationDbContext));
 
             services.AddCacheService(new Dictionary<Type, TimeSpan>
             {
-
+                { typeof(IdentityUserAuthorizeCache), TimeSpan.FromMinutes(30) }
             });
 
             return services;

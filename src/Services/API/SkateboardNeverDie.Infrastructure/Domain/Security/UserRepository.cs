@@ -4,7 +4,9 @@ using SkateboardNeverDie.Core.Infrastructure;
 using SkateboardNeverDie.Core.Infrastructure.Extensions;
 using SkateboardNeverDie.Domain.Security;
 using SkateboardNeverDie.Domain.Security.QueryData;
+using SkateboardNeverDie.Domain.Security.Services;
 using SkateboardNeverDie.Infrastructure.Database;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +33,21 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
                     Email = _.Email
                 },
                 cancelationToken);
+        }
+
+        public async Task<IdentityUserAuthorizeCache> GetIdentityUserAuthorizeAsync(Guid identityUserId, CancellationToken cancelationToken = default)
+        {
+            return await Context.Users
+                .AsNoTracking()
+                .Include(_ => _.UserPermissions)
+                .Where(_ => _.IdentityUserId == identityUserId)
+                .Select(_ => new IdentityUserAuthorizeCache
+                {
+                    Name = _.Name,
+                    Email = _.Email,
+                    PermissionIds = _.UserPermissions.Select(up => up.PermissionId)
+                })
+                .FirstOrDefaultAsync(cancelationToken);
         }
     }
 }

@@ -39,7 +39,9 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     RedirectUris =
                     {
                         new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
-                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html")
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
+                        new Uri("https://localhost:5001/api/v1/users/authorize"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/api/v1/users/authorize"),
                     },
                     Permissions =
                     {
@@ -80,7 +82,9 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     {
                         new Uri("myapp://"),
                         new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
-                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html")
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
+                        new Uri("https://localhost:5001/api/v1/users/authorize"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/api/v1/users/authorize"),
                     },
                     Permissions =
                     {

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using OpenIddict.Abstractions;
 using OpenIddict.Validation.AspNetCore;
 using SkateboardNeverDie.Services.Api.Settings;
 using System;
@@ -41,18 +40,18 @@ namespace SkateboardNeverDie.Services.Api
         {
             var singleSignOnSettigns = _configuration.GetSection(nameof(SingleSignOnSettings)).Get<SingleSignOnSettings>();
 
-            services.AddCors();
-            services.AddRouting(options =>
-            {
-                options.LowercaseUrls = true;
-            })
-            .AddControllers()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                options.SerializerSettings.Converters.Add(new StringEnumConverter());
-            });
+            services.AddCors()
+                .AddRouting(options =>
+                {
+                    options.LowercaseUrls = true;
+                })
+                .AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             if (_environment.IsDevelopment())
             {
@@ -60,22 +59,21 @@ namespace SkateboardNeverDie.Services.Api
             }
 
             services.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Optimal;
-            })
-            .AddResponseCompression(options =>
-            {
-                options.Providers.Add<GzipCompressionProvider>();
-                options.EnableForHttps = true;
-            });
-
-            services.AddSwaggerWithApiVersioning(_configuration);
+                {
+                    options.Level = CompressionLevel.Optimal;
+                })
+                .AddResponseCompression(options =>
+                {
+                    options.Providers.Add<GzipCompressionProvider>();
+                    options.EnableForHttps = true;
+                });
 
             services
+                .AddSwaggerWithApiVersioning(_configuration)
                 .AddApplication()
-                .AddInfrastructure(_configuration.GetConnectionString("DefaultConnection"));
-
-            services.AddSimpleHateoas();
+                .AddInfrastructure(_configuration.GetConnectionString("DefaultConnection"))
+                .AddSimpleHateoas()
+                .AddCustomAuthorization();
 
             services.AddProblemDetails(options =>
             {
@@ -94,26 +92,6 @@ namespace SkateboardNeverDie.Services.Api
                 options.MapToStatusCode<NotImplementedException>(StatusCodes.Status501NotImplemented);
                 options.MapToStatusCode<HttpRequestException>(StatusCodes.Status503ServiceUnavailable);
                 options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
-            });
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Read", policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        return context.User.HasScope("skateboard-api:read");
-                    });
-                });
-
-                options.AddPolicy("Skaters:Write", policy =>
-                {
-                    policy.RequireAssertion(context =>
-                    {
-                        // TODO: Check permissions in memory storage
-                        return context.User.HasClaim(OpenIddictConstants.Claims.Role, "admin") || context.User.HasScope("skateboard-api:read");
-                    });
-                });
             });
 
             services.AddAuthentication(options =>
