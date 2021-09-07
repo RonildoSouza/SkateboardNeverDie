@@ -34,7 +34,7 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     ClientSecret = "YVqJpVvDso4hoZAy3XUmww==",
                     DisplayName = "Skateboard API",
                     Type = OpenIddictConstants.ClientTypes.Confidential,
-                    ConsentType = OpenIddictConstants.ConsentTypes.Explicit,
+                    ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
                     //PostLogoutRedirectUris = { new Uri("myapp://") },
                     RedirectUris =
                     {
