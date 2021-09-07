@@ -10,7 +10,8 @@ namespace SkateboardNeverDie.Core.Security.Extensions
             if (!ClaimsPrincipal.HasClaim(_ => _.Type == claimType))
                 return null;
 
-            return Guid.Parse(ClaimsPrincipal.FindFirst(claimType).Value);
+            Guid.TryParse(ClaimsPrincipal.FindFirst(claimType).Value, out Guid identityUserId);
+            return identityUserId;
         }
 
         public static bool ValueIsEqualInClaimType(this ClaimsPrincipal ClaimsPrincipal, string value, string claimType)

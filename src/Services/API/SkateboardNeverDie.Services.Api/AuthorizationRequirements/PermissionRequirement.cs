@@ -27,8 +27,7 @@ namespace SkateboardNeverDie.Services.Api.AuthorizationRequirements
             protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
             {
                 // User is admin or grant type equal client credentials
-                if (context.User.HasClaim(OpenIddictConstants.Claims.Role, "admin")
-                    || (context.User.Identity.IsAuthenticated && context.User.ValueIsEqualInClaimType("skateboard-api", "sub")))
+                if (context.User.HasClaim(OpenIddictConstants.Claims.Role, "admin") || context.User.ValueIsEqualInClaimType("skateboard-api", "sub"))
                 {
                     context.Succeed(requirement);
                     return;

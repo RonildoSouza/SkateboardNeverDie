@@ -18,7 +18,10 @@ namespace SkateboardNeverDie.Services.Api.AuthorizationRequirements
             protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ScopeRequirement requirement)
             {
                 if (!context.User.HasScope(requirement.Scope))
+                {
                     context.Fail();
+                    return Task.CompletedTask;
+                }
 
                 context.Succeed(requirement);
 
