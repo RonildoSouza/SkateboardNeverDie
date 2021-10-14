@@ -1,7 +1,4 @@
-﻿using SkateboardNeverDie.ViewModels;
-using SkateboardNeverDie.Views;
-using System;
-using System.Collections.Generic;
+﻿using SkateboardNeverDie.Views;
 using Xamarin.Forms;
 
 namespace SkateboardNeverDie
@@ -11,8 +8,8 @@ namespace SkateboardNeverDie
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(NewSkaterPage), typeof(NewSkaterPage));
             //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
     }
 }

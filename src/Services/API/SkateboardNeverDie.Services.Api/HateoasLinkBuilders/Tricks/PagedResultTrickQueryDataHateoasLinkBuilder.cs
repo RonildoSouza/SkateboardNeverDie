@@ -10,9 +10,9 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Tricks
         public HateoasResult<PagedResult<TrickQueryData>> Build(HateoasResult<PagedResult<TrickQueryData>> hateoasResult)
         {
             return hateoasResult
-                .AddSelfLink(_ => new { page = _.CurrentPage, pageSize = _.PageSize }, TrickRouteNames.GetTricks)
-                .AddNextLink(_ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, TrickRouteNames.GetTricks, _ => _.CurrentPage < _.PageCount)
-                .AddPrevLink(_ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, TrickRouteNames.GetTricks, _ => _.CurrentPage > 1)
+                .AddSelfLink(TrickRouteNames.GetTricks, _ => new { page = _.CurrentPage, pageSize = _.PageSize })
+                .AddNextLink(TrickRouteNames.GetTricks, _ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, _ => _.CurrentPage < _.PageCount)
+                .AddPrevLink(TrickRouteNames.GetTricks, _ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, _ => _.CurrentPage > 1)
                 .AddLink(TrickRouteNames.CreateTrick, HttpMethod.Post);
         }
     }

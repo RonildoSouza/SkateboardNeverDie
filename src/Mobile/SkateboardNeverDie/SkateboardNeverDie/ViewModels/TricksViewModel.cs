@@ -1,4 +1,5 @@
 ﻿using SkateboardNeverDie.Models;
+using SkateboardNeverDie.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,10 +10,8 @@ namespace SkateboardNeverDie.ViewModels
 {
     public class TricksViewModel : BaseViewModel
     {
+        private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
         //private Skater _selectedSkater;
-
-        public ObservableCollection<Trick> Tricks { get; }
-        public Command LoadTricksCommand { get; }
 
         public TricksViewModel()
         {
@@ -21,16 +20,24 @@ namespace SkateboardNeverDie.ViewModels
             LoadTricksCommand = new Command(async () => await ExecuteLoadTricksCommand());
         }
 
-        async Task ExecuteLoadTricksCommand()
+        public ObservableCollection<Trick> Tricks { get; }
+        public Command LoadTricksCommand { get; }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
+        }
+
+        private async Task ExecuteLoadTricksCommand()
         {
             IsBusy = true;
 
             try
             {
                 Tricks.Clear();
-                var tricks = await SkateboardNeverDieApi.GetTricksAsync();
+                var tricksHateoasResult = await _skateboardNeverDieApi.GetTricksAsync();
 
-                foreach (var trick in tricks.Data.Results)
+                foreach (var trick in tricksHateoasResult.Data.Results)
                     Tricks.Add(trick);
             }
             catch (Exception ex)
@@ -41,11 +48,6 @@ namespace SkateboardNeverDie.ViewModels
             {
                 IsBusy = false;
             }
-        }
-
-        public void OnAppearing()
-        {
-            IsBusy = true;
         }
     }
 }

@@ -10,7 +10,6 @@ namespace SkateboardNeverDie.Views
         public SkatersPage()
         {
             InitializeComponent();
-
             BindingContext = _viewModel = new SkatersViewModel();
         }
 

@@ -5,11 +5,12 @@
              Title="{Binding Title}"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkatersViewModel"
+             xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
              x:Name="BrowseItemsPage">
 
-    <!--<ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
-    </ContentPage.ToolbarItems>-->
+    <ContentPage.ToolbarItems>
+        <ce:BindableToolbarItem Text="Add" Command="{Binding AddSkaterCommand}" IsVisible="{Binding CanAddSkater}" />
+    </ContentPage.ToolbarItems>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings

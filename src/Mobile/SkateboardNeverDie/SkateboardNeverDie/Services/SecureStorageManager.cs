@@ -22,5 +22,7 @@ namespace SkateboardNeverDie.Services
 
             return JsonConvert.DeserializeObject<T>(value);
         }
+
+        public bool Remove(string key) => SecureStorage.Remove(key);
     }
 }

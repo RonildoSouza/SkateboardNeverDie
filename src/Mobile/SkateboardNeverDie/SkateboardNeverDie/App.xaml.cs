@@ -2,7 +2,6 @@
 using SkateboardNeverDie.Services;
 using System;
 using System.Net.Http;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace SkateboardNeverDie
@@ -26,7 +25,7 @@ namespace SkateboardNeverDie
 
         protected override void OnResume() { }
 
-        void RegisterSkateboardNeverDieApi()
+        private void RegisterSkateboardNeverDieApi()
         {
             var httpClient = new HttpClient(new AuthorizationHeaderHandler())
             {

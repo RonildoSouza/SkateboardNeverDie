@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SkateboardNeverDie.Models
 {
@@ -12,6 +13,13 @@ namespace SkateboardNeverDie.Models
             public string Href { get; set; }
             public string Rel { get; set; }
             public string Method { get; set; }
+        }
+
+        public bool HasLink(string rel)
+        {
+            return !string.IsNullOrEmpty(rel)
+                && Links.Any()
+                && Links.Any(_ => _.Rel.ToLower() == rel.ToLower());
         }
     }
 }

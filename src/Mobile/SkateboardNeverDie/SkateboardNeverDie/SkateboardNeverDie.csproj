@@ -9,30 +9,30 @@
     <Compile Remove="ViewModels\AboutViewModel.cs" />
     <Compile Remove="ViewModels\ItemDetailViewModel.cs" />
     <Compile Remove="ViewModels\ItemsViewModel.cs" />
-    <Compile Remove="ViewModels\NewItemViewModel.cs" />
     <Compile Remove="Views\AboutPage.xaml.cs" />
     <Compile Remove="Views\ItemDetailPage.xaml.cs" />
     <Compile Remove="Views\ItemsPage.xaml.cs" />
-    <Compile Remove="Views\NewItemPage.xaml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Remove="Views\AboutPage.xaml" />
     <EmbeddedResource Remove="Views\ItemDetailPage.xaml" />
     <EmbeddedResource Remove="Views\ItemsPage.xaml" />
-    <EmbeddedResource Remove="Views\NewItemPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="IdentityModel.OidcClient" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="OpenIddict.Abstractions" Version="3.1.0" />
+    <PackageReference Include="OpenIddict.Abstractions" Version="3.1.1" />
     <PackageReference Include="Refit" Version="6.0.94" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />  
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\NewSkaterPage.xaml.cs">
+      <DependentUpon>NewSkaterPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\SkatersPage.xaml.cs">
       <DependentUpon>SkatersPage.xaml</DependentUpon>
     </Compile>

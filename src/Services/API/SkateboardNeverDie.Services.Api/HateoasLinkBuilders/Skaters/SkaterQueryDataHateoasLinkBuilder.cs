@@ -22,8 +22,8 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
             var authorizationResult = _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, hateoasResult, "Skaters:Remove").Result;
 
             return hateoasResult
-                .AddSelfLink(_ => new { id = _.Id }, SkaterRouteNames.GetSkater)
-                .AddLink(_ => new { id = _.Id }, SkaterRouteNames.DeleteSkater, HttpMethod.Delete, _ => authorizationResult.Succeeded);
+                .AddSelfLink(SkaterRouteNames.GetSkater, _ => new { id = _.Id })
+                .AddLink(SkaterRouteNames.DeleteSkater, HttpMethod.Delete, _ => new { id = _.Id }, _ => authorizationResult.Succeeded);
         }
     }
 }

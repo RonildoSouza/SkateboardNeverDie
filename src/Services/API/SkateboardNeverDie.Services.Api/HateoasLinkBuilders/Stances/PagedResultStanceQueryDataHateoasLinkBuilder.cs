@@ -10,9 +10,9 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Stances
         public HateoasResult<PagedResult<StanceQueryData>> Build(HateoasResult<PagedResult<StanceQueryData>> hateoasResult)
         {
             return hateoasResult
-                .AddSelfLink(_ => new { page = _.CurrentPage, pageSize = _.PageSize }, StanceRouteNames.GetStances)
-                .AddNextLink(_ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, StanceRouteNames.GetStances, _ => _.CurrentPage < _.PageCount)
-                .AddPrevLink(_ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, StanceRouteNames.GetStances, _ => _.CurrentPage > 1);
+                .AddSelfLink(StanceRouteNames.GetStances, _ => new { page = _.CurrentPage, pageSize = _.PageSize })
+                .AddNextLink(StanceRouteNames.GetStances, _ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, _ => _.CurrentPage < _.PageCount)
+                .AddPrevLink(StanceRouteNames.GetStances, _ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, _ => _.CurrentPage > 1);
         }
     }
 }

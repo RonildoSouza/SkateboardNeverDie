@@ -6,5 +6,6 @@ namespace SkateboardNeverDie.Services
     {
         Task SetAsync(string key, object obj);
         Task<T> GetAsync<T>(string key);
+        bool Remove(string key);
     }
 }

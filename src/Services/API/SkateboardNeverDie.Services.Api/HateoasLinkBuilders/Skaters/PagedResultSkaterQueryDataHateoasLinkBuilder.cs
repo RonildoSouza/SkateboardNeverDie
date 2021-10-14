@@ -23,9 +23,9 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
             var authorizationResult = _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, hateoasResult, "Skaters:Add").Result;
 
             return hateoasResult
-                .AddSelfLink(_ => new { page = _.CurrentPage, pageSize = _.PageSize }, SkaterRouteNames.GetSkaters)
-                .AddNextLink(_ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, SkaterRouteNames.GetSkaters, _ => _.CurrentPage < _.PageCount)
-                .AddPrevLink(_ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, SkaterRouteNames.GetSkaters, _ => _.CurrentPage > 1)
+                .AddSelfLink(SkaterRouteNames.GetSkaters, _ => new { page = _.CurrentPage, pageSize = _.PageSize })
+                .AddNextLink(SkaterRouteNames.GetSkaters, _ => new { page = _.CurrentPage + 1, pageSize = _.PageSize }, _ => _.CurrentPage < _.PageCount)
+                .AddPrevLink(SkaterRouteNames.GetSkaters, _ => new { page = _.CurrentPage - 1, pageSize = _.PageSize }, _ => _.CurrentPage > 1)
                 .AddLink(SkaterRouteNames.CreateSkater, HttpMethod.Post, _ => authorizationResult.Succeeded);
         }
     }

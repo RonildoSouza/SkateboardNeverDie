@@ -1,28 +1,25 @@
-﻿using SkateboardNeverDie.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
 
 namespace SkateboardNeverDie.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        protected ISkateboardNeverDieApi SkateboardNeverDieApi => DependencyService.Get<ISkateboardNeverDieApi>();
+        private bool _isBusy = false;
+        private string _title = string.Empty;
 
-        bool _isBusy = false;
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
 
-        string _title = string.Empty;
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,

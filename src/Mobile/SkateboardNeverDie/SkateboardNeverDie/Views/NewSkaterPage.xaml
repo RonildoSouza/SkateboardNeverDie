@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.NewSkaterPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="{Binding Title}"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
+             ios:Page.UseSafeArea="true">
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15" 
+                     RadioButtonGroup.GroupName="naturalStances"
+                     RadioButtonGroup.SelectedValue="{Binding NaturalStance}">
+            <Label Text="{Binding Title}" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
+            
+            <Label Text="First Name" FontSize="Medium" />
+            <Entry Text="{Binding FirstName, Mode=TwoWay}" FontSize="Medium" />
+
+            <Label Text="Last Name" FontSize="Medium" />
+            <Entry Text="{Binding LastName, Mode=TwoWay}" FontSize="Medium" />
+
+            <Label Text="Nick Name" FontSize="Medium" />
+            <Entry Text="{Binding NickName, Mode=TwoWay}" FontSize="Medium" />
+
+            <Label Text="Birthdate" FontSize="Medium" />
+            <DatePicker Date="{Binding Birthdate}" />
+
+            <Label Text="What's the Natural Stance?" FontSize="Medium" />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <RadioButton GroupName="naturalStances" Value="Goofy" Content="Goofy"/>
+                <RadioButton GroupName="naturalStances" Value="Regular" Content="Regular"/>
+            </StackLayout>
+
+            <Button Text="Add Skater Tricks" Command="{Binding AddSkaterTricksCommand}" HorizontalOptions="FillAndExpand" CornerRadius="25" />
+            
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

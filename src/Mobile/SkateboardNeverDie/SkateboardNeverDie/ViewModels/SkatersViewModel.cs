@@ -1,4 +1,6 @@
 ﻿using SkateboardNeverDie.Models;
+using SkateboardNeverDie.Services;
+using SkateboardNeverDie.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -9,33 +11,59 @@ namespace SkateboardNeverDie.ViewModels
 {
     public class SkatersViewModel : BaseViewModel
     {
+        private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
         //private Skater _selectedSkater;
-
-        public ObservableCollection<Skater> Skaters { get; }
-        public Command LoadSkatersCommand { get; }
-        //public Command AddItemCommand { get; }
-        //public Command<Skater> SkaterTapped { get; }
+        private bool _canAddSkater;
 
         public SkatersViewModel()
         {
             Title = "Skaters";
             Skaters = new ObservableCollection<Skater>();
             LoadSkatersCommand = new Command(async () => await ExecuteLoadSkatersCommand());
+            AddSkaterCommand = new Command(OnAddSkater);
 
             //SkaterTapped = new Command<Skater>(OnSkaterSelected);
-            //AddItemCommand = new Command(OnAddItem);
         }
 
-        async Task ExecuteLoadSkatersCommand()
+        public ObservableCollection<Skater> Skaters { get; }
+        public Command LoadSkatersCommand { get; }
+        public Command AddSkaterCommand { get; }
+        //public Command<Skater> SkaterTapped { get; }
+        public bool CanAddSkater
+        {
+            get => _canAddSkater;
+            set => SetProperty(ref _canAddSkater, value);
+        }
+
+
+        //public Skater SelectedSkater
+        //{
+        //    get => _selectedSkater;
+        //    set
+        //    {
+        //        SetProperty(ref _selectedSkater, value);
+        //        OnSkaterSelected(value);
+        //    }
+        //}
+
+        public void OnAppearing()
+        {
+            IsBusy = true;
+            //SelectedSkater = null;
+        }
+
+        private async Task ExecuteLoadSkatersCommand()
         {
             IsBusy = true;
 
             try
             {
                 Skaters.Clear();
-                var skaters = await SkateboardNeverDieApi.GetSkatersAsync();
+                var skatersHateoasResult = await _skateboardNeverDieApi.GetSkatersAsync();
 
-                foreach (var skater in skaters.Data.Results)
+                CanAddSkater = skatersHateoasResult.HasLink(Skater.Rels.Create);
+
+                foreach (var skater in skatersHateoasResult.Data.Results)
                     Skaters.Add(skater);
             }
             catch (Exception ex)
@@ -48,26 +76,10 @@ namespace SkateboardNeverDie.ViewModels
             }
         }
 
-        public void OnAppearing()
+        private async void OnAddSkater(object obj)
         {
-            IsBusy = true;
-            //SelectedSkater = null;
+            await Shell.Current.GoToAsync(nameof(NewSkaterPage));
         }
-
-        //public Skater SelectedSkater
-        //{
-        //    get => _selectedSkater;
-        //    set
-        //    {
-        //        SetProperty(ref _selectedSkater, value);
-        //        OnSkaterSelected(value);
-        //    }
-        //}
-
-        //private async void OnAddItem(object obj)
-        //{
-        //    await Shell.Current.GoToAsync(nameof(NewItemPage));
-        //}
 
         //async void OnSkaterSelected(Skater skater)
         //{
