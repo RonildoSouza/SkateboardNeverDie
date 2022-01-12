@@ -8,11 +8,16 @@
              x:Class="SkateboardNeverDie.Views.LoginPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
-        <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-            <Label Text="{Binding AccessToken}"/>
+        <ScrollView>
+            <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+                <Label Text="{Binding IsRefreshed, StringFormat='Token Refreshed: {0}'}"/>
+                <Label Text="{Binding AccessToken}"/>
 
-            <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-            <Button VerticalOptions="Center" Text="Logout" Command="{Binding LogoutCommand}"/>
-        </StackLayout>
+                <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+                <Button VerticalOptions="Center" Text="Logout" Command="{Binding LogoutCommand}"/>
+                <Button VerticalOptions="Center" Text="Refresh Token" Command="{Binding RefreshTokenCommand}"/>
+                <Button VerticalOptions="Center" Text="Clean Token" Command="{Binding CleanTokenCommand}"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

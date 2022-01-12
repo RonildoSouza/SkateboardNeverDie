@@ -30,19 +30,22 @@ namespace SkateboardNeverDie.Services
             var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
 
             if (tokenResponse != null && tokenResponse.IsExpired && tokenResponse.IssuedAt.AddDays(1).Date == DateTimeOffset.UtcNow.Date)
+            {
                 SecureStorageManager.Remove(GlobalSetting.TokenResponseKey);
+                tokenResponse = null;
+            }
+
+            // Execute refresh token
+            if (tokenResponse != null && tokenResponse.IsExpired && tokenResponse.IssuedAt.Date == DateTimeOffset.UtcNow.Date)
+            {
+                tokenResponse = await SingleSignOnService.RefreshTokenFlowAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+            }
 
             // Get client credentials token
             if (string.IsNullOrEmpty(tokenResponse?.AccessToken) || tokenResponse.IssuedAt.AddDays(1).Date == DateTimeOffset.UtcNow.Date)
             {
                 tokenResponse = await SingleSignOnService.ClientCredentialsFlowAsync().ConfigureAwait(false);
-                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
-            }
-
-            // Execute refresh token
-            if (tokenResponse.IsExpired)
-            {
-                tokenResponse = await SingleSignOnService.RefreshTokenFlowAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
                 await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
             }
 

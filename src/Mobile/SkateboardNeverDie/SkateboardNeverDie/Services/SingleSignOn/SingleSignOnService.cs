@@ -71,11 +71,11 @@ namespace SkateboardNeverDie.Services
                 ["refresh_token"] = refreshToken
             });
 
-            var response = await _httpClient.PostAsync(GlobalSetting.SsoUrl, content);
+            var response = await _httpClient.PostAsync($"{GlobalSetting.SsoUrl}/connect/token", content);
             var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
 
             return !string.IsNullOrEmpty(payload.Error)
-                ? throw new InvalidOperationException("An error occurred while retrieving an refresh token.")
+                ? null
                 : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
         }
 
