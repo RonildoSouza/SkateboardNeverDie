@@ -15,7 +15,11 @@ namespace Microsoft.AspNetCore.Builder
 
                 options.OAuthUsePkce();
                 options.OAuthAppName("SkateboardNeverDie Single Sign-On");
+
+                // ↓ USE THIS ONLY IN A DEVELOPMENT ENVIRONMENT ↓
                 options.OAuthClientId("skateboard-api");
+                options.OAuthClientSecret("YVqJpVvDso4hoZAy3XUmww==");
+                // ↑ USE THIS ONLY IN A DEVELOPMENT ENVIRONMENT ↑
 
                 options.DocExpansion(DocExpansion.None);
             });

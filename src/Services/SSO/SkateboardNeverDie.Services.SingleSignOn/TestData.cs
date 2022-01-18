@@ -35,18 +35,16 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     DisplayName = "Skateboard API",
                     Type = OpenIddictConstants.ClientTypes.Confidential,
                     ConsentType = OpenIddictConstants.ConsentTypes.Implicit,
-                    //PostLogoutRedirectUris = { new Uri("myapp://") },
                     RedirectUris =
                     {
                         new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
-                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
                         new Uri("https://localhost:5001/api/v1/users/authorize"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
                         new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/api/v1/users/authorize"),
                     },
                     Permissions =
                     {
                         OpenIddictConstants.Permissions.Endpoints.Authorization,
-                        //OpenIddictConstants.Permissions.Endpoints.Logout,
                         OpenIddictConstants.Permissions.Endpoints.Token,
 
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
@@ -82,8 +80,8 @@ namespace SkateboardNeverDie.Services.SingleSignOn
                     {
                         new Uri("myapp://"),
                         new Uri("https://localhost:5001/swagger/oauth2-redirect.html"),
-                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
                         new Uri("https://localhost:5001/api/v1/users/authorize"),
+                        new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/swagger/oauth2-redirect.html"),
                         new Uri("https://skateboardneverdieservicesapi.azurewebsites.net/api/v1/users/authorize"),
                     },
                     Permissions =
