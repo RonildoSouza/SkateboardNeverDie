@@ -1,8 +1,10 @@
-﻿namespace SkateboardNeverDie.Application.Tricks.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SkateboardNeverDie.Application.Tricks.Dtos
 {
     public class CreateTrickDto
     {
-        public string Name { get; set; }
+        [Required] public string Name { get; set; }
         public string Description { get; set; }
     }
 }

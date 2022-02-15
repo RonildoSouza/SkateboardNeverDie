@@ -1,22 +1,23 @@
 ﻿using SkateboardNeverDie.Domain.Stances;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkateboardNeverDie.Application.Skaters.Dtos
 {
     public class CreateSkaterDto
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        [Required] public string FirstName { get; set; }
+        [Required] public string LastName { get; set; }
         public string Nickname { get; set; }
-        public DateTime Birthdate { get; set; }
-        public StanceType NaturalStance { get; set; }
-        public IEnumerable<SkaterTrickDto> SkaterTricks { get; set; }
+        [Required] public DateTime Birthdate { get; set; }
+        [Required] public StanceType NaturalStance { get; set; }
+        [Required, MinLength(1)] public IEnumerable<SkaterTrickDto> SkaterTricks { get; set; }
 
         public class SkaterTrickDto
         {
-            public Guid TrickId { get; set; }
-            public IEnumerable<StanceType> Variations { get; set; }
+            [Required] public Guid TrickId { get; set; }
+            [Required, MinLength(1)] public IEnumerable<StanceType> Variations { get; set; }
         }
     }
 }
