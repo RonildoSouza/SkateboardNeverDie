@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Inf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Infrastructure.Caching", "src\Nuget\SkateboardNeverDie.Core.Infrastructure.Caching\SkateboardNeverDie.Core.Infrastructure.Caching.csproj", "{649520BA-84D0-4BF5-8F29-865301FB22D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkateboardNeverDie.Core.Security.Extensions", "src\Nuget\SkateboardNeverDie.Core.Security.Extensions\SkateboardNeverDie.Core.Security.Extensions.csproj", "{79CD6483-C428-46DF-B682-BC6418836581}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Security.Extensions", "src\Nuget\SkateboardNeverDie.Core.Security.Extensions\SkateboardNeverDie.Core.Security.Extensions.csproj", "{79CD6483-C428-46DF-B682-BC6418836581}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{DD48B47C-D5C8-4289-96EB-F33394E9FD96}"
 EndProject

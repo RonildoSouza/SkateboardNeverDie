@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkatersViewModel"
              xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
-             x:Name="BrowseItemsPage">
+             x:Name="SkatersPG">
 
     <ContentPage.ToolbarItems>
         <ce:BindableToolbarItem Text="Add" Command="{Binding AddSkaterCommand}" IsVisible="{Binding CanAddSkater}" />

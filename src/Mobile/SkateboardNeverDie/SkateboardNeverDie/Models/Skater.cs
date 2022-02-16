@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SkateboardNeverDie.Models
 {
@@ -16,12 +15,6 @@ namespace SkateboardNeverDie.Models
         {
             public const string Create = "create-skater";
             public const string Delete = "delete-skater";
-        }
-
-        public sealed class SkaterTrick
-        {
-            public Guid TrickId { get; set; }
-            public IEnumerable<StanceType> Variations { get; set; }
         }
     }
 }

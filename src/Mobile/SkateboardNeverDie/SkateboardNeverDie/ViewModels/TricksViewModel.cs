@@ -11,7 +11,6 @@ namespace SkateboardNeverDie.ViewModels
     public class TricksViewModel : BaseViewModel
     {
         private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
-        //private Skater _selectedSkater;
 
         public TricksViewModel()
         {

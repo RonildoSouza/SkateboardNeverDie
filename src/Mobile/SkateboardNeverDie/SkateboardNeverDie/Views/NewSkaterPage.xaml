@@ -7,11 +7,9 @@
              xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core" 
              ios:Page.UseSafeArea="true">
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15" 
-                     RadioButtonGroup.GroupName="naturalStances"
-                     RadioButtonGroup.SelectedValue="{Binding NaturalStance}">
+        <StackLayout Spacing="3" Padding="15">
             <Label Text="{Binding Title}" FontSize="Large" HorizontalOptions="CenterAndExpand"/>
-            
+
             <Label Text="First Name" FontSize="Medium" />
             <Entry Text="{Binding FirstName, Mode=TwoWay}" FontSize="Medium" />
 
@@ -30,13 +28,12 @@
                 <RadioButton GroupName="naturalStances" Value="Regular" Content="Regular"/>
             </StackLayout>
 
-            <Button Text="Add Skater Tricks" Command="{Binding AddSkaterTricksCommand}" HorizontalOptions="FillAndExpand" CornerRadius="25" />
-            
-            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" 
+                     RadioButtonGroup.GroupName="naturalStances"
+                     RadioButtonGroup.SelectedValue="{Binding NaturalStance}">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Button Text="Add Skater Tricks" Command="{Binding AddSkaterTricksCommand}" HorizontalOptions="FillAndExpand" CornerRadius="25" />
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
-    
 </ContentPage>

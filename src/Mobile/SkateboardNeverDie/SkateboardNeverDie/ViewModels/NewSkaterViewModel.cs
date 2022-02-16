@@ -1,4 +1,6 @@
-﻿using SkateboardNeverDie.Models;
+﻿using Newtonsoft.Json;
+using SkateboardNeverDie.Models;
+using SkateboardNeverDie.Views;
 using System;
 using Xamarin.Forms;
 
@@ -10,15 +12,15 @@ namespace SkateboardNeverDie.ViewModels
         private string _lastName;
         private string _nickName;
         private DateTime _birthdate = new DateTime(1990, 09, 17);
-        private StanceType _naturalStance = StanceType.Goofy;
+        private string _naturalStance = "Goofy";
 
         public NewSkaterViewModel()
         {
             Title = "Add New Skater";
-            SaveCommand = new Command(OnSave, CanExecuteSave);
+
             CancelCommand = new Command(OnCancel);
-            AddSkaterTricksCommand = new Command(OnAddSkaterTricks);
-            PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
+            AddSkaterTricksCommand = new Command(OnAddSkaterTricks, CanExecuteAddSkaterTricks);
+            PropertyChanged += (_, __) => AddSkaterTricksCommand.ChangeCanExecute();
         }
 
         public string FirstName
@@ -26,72 +28,49 @@ namespace SkateboardNeverDie.ViewModels
             get => _firstName;
             set => SetProperty(ref _firstName, value);
         }
-
         public string LastName
         {
             get => _lastName;
             set => SetProperty(ref _lastName, value);
         }
-
         public string NickName
         {
             get => _nickName;
             set => SetProperty(ref _nickName, value);
         }
-
         public DateTime Birthdate
         {
             get => _birthdate;
             set => SetProperty(ref _birthdate, value);
         }
-
-        public StanceType NaturalStance
+        public string NaturalStance
         {
             get => _naturalStance;
             set => SetProperty(ref _naturalStance, value);
         }
-
-        public Command SaveCommand { get; }
-
         public Command AddSkaterTricksCommand { get; }
-
         public Command CancelCommand { get; }
 
-        private async void OnCancel()
-        {
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
-        }
-
-        private async void OnSave()
-        {
-            //var skater = new Skater()
-            //{
-            //    FirstName = FirstName,
-            //    LastName = LastName,
-            //    Nickname = NickName,
-            //    Birthdate = Birthdate,
-            //    NaturalStance = NaturalStance
-            //};
-
-            //await DataStore.AddItemAsync(newItem);
-
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
-        }
+        private async void OnCancel() => await Shell.Current.GoToAsync("..");
 
         private async void OnAddSkaterTricks()
         {
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
+            Enum.TryParse(NaturalStance, true, out StanceType naturalStance);
+
+            var skater = new CreateSkater(
+                FirstName,
+                LastName,
+                NickName,
+                Birthdate,
+                naturalStance);
+
+            await Shell.Current.GoToAsync($"{nameof(SkaterTricksPage)}?SkaterJSON={JsonConvert.SerializeObject(skater)}");
         }
 
-        private bool CanExecuteSave()
+        private bool CanExecuteAddSkaterTricks()
         {
             return !string.IsNullOrWhiteSpace(_firstName)
-                && !string.IsNullOrWhiteSpace(_lastName)
-                //&& _skaterTricks.Any()
-                ;
+                && !string.IsNullOrWhiteSpace(_lastName);
         }
     }
 }

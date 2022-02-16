@@ -10,10 +10,16 @@ namespace SkateboardNeverDie.Services
         [Get("/api/v1/skaters")]
         Task<HateoasResult<PagedResult<Skater>>> GetSkatersAsync([Query] int page = 1, [Query] int pageSize = 10);
 
+        [Post("/api/v1/skaters")]
+        Task<HateoasResult<Skater>> PostSkatersAsync([Body] CreateSkater createSkater);
+
         [Get("/api/v1/skaters/{id}")]
         Task<HateoasResult<Skater>> GetSkaterByIdAsync(Guid id);
 
         [Get("/api/v1/tricks")]
         Task<HateoasResult<PagedResult<Trick>>> GetTricksAsync([Query] int page = 1, [Query] int pageSize = 10);
+
+        [Get("/api/v1/stances")]
+        Task<HateoasResult<PagedResult<Stance>>> GetStancesAsync([Query] int page = 1, [Query] int pageSize = 10);
     }
 }

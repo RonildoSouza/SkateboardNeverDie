@@ -36,6 +36,9 @@
     <Compile Update="Views\SkatersPage.xaml.cs">
       <DependentUpon>SkatersPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\SkaterTricksPage.xaml.cs">
+      <DependentUpon>SkaterTricksPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
