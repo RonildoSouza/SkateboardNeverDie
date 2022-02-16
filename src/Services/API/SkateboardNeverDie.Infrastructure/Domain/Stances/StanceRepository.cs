@@ -22,7 +22,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Stances
                 _ => new StanceQueryData
                 {
                     Id = _.Id,
-                    Name = _.Id.ToString(),
+                    Description = _.Description,
                 },
                 cancelationToken);
         }
