@@ -36,6 +36,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                     Birthdate = _.Birthdate,
                     NaturalStance = _.NaturalStanceId
                 },
+                _ => _.FirstName,
                 cancelationToken);
         }
 

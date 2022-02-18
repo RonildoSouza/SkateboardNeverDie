@@ -33,6 +33,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Tricks
                     Name = _.Name,
                     Description = _.Description
                 },
+                _ => _.Name,
                 cancelationToken);
         }
 

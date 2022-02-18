@@ -24,6 +24,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Stances
                     Id = _.Id,
                     Description = _.Description,
                 },
+                _ => _.Id,
                 cancelationToken);
         }
     }

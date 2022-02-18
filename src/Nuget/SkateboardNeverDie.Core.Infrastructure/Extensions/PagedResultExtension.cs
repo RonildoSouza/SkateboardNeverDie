@@ -11,7 +11,7 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
 {
     public static class PagedResultExtension
     {
-        public static async Task<PagedResult<TResult>> GetPagedResultAsync<TEntity, TResult>([NotNull] this IQueryable<TEntity> query, int page, int pageSize, Expression<Func<TEntity, TResult>> selector, CancellationToken cancelationToken)
+        public static async Task<PagedResult<TResult>> GetPagedResultAsync<TEntity, TResult>([NotNull] this IQueryable<TEntity> query, int page, int pageSize, Expression<Func<TEntity, TResult>> selector, Expression<Func<TResult, object>> orderBy, CancellationToken cancelationToken)
             where TEntity : class, IEntity
             where TResult : IQueryData
         {
@@ -28,8 +28,11 @@ namespace SkateboardNeverDie.Core.Infrastructure.Extensions
 
             var skip = (page - 1) * pageSize;
 
+
+
             result.Results = await query.AsNoTrackingWithIdentityResolution()
                                         .Select(selector)
+                                        .OrderBy(orderBy)
                                         .Skip(skip)
                                         .Take(pageSize)
                                         .ToListAsync(cancelationToken);

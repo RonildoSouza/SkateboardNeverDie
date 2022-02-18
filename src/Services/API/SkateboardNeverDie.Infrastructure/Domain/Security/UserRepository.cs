@@ -32,6 +32,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
                     Name = _.Name,
                     Email = _.Email
                 },
+                _ => _.Name,
                 cancelationToken);
         }
 

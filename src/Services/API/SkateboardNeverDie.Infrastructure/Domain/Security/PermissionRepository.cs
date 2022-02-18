@@ -29,6 +29,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
                     Name = _.Name,
                     Description = _.Description,
                 },
+                _ => _.Name,
                 cancelationToken);
         }
 
@@ -50,6 +51,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
                         Email = _.User.Email
                     }
                 },
+                _ => _.User.Name,
                 cancelationToken);
         }
 
