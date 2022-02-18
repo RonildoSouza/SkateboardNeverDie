@@ -23,6 +23,7 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
 
             return hateoasResult
                 .AddSelfLink(SkaterRouteNames.GetSkater, _ => new { id = _.Id })
+                .AddLink(SkaterRouteNames.GetSkaterTricks, HttpMethod.Get, _ => new { id = _.Id })
                 .AddLink(SkaterRouteNames.DeleteSkater, HttpMethod.Delete, _ => new { id = _.Id }, _ => authorizationResult.Succeeded);
         }
     }

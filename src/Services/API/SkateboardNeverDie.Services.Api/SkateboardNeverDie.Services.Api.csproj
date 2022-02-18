@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.3.0" />
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.11" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.11" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.11" />
@@ -30,7 +30,7 @@
     <PackageReference Include="OpenIddict.Abstractions" Version="3.1.1" />
     <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
     <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />
-    <PackageReference Include="Simple.Hateoas" Version="1.0.1-beta.1" />
+    <PackageReference Include="Simple.Hateoas" Version="1.0.1-beta.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />

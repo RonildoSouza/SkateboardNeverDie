@@ -55,5 +55,35 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                 })
                 .FirstOrDefaultAsync(cancelationToken);
         }
+
+        public async Task<PagedResult<SkaterTrickQueryData>> GetSkaterTricksAsync(Guid skaterId, int page, int pageSize, CancellationToken cancelationToken)
+        {
+            var query = Context.Skaters
+                .Include(_ => _.SkaterTricks)
+                .ThenInclude(_ => _.Trick)
+                .Include(_ => _.SkaterTricks)
+                .ThenInclude(_ => _.SkaterTrickVariations)
+                .Where(_ => _.Id == skaterId)
+                .SelectMany(s => s.SkaterTricks
+                    .Select(st => new SkaterTrickQueryData
+                    {
+                        Id = st.Id,
+                        TrickName = st.Trick.Name,
+                        TrickVariations = st.SkaterTrickVariations.Select(stv => stv.StanceId)
+                    }));
+
+            //return await query.GetPagedResultAsync(
+            //    page,
+            //    pageSize,
+            //    _ => _,
+            //    _ => _.TrickName,
+            //    cancelationToken);
+
+            return await query.ToList().GetPagedResultAsync(
+                page,
+                pageSize,
+                _ => _,
+                _ => _.TrickName);
+        }
     }
 }

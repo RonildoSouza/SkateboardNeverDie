@@ -64,5 +64,15 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         {
             throw new NotImplementedException();
         }
+
+        [Authorize("Read")]
+        [HttpGet("{id}/tricks", Name = SkaterRouteNames.GetSkaterTricks)]
+        [ProducesResponseType(typeof(HateoasResult<SkaterTrickQueryData>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetSkaterTricks(Guid id, int page = 1, int pageSize = 10, CancellationToken cancelationToken = default)
+        {
+            var skaterTricks = await _skaterAppService.GetSkaterTricksAsync(id, page, pageSize, cancelationToken);
+            return Ok(_hateoas.Create(skaterTricks));
+        }
     }
 }

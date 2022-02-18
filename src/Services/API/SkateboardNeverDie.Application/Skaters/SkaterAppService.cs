@@ -50,5 +50,10 @@ namespace SkateboardNeverDie.Application.Skaters
 
             return null;
         }
+
+        public async Task<PagedResult<SkaterTrickQueryData>> GetSkaterTricksAsync(Guid skaterId, int page, int pageSize, CancellationToken cancelationToken)
+        {
+            return await _skaterRepository.GetSkaterTricksAsync(skaterId, page, pageSize, cancelationToken);
+        }
     }
 }
