@@ -101,6 +101,8 @@ namespace SkateboardNeverDie.ViewModels
                 CreateSkater.SkaterTricks.RemoveAll(_ => _.TrickId == skaterTrick.TrickId);
             else
                 CreateSkater.SkaterTricks.Add(skaterTrick);
+
+            OnPropertyChanged(nameof(CreateSkater));
         }
     }
 }
