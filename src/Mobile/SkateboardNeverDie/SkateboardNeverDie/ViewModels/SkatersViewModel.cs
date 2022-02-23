@@ -12,7 +12,7 @@ namespace SkateboardNeverDie.ViewModels
     public class SkatersViewModel : BaseViewModel
     {
         private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
-        //private Skater _selectedSkater;
+        private Skater _selectedSkater;
         private bool _canAddSkater;
 
         public SkatersViewModel()
@@ -21,35 +21,32 @@ namespace SkateboardNeverDie.ViewModels
             Skaters = new ObservableCollection<Skater>();
             LoadSkatersCommand = new Command(async () => await ExecuteLoadSkatersCommand());
             AddSkaterCommand = new Command(OnAddSkater);
-
-            //SkaterTapped = new Command<Skater>(OnSkaterSelected);
+            SkaterTapped = new Command<Skater>(OnSkaterSelected);
         }
 
         public ObservableCollection<Skater> Skaters { get; }
         public Command LoadSkatersCommand { get; }
         public Command AddSkaterCommand { get; }
-        //public Command<Skater> SkaterTapped { get; }
+        public Command<Skater> SkaterTapped { get; }
         public bool CanAddSkater
         {
             get => _canAddSkater;
             set => SetProperty(ref _canAddSkater, value);
         }
-
-
-        //public Skater SelectedSkater
-        //{
-        //    get => _selectedSkater;
-        //    set
-        //    {
-        //        SetProperty(ref _selectedSkater, value);
-        //        OnSkaterSelected(value);
-        //    }
-        //}
+        public Skater SelectedSkater
+        {
+            get => _selectedSkater;
+            set
+            {
+                SetProperty(ref _selectedSkater, value);
+                OnSkaterSelected(value);
+            }
+        }
 
         public void OnAppearing()
         {
             IsBusy = true;
-            //SelectedSkater = null;
+            SelectedSkater = null;
         }
 
         private async Task ExecuteLoadSkatersCommand()
@@ -81,13 +78,12 @@ namespace SkateboardNeverDie.ViewModels
             await Shell.Current.GoToAsync(nameof(NewSkaterPage));
         }
 
-        //async void OnSkaterSelected(Skater skater)
-        //{
-        //    if (skater == null)
-        //        return;
+        private async void OnSkaterSelected(Skater skater)
+        {
+            if (skater == null)
+                return;
 
-        //    // This will push the ItemDetailPage onto the navigation stack
-        //    await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={skater.Id}");
-        //}
+            await Shell.Current.GoToAsync($"{nameof(SkaterDetailPage)}?{nameof(SkaterDetailViewModel.SkaterId)}={skater.Id}");
+        }
     }
 }

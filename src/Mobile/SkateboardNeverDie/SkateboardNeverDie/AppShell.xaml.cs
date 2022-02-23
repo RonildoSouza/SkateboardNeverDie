@@ -10,7 +10,7 @@ namespace SkateboardNeverDie
             InitializeComponent();
             Routing.RegisterRoute(nameof(NewSkaterPage), typeof(NewSkaterPage));
             Routing.RegisterRoute(nameof(SkaterTricksPage), typeof(SkaterTricksPage));
-            //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(SkaterDetailPage), typeof(SkaterDetailPage));
         }
     }
 }

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.SkaterDetailPage"
+             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels" 
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterDetailViewModel"
+             Title="{Binding Title}">
+
+    <StackLayout Spacing="20" Padding="15">
+        <Label Text="Name:" FontSize="Medium" />
+        <Label Text="{Binding FirstName}" FontSize="Small"/>
+        <Label Text="{Binding LastName}" FontSize="Small"/>
+
+        <Label Text="Nickname:" FontSize="Medium" />
+        <Label Text="{Binding Nickname}" FontSize="Small"/>
+
+        <Label Text="Natural Stance:" FontSize="Medium" />
+        <Label Text="{Binding NaturalStance}" FontSize="Small"/>
+
+        <Label Text="Skater Tricks" FontSize="Medium" />
+        <RefreshView x:DataType="local:SkaterDetailViewModel" Command="{Binding LoadSkaterTricksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="SkatertricksListView"
+                            ItemsSource="{Binding SkaterTricks}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10" x:DataType="model:SkaterTrick">
+                            <Label Text="{Binding TrickName}" 
+                                   LineBreakMode="NoWrap" 
+                                   Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="16" />
+                            <Label Text="{Binding TrickVariationsToString}" 
+                                   LineBreakMode="NoWrap"
+                                   Style="{DynamicResource ListItemDetailTextStyle}"
+                                   FontSize="13" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>            
+        </RefreshView>
+    </StackLayout>    
+</ContentPage>
