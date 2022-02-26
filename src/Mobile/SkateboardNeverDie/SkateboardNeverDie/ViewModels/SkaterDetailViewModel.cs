@@ -1,4 +1,5 @@
-﻿using SkateboardNeverDie.Models;
+﻿using SkateboardNeverDie.Extensions;
+using SkateboardNeverDie.Models;
 using SkateboardNeverDie.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -13,22 +14,24 @@ namespace SkateboardNeverDie.ViewModels
     {
         private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
         private string _skaterId;
-        private string _firstName;
-        private string _lastName;
+        private string _fullName;
         private string _nickname;
         private StanceType _naturalStance;
+        private DateTime _birthdate;
+        private int _pageSize = 10;
+        private bool _hasNextPage;
 
         public SkaterDetailViewModel()
         {
-            Title = "Skater Tricks";
+            Title = "Skater Details";
             SkaterTricks = new ObservableCollection<SkaterTrick>();
             LoadSkaterTricksCommand = new Command(async () => await ExecuteLoadSkaterTricksCommand());
         }
 
-        public string FirstName
+        public string FullName
         {
-            get => _firstName;
-            set => SetProperty(ref _firstName, value);
+            get => _fullName;
+            set => SetProperty(ref _fullName, value);
         }
 
         public string Nickname
@@ -37,16 +40,16 @@ namespace SkateboardNeverDie.ViewModels
             set => SetProperty(ref _nickname, value);
         }
 
-        public string LastName
-        {
-            get => _lastName;
-            set => SetProperty(ref _lastName, value);
-        }
-
         public StanceType NaturalStance
         {
             get => _naturalStance;
             set => SetProperty(ref _naturalStance, value);
+        }
+
+        public DateTime Birthdate
+        {
+            get => _birthdate;
+            set => SetProperty(ref _birthdate, value);
         }
 
         public ObservableCollection<SkaterTrick> SkaterTricks { get; }
@@ -71,10 +74,10 @@ namespace SkateboardNeverDie.ViewModels
             try
             {
                 var skater = await _skateboardNeverDieApi.GetSkaterByIdAsync(skaterId);
-                FirstName = skater.Data.FirstName;
-                LastName = skater.Data.LastName;
+                FullName = $"{skater.Data.FirstName} {skater.Data.LastName}";
                 Nickname = skater.Data.Nickname;
                 NaturalStance = skater.Data.NaturalStance;
+                Birthdate = skater.Data.Birthdate;
 
                 await ExecuteLoadSkaterTricksCommand();
             }
@@ -91,11 +94,35 @@ namespace SkateboardNeverDie.ViewModels
             try
             {
                 SkaterTricks.Clear();
-                var skaterTricks = await _skateboardNeverDieApi.GetSkaterTricksAsync(Guid.Parse(SkaterId));
+                var skaterTricksHateoasResult = await _skateboardNeverDieApi.GetSkaterTricksAsync(Guid.Parse(SkaterId), pageSize: _pageSize);
 
-                foreach (var skaterTrick in skaterTricks.Data.Results)
-                    if (!SkaterTricks.Contains(skaterTrick))
-                        SkaterTricks.Add(skaterTrick);
+                _hasNextPage = skaterTricksHateoasResult.HasLink(SkaterTrick.Rels.Next);
+                SkaterTricks.TryAddRange(skaterTricksHateoasResult.Data.Results);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        protected override async Task ItemsThresholdReached()
+        {
+            if (IsBusy || !_hasNextPage)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                var nextPage = (SkaterTricks.Count / _pageSize) + 1;
+                var skaterTricksHateoasResult = await _skateboardNeverDieApi.GetSkaterTricksAsync(Guid.Parse(SkaterId), nextPage, _pageSize);
+
+                _hasNextPage = skaterTricksHateoasResult.HasLink(SkaterTrick.Rels.Next);
+                SkaterTricks.TryAddRange(skaterTricksHateoasResult.Data.Results);
             }
             catch (Exception ex)
             {

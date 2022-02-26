@@ -1,105 +1,104 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>    
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SkateboardNeverDie.Views.SkaterTricksPage"
              Title="{Binding Title}"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
-             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterTricksViewModel"
-             x:Name="SkaterTricksPG">
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterTricksViewModel">
 
-    <RefreshView x:DataType="local:SkaterTricksViewModel" Command="{Binding LoadTricksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
-                        ItemsSource="{Binding Tricks}"
-                        SelectionMode="None">
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">        
+            <Label Text="{Binding SkaterFullName, StringFormat='Choose tricks by {0}'}"
+                   FontSize="Large"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="CenterAndExpand"/>
 
-            <CollectionView.Header>
-                <StackLayout>
-                    <Label Text="Choose tricks by skater XXXX"
-                           FontSize="Large"
-                           VerticalTextAlignment="Center"
-                           VerticalOptions="CenterAndExpand"/>
-                </StackLayout>
-            </CollectionView.Header>
-            
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10">
-                        <Frame CornerRadius="10"
-                               HasShadow="True">
-                            <Grid x:DataType="model:Trick" VerticalOptions="CenterAndExpand">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25*" />
-                                    <ColumnDefinition Width="75*" />
-                                    <ColumnDefinition Width="25*" />
-                                    <ColumnDefinition Width="75*" />
-                                </Grid.ColumnDefinitions>
+            <RefreshView x:DataType="local:SkaterTricksViewModel" 
+                         Command="{Binding LoadTricksCommand}" 
+                         IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <CollectionView x:Name="ChooseTricksListView"
+                                ItemsSource="{Binding Tricks}"
+                                SelectionMode="None"
+                                RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="1, 5, 1, 5">
+                                <Frame CornerRadius="10"
+                                       HasShadow="True">
+                                    <Grid x:DataType="model:Trick" VerticalOptions="CenterAndExpand">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="25*" />
+                                            <ColumnDefinition Width="75*" />
+                                            <ColumnDefinition Width="25*" />
+                                            <ColumnDefinition Width="75*" />
+                                        </Grid.ColumnDefinitions>
 
-                                <Label Grid.Row="0"
-                                       Grid.ColumnSpan="4"
-                                       Text="{Binding Name}" 
-                                       LineBreakMode="NoWrap" 
-                                       Style="{DynamicResource ListItemTextStyle}" 
-                                       FontSize="Large"
-                                       FontAttributes="Bold"
-                                       VerticalTextAlignment="Start" 
-                                       VerticalOptions="CenterAndExpand" />
+                                        <Label Grid.Row="0"
+                                               Grid.ColumnSpan="4"
+                                               Text="{Binding Name}" 
+                                               LineBreakMode="NoWrap" 
+                                               Style="{DynamicResource ListItemTextStyle}" 
+                                               FontSize="Large"
+                                               FontAttributes="Bold"
+                                               VerticalTextAlignment="Start" 
+                                               VerticalOptions="CenterAndExpand" />
 
-                                <CheckBox Grid.Row="1"
-                                          Grid.Column="0"
-                                          CheckedChanged="CheckBox_CheckedChanged"
-                                          AutomationId="Natural Stance"/>
-                                <Label Grid.Row="1"
-                                       Grid.Column="1"
-                                       Text="Natural Stance"
-                                       FontSize="Medium"
-                                       VerticalOptions="CenterAndExpand"/>
+                                        <CheckBox Grid.Row="1"
+                                                  Grid.Column="0"
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  AutomationId="Natural Stance"/>
+                                        <Label Grid.Row="1"
+                                               Grid.Column="1"
+                                               Text="Natural Stance"
+                                               FontSize="Medium"
+                                               VerticalOptions="CenterAndExpand"/>
 
-                                <CheckBox Grid.Row="2"
-                                          Grid.Column="0"
-                                          CheckedChanged="CheckBox_CheckedChanged"
-                                          AutomationId="Fakie"/>
-                                <Label Grid.Row="2"
-                                       Grid.Column="1"
-                                       Text="Fakie"
-                                       FontSize="Medium"
-                                       VerticalOptions="CenterAndExpand"/>
+                                        <CheckBox Grid.Row="2"
+                                                  Grid.Column="0"
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  AutomationId="Fakie"/>
+                                        <Label Grid.Row="2"
+                                               Grid.Column="1"
+                                               Text="Fakie"
+                                               FontSize="Medium"
+                                               VerticalOptions="CenterAndExpand"/>
 
-                                <CheckBox Grid.Row="1"
-                                          Grid.Column="2"
-                                          CheckedChanged="CheckBox_CheckedChanged"
-                                          AutomationId="Switch"/>
-                                <Label Grid.Row="1"
-                                       Grid.Column="3"
-                                       Text="Switch"
-                                       FontSize="Medium"
-                                       VerticalOptions="CenterAndExpand"/>
+                                        <CheckBox Grid.Row="1"
+                                                  Grid.Column="2"
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  AutomationId="Switch"/>
+                                        <Label Grid.Row="1"
+                                               Grid.Column="3"
+                                               Text="Switch"
+                                               FontSize="Medium"
+                                               VerticalOptions="CenterAndExpand"/>
 
-                                <CheckBox Grid.Row="2"
-                                          Grid.Column="2"
-                                          CheckedChanged="CheckBox_CheckedChanged"
-                                          AutomationId="Nollie"/>
-                                <Label Grid.Row="2"
-                                       Grid.Column="3"
-                                       Text="Nollie"
-                                       FontSize="Medium"
-                                       VerticalOptions="CenterAndExpand"/>
-                            </Grid>                        
-                        </Frame>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
+                                        <CheckBox Grid.Row="2"
+                                                  Grid.Column="2"
+                                                  CheckedChanged="CheckBox_CheckedChanged"
+                                                  AutomationId="Nollie"/>
+                                        <Label Grid.Row="2"
+                                               Grid.Column="3"
+                                               Text="Nollie"
+                                               FontSize="Medium"
+                                               VerticalOptions="CenterAndExpand"/>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
 
-            <CollectionView.Footer>
-                <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                    <!--<Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"></Button>-->
-                    <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand"></Button>
-                </StackLayout>
-            </CollectionView.Footer>
-        </CollectionView>
-    </RefreshView>
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" CornerRadius="25" />
+            </StackLayout>
+        </StackLayout>        
+    </ContentPage.Content>
 </ContentPage>

@@ -12,7 +12,6 @@ namespace SkateboardNeverDie.Views
         public SkaterTricksPage()
         {
             InitializeComponent();
-
             BindingContext = _viewModel = new SkaterTricksViewModel();
         }
 

@@ -51,7 +51,7 @@ namespace SkateboardNeverDie.ViewModels
         public Command AddSkaterTricksCommand { get; }
         public Command CancelCommand { get; }
 
-        private async void OnCancel() => await Shell.Current.GoToAsync("..");
+        private async void OnCancel() => await Shell.Current.GoToAsync("..", false);
 
         private async void OnAddSkaterTricks()
         {

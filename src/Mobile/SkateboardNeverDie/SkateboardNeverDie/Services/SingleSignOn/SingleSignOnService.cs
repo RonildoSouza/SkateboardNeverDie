@@ -58,25 +58,16 @@ namespace SkateboardNeverDie.Services
 
             return !string.IsNullOrEmpty(payload.Error)
                 ? throw new InvalidOperationException("An error occurred while retrieving an access token.")
-                : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
+                : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0), DateTimeOffset.UtcNow);
         }
 
         public async Task<TokenResponse> RefreshTokenFlowAsync(string refreshToken)
         {
-            var content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                ["grant_type"] = "refresh_token",
-                ["client_id"] = GlobalSetting.ClientId,
-                ["client_secret"] = GlobalSetting.ClientSecret,
-                ["refresh_token"] = refreshToken
-            });
+            var refreshTokenResult = await OidcClient.RefreshTokenAsync(refreshToken);
 
-            var response = await _httpClient.PostAsync($"{GlobalSetting.SsoUrl}/connect/token", content);
-            var payload = await response.Content.ReadFromJsonAsync<OpenIddictResponse>();
-
-            return !string.IsNullOrEmpty(payload.Error)
+            return !string.IsNullOrEmpty(refreshTokenResult.Error)
                 ? null
-                : new TokenResponse(payload.AccessToken, payload.RefreshToken, payload.ExpiresIn.GetValueOrDefault(0));
+                : new TokenResponse(refreshTokenResult.AccessToken, refreshTokenResult.RefreshToken, refreshTokenResult.ExpiresIn, DateTimeOffset.UtcNow, refreshTokenResult.IdentityToken);
         }
 
         public async Task<TokenResponse> AuthorizationCodeFlowAsync()
@@ -87,7 +78,7 @@ namespace SkateboardNeverDie.Services
 
                 return loginResult.IsError
                     ? throw new InvalidOperationException(loginResult.Error)
-                    : new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, loginResult.IdentityToken);
+                    : new TokenResponse(loginResult.AccessToken, loginResult.RefreshToken, loginResult.TokenResponse.ExpiresIn, DateTimeOffset.UtcNow, loginResult.IdentityToken);
             }
             catch (Exception ex)
             {

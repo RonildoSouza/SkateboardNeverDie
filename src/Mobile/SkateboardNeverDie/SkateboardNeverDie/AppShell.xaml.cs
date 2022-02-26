@@ -11,6 +11,7 @@ namespace SkateboardNeverDie
             Routing.RegisterRoute(nameof(NewSkaterPage), typeof(NewSkaterPage));
             Routing.RegisterRoute(nameof(SkaterTricksPage), typeof(SkaterTricksPage));
             Routing.RegisterRoute(nameof(SkaterDetailPage), typeof(SkaterDetailPage));
+            Routing.RegisterRoute(nameof(NewTrickPage), typeof(NewTrickPage));
         }
     }
 }

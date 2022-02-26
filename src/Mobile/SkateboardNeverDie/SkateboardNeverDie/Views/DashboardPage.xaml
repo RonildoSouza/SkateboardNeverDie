@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:viewmodels="clr-namespace:SkateboardNeverDie.ViewModels" x:DataType="viewmodels:LoginViewModel"
-             mc:Ignorable="d"
-             x:Class="SkateboardNeverDie.Views.LoginPage"
-             Shell.NavBarIsVisible="False">
+             Title="{Binding Title}"
+             xmlns:viewmodels="clr-namespace:SkateboardNeverDie.ViewModels" x:DataType="viewmodels:DashboardViewModel"
+             xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
+             x:Class="SkateboardNeverDie.Views.DashboardPage">
+
+    <ContentPage.ToolbarItems>
+        <ce:BindableToolbarItem Text="Login" Command="{Binding LoginCommand}" IsVisible="{Binding IsLogged, Converter={StaticResource BooleanValueConverter} }" Order="Primary" />
+        <ce:BindableToolbarItem Text="Logout" Command="{Binding LogoutCommand}" IsVisible="{Binding IsLogged}" Order="Primary" />
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <ScrollView>
             <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
                 <Label Text="{Binding IsRefreshed, StringFormat='Token Refreshed: {0}'}"/>
-                <Label Text="{Binding AccessToken}"/>
 
-                <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-                <Button VerticalOptions="Center" Text="Logout" Command="{Binding LogoutCommand}"/>
                 <Button VerticalOptions="Center" Text="Refresh Token" Command="{Binding RefreshTokenCommand}"/>
                 <Button VerticalOptions="Center" Text="Clean Token" Command="{Binding CleanTokenCommand}"/>
             </StackLayout>

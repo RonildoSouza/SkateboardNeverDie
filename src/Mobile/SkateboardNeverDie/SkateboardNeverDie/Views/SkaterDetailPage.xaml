@@ -5,38 +5,83 @@
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels" 
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterDetailViewModel"
              Title="{Binding Title}">
+    
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Details" FontSize="Title" />
+            <Frame HasShadow="True">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Name:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding FullName}" 
+                           FontSize="Large"                           
+                           Margin="0, 0, 0, 20"/>
 
-    <StackLayout Spacing="20" Padding="15">
-        <Label Text="Name:" FontSize="Medium" />
-        <Label Text="{Binding FirstName}" FontSize="Small"/>
-        <Label Text="{Binding LastName}" FontSize="Small"/>
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Text="Nickname:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding Nickname}" 
+                           FontSize="Large"                           
+                           Margin="0, 0, 0, 20"/>
 
-        <Label Text="Nickname:" FontSize="Medium" />
-        <Label Text="{Binding Nickname}" FontSize="Small"/>
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           Text="Natural Stance:"
+                           FontSize="Medium"/>
+                    <Label Grid.Row="2"
+                           Grid.Column="1"
+                           Text="{Binding NaturalStance}" 
+                           FontSize="Large"
+                           Margin="0, 0, 0, 20"/>
 
-        <Label Text="Natural Stance:" FontSize="Medium" />
-        <Label Text="{Binding NaturalStance}" FontSize="Small"/>
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           Text="Birthdate:"
+                           FontSize="Medium"/>
+                    <Label Grid.Row="3"
+                           Grid.Column="1"
+                           Text="{Binding Birthdate, StringFormat='{0:d}'}"
+                           FontSize="Large"/>
+                </StackLayout>
+            </Frame>
 
-        <Label Text="Skater Tricks" FontSize="Medium" />
-        <RefreshView x:DataType="local:SkaterDetailViewModel" Command="{Binding LoadSkaterTricksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-            <CollectionView x:Name="SkatertricksListView"
-                            ItemsSource="{Binding SkaterTricks}"
-                            SelectionMode="None">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout Padding="10" x:DataType="model:SkaterTrick">
-                            <Label Text="{Binding TrickName}" 
-                                   LineBreakMode="NoWrap" 
-                                   Style="{DynamicResource ListItemTextStyle}" 
-                                   FontSize="16" />
-                            <Label Text="{Binding TrickVariationsToString}" 
-                                   LineBreakMode="NoWrap"
-                                   Style="{DynamicResource ListItemDetailTextStyle}"
-                                   FontSize="13" />
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>            
-        </RefreshView>
-    </StackLayout>    
+            <StackLayout>
+                <Label Text="Tricks" FontSize="Title" />
+                <RefreshView x:DataType="local:SkaterDetailViewModel" 
+                             Command="{Binding LoadSkaterTricksCommand}" 
+                             IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView x:Name="SkatertricksListView"
+                                    ItemsSource="{Binding SkaterTricks}"
+                                    SelectionMode="None"
+                                    RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="1,5,1,5">
+                                    <Frame HasShadow="True">
+                                        <StackLayout x:DataType="model:SkaterTrick">
+                                            <Label Text="{Binding TrickName}" 
+                                                    LineBreakMode="NoWrap" 
+                                                    Style="{DynamicResource ListItemTextStyle}" 
+                                                    FontSize="Large" />
+                                            <Label Text="{Binding TrickVariationsToString, StringFormat='({0})'}" 
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                                    FontSize="Medium" />
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

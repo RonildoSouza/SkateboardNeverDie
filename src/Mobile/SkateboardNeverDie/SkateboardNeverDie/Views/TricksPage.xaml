@@ -5,12 +5,20 @@
              Title="{Binding Title}"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:TricksViewModel"
+             xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
              x:Name="TricksPG">
 
-    <RefreshView x:DataType="local:TricksViewModel" Command="{Binding LoadTricksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+    <ContentPage.ToolbarItems>
+        <ce:BindableToolbarItem Text="Add" Command="{Binding AddTrickCommand}" IsVisible="{Binding CanAddTrick}" Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:TricksViewModel" 
+                 Command="{Binding LoadTricksCommand}" 
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="TricksListView"
                         ItemsSource="{Binding Tricks}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Trick">

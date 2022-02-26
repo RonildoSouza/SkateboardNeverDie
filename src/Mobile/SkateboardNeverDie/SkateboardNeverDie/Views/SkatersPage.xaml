@@ -7,18 +7,21 @@
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkatersViewModel"
              xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
              x:Name="SkatersPG">
-
+    
     <ContentPage.ToolbarItems>
-        <ce:BindableToolbarItem Text="Add" Command="{Binding AddSkaterCommand}" IsVisible="{Binding CanAddSkater}" />
+        <ce:BindableToolbarItem Text="Add" Command="{Binding AddSkaterCommand}" IsVisible="{Binding CanAddSkater}" Order="Primary" />
     </ContentPage.ToolbarItems>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView x:DataType="local:SkatersViewModel" Command="{Binding LoadSkatersCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView x:Name="ItemsListView"
+    <RefreshView x:DataType="local:SkatersViewModel" 
+                 Command="{Binding LoadSkatersCommand}" 
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="SkatersListView"
                         ItemsSource="{Binding Skaters}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Skater">

@@ -22,6 +22,9 @@ namespace SkateboardNeverDie.Services
         [Get("/api/v1/tricks")]
         Task<HateoasResult<PagedResult<Trick>>> GetTricksAsync([Query] int page = 1, [Query] int pageSize = 10);
 
+        [Post("/api/v1/tricks")]
+        Task<HateoasResult<Trick>> PostTricksAsync([Body] CreateTrick createTrick);
+
         [Get("/api/v1/stances")]
         Task<HateoasResult<PagedResult<Stance>>> GetStancesAsync([Query] int page = 1, [Query] int pageSize = 10);
     }

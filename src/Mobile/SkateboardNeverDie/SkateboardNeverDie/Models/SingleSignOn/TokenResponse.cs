@@ -4,13 +4,13 @@ namespace SkateboardNeverDie.Models
 {
     public sealed class TokenResponse
     {
-        public TokenResponse(string accessToken, string refreshToken, long expiresIn, string identityToken = default)
+        public TokenResponse(string accessToken, string refreshToken, long expiresIn, DateTimeOffset issuedAt, string identityToken = default)
         {
             AccessToken = accessToken;
             RefreshToken = refreshToken;
             ExpiresIn = expiresIn;
             IdentityToken = identityToken;
-            IssuedAt = DateTimeOffset.UtcNow;
+            IssuedAt = issuedAt;
         }
 
         public string AccessToken { get; }
