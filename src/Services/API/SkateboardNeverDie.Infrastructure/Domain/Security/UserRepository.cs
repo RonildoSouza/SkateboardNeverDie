@@ -39,7 +39,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Security
         public async Task<IdentityUserAuthorizeCache> GetIdentityUserAuthorizeAsync(Guid identityUserId, CancellationToken cancelationToken = default)
         {
             return await Context.Users
-                .AsNoTracking()
+                .AsNoTrackingWithIdentityResolution()
                 .Include(_ => _.UserPermissions)
                 .Where(_ => _.IdentityUserId == identityUserId)
                 .Select(_ => new IdentityUserAuthorizeCache

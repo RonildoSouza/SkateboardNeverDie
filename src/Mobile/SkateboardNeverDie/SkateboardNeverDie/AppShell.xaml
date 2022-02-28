@@ -29,9 +29,9 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <TabBar>
-        <ShellContent Title="Dashboard" Icon="icon_about.png" ContentTemplate="{DataTemplate local:DashboardPage}" />
+    <TabBar x:Name="tabBar">
         <ShellContent Title="Skaters" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:SkatersPage}" />
+        <ShellContent Title="Dashboard" Icon="icon_about.png" ContentTemplate="{DataTemplate local:DashboardPage}" x:Name="tabItemPrincipal" />
         <ShellContent Title="Tricks" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:TricksPage}" />
     </TabBar>
 

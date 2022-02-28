@@ -22,6 +22,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [Authorize]
         [HttpPost("authorize")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> PostAuthorize(CancellationToken cancelationToken = default)
         {
             if (!User.Identity.IsAuthenticated)
