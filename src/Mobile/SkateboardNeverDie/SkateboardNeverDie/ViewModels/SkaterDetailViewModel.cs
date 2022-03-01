@@ -73,11 +73,11 @@ namespace SkateboardNeverDie.ViewModels
         {
             try
             {
-                var skater = await _skateboardNeverDieApi.GetSkaterByIdAsync(skaterId);
-                FullName = $"{skater.Data.FirstName} {skater.Data.LastName}";
-                Nickname = skater.Data.Nickname;
-                NaturalStance = skater.Data.NaturalStance;
-                Birthdate = skater.Data.Birthdate;
+                var skaterHateoasResult = await _skateboardNeverDieApi.GetSkaterByIdAsync(skaterId);
+                FullName = skaterHateoasResult.Data.FullName;
+                Nickname = skaterHateoasResult.Data.Nickname;
+                NaturalStance = skaterHateoasResult.Data.NaturalStance;
+                Birthdate = skaterHateoasResult.Data.Birthdate;
 
                 await ExecuteLoadSkaterTricksCommand();
             }

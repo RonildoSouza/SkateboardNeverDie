@@ -23,6 +23,7 @@ namespace SkateboardNeverDie.ViewModels
             Tricks = new ObservableCollection<Trick>();
             LoadTricksCommand = new Command(async () => await ExecuteLoadTricksCommand());
             AddTrickCommand = new Command(OnAddTrick);
+            TrickTapped = new Command<Trick>(OnTrickSelected);
             PropertyChanged += (_, __) =>
             {
                 if (__.PropertyName == nameof(DashboardViewModel.IsLogged))
@@ -33,6 +34,7 @@ namespace SkateboardNeverDie.ViewModels
         public ObservableCollection<Trick> Tricks { get; }
         public Command LoadTricksCommand { get; }
         public Command AddTrickCommand { get; }
+        public Command<Trick> TrickTapped { get; }
         public bool CanAddTrick
         {
             get => _canAddTrick;
@@ -67,6 +69,14 @@ namespace SkateboardNeverDie.ViewModels
             {
                 IsBusy = false;
             }
+        }
+
+        private async void OnTrickSelected(Trick trick)
+        {
+            if (trick == null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(TrickDetailPage)}?{nameof(TrickDetailViewModel.TrickId)}={trick.Id}");
         }
 
         protected override async Task ItemsThresholdReached()

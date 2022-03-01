@@ -9,7 +9,12 @@
              x:Name="SkatersPG">
     
     <ContentPage.ToolbarItems>
-        <ce:BindableToolbarItem Text="Add" Command="{Binding AddSkaterCommand}" IsVisible="{Binding CanAddSkater}" Order="Primary" />
+        <ce:BindableToolbarItem 
+            Text="Add Skater" 
+            IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={StaticResource IconAdd}}"
+            Command="{Binding AddSkaterCommand}" 
+            IsVisible="{Binding CanAddSkater}" 
+            Order="Primary" />
     </ContentPage.ToolbarItems>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
@@ -24,15 +29,13 @@
                         RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Skater">
-                        <Label Text="{Binding FirstName}" 
-                               LineBreakMode="NoWrap" 
-                               Style="{DynamicResource ListItemTextStyle}" 
-                               FontSize="16" />
-                        <Label Text="{Binding LastName}" 
-                               LineBreakMode="NoWrap"
-                               Style="{DynamicResource ListItemDetailTextStyle}"
-                               FontSize="13" />
+                    <StackLayout Padding="10, 5, 10, 5" x:DataType="model:Skater">
+                        <Frame>
+                            <Label Text="{Binding FullName}" 
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="Large" />
+                        </Frame>
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"

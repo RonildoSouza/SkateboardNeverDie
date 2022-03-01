@@ -7,6 +7,21 @@
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
+        <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+            <On Platform="Android" Value="MaterialIcons-Regular.ttf#Material Icons" />
+            <On Platform="iOS" Value="Material Icons" />
+        </OnPlatform>
+
+        <x:String x:Key="IconDashboard">&#xe871;</x:String>
+        <x:String x:Key="IconSkateboarding">&#xe511;</x:String>
+        <x:String x:Key="Icon123">&#xeb8d;</x:String>
+        <x:String x:Key="IconEscalator">&#xf1a1;</x:String>
+        <x:String x:Key="IconLogin">&#xea77;</x:String>
+        <x:String x:Key="IconLogout">&#xe9ba;</x:String>
+        <x:String x:Key="IconAdd">&#xe145;</x:String>
+        <x:String x:Key="IconEdit">&#xe3c9;</x:String>
+        <x:String x:Key="IconDelete">&#xe872;</x:String>
+
         <ResourceDictionary>
             <Color x:Key="Primary">#2196F3</Color>
             <Style TargetType="Button">

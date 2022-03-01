@@ -10,6 +10,7 @@ namespace SkateboardNeverDie.Models
         public string Nickname { get; set; }
         public DateTime Birthdate { get; set; }
         public StanceType NaturalStance { get; set; }
+        public string FullName => $"{FirstName} {LastName}".Trim();
 
         public bool Equals(Skater other) => other?.Id == Id;
 

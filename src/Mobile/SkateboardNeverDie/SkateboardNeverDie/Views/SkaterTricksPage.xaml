@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SkateboardNeverDie.Views.SkaterTricksPage"
              Title="{Binding Title}"
+             Shell.PresentationMode="ModalAnimated"
              xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
              xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterTricksViewModel">
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">        
-            <Label Text="{Binding SkaterFullName, StringFormat='Choose tricks by {0}'}"
+            <Label Text="{Binding SkaterFullName, StringFormat='Choose Tricks ({0})'}"
                    FontSize="Large"
                    HorizontalOptions="CenterAndExpand"
                    VerticalOptions="CenterAndExpand"/>
@@ -96,8 +97,18 @@
             </RefreshView>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                <Button Text="Cancel" Command="{Binding CancelCommand}" HorizontalOptions="FillAndExpand"/>
-                <Button Text="Save" Command="{Binding SaveCommand}" HorizontalOptions="FillAndExpand" CornerRadius="25" />
+                <Button Text="Cancel" 
+                        Command="{Binding CancelCommand}" 
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="White"
+                        BorderColor="Red"
+                        BorderWidth="1" 
+                        TextColor="Black" 
+                        CornerRadius="10"/>
+                <Button Text="Save" 
+                        Command="{Binding SaveCommand}" 
+                        HorizontalOptions="FillAndExpand" 
+                        CornerRadius="10" />
             </StackLayout>
         </StackLayout>        
     </ContentPage.Content>

@@ -6,11 +6,9 @@
        x:Class="SkateboardNeverDie.AppShell">
 
     <!--
-        The overall app visual hierarchy is defined here, along with navigation.
-    
+        The overall app visual hierarchy is defined here, along with navigation.    
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
     -->
-
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">
@@ -30,9 +28,26 @@
     </Shell.Resources>
 
     <TabBar x:Name="tabBar">
-        <ShellContent Title="Skaters" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:SkatersPage}" />
-        <ShellContent Title="Dashboard" Icon="icon_about.png" ContentTemplate="{DataTemplate local:DashboardPage}" x:Name="tabItemPrincipal" />
-        <ShellContent Title="Tricks" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:TricksPage}" />
+        <Tab Title="Skaters">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconSkateboarding}"/>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:SkatersPage}" />
+        </Tab>
+
+        <Tab Title="Dashboard" x:Name="tabItemPrincipal" >
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconDashboard}"/>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:DashboardPage}" />
+        </Tab>
+
+        <Tab Title="Tricks">
+            <Tab.Icon>
+                <FontImageSource FontFamily="{StaticResource MaterialFontFamily}" Glyph="{StaticResource IconEscalator}"/>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate local:TricksPage}" />
+        </Tab>
     </TabBar>
 
 </Shell>

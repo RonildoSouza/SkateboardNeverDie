@@ -12,6 +12,7 @@ namespace SkateboardNeverDie
             Routing.RegisterRoute(nameof(SkaterTricksPage), typeof(SkaterTricksPage));
             Routing.RegisterRoute(nameof(SkaterDetailPage), typeof(SkaterDetailPage));
             Routing.RegisterRoute(nameof(NewTrickPage), typeof(NewTrickPage));
+            Routing.RegisterRoute(nameof(TrickDetailPage), typeof(TrickDetailPage));
 
             //CurrentItem = CurrentItem.Items[1];
             tabBar.CurrentItem = tabItemPrincipal;
