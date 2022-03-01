@@ -9,7 +9,7 @@ namespace SkateboardNeverDie.Services
         public async Task SetAsync(string key, object obj)
         {
             var value = JsonConvert.SerializeObject(obj);
-            SecureStorage.Remove(key);
+            Remove(key);
             await SecureStorage.SetAsync(key, value);
         }
 

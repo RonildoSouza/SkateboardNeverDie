@@ -33,14 +33,14 @@ namespace SkateboardNeverDie.Services
             if (tokenResponse != null && tokenResponse.IsExpired && tokenResponse.IssuedAt.Date == DateTimeOffset.UtcNow.Date)
             {
                 tokenResponse = await SingleSignOnService.RefreshTokenFlowAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
-                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse).ConfigureAwait(false);
             }
-            
+
             // Get client credentials token
-            if(tokenResponse == null || string.IsNullOrEmpty(tokenResponse?.AccessToken) || tokenResponse.IssuedAt.AddDays(1).Date == DateTimeOffset.UtcNow.Date || tokenResponse.IsExpired)
+            if (tokenResponse == null || string.IsNullOrEmpty(tokenResponse?.AccessToken) || tokenResponse.IssuedAt.AddDays(1).Date == DateTimeOffset.UtcNow.Date || tokenResponse.IsExpired)
             {
                 tokenResponse = await SingleSignOnService.ClientCredentialsFlowAsync().ConfigureAwait(false);
-                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse).ConfigureAwait(false);
             }
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", tokenResponse.AccessToken);

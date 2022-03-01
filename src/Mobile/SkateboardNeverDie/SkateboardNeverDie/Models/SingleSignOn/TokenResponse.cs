@@ -18,6 +18,6 @@ namespace SkateboardNeverDie.Models
         public long ExpiresIn { get; }
         public string IdentityToken { get; }
         public DateTimeOffset IssuedAt { get; }
-        public bool IsExpired => DateTimeOffset.UtcNow.AddSeconds(-ExpiresIn) > IssuedAt;
+        public bool IsExpired => DateTimeOffset.UtcNow.AddSeconds(-(ExpiresIn * 0.5f)) > IssuedAt;
     }
 }
