@@ -20,6 +20,7 @@ namespace SkateboardNeverDie.Domain.Skaters
             SkaterTricks = new List<SkaterTrick>();
         }
 
+        public Skater(Guid id) => Id = id;
         protected Skater() { }
 
         public string FirstName { get; private set; }

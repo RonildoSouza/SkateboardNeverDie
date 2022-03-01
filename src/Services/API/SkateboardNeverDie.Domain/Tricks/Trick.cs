@@ -12,6 +12,8 @@ namespace SkateboardNeverDie.Domain.Tricks
             Description = description;
         }
 
+        public Trick(Guid id) => Id = id;
+
         protected Trick() { }
 
         public string Name { get; private set; }

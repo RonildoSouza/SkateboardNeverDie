@@ -42,5 +42,21 @@ namespace SkateboardNeverDie.Application.Tricks
 
             return null;
         }
+
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancelationToken)
+        {
+            bool result;
+            try
+            {
+                _trickRepository.Delete(id);
+                result = await _trickRepository.UnitOfWork.CommitAsync(cancelationToken);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }

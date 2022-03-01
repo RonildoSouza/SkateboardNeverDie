@@ -18,6 +18,7 @@ namespace SkateboardNeverDie.ViewModels
         private string _nickname;
         private StanceType _naturalStance;
         private DateTime _birthdate;
+        private bool _canDeleteSkater;
         private int _pageSize = 10;
         private bool _hasNextPage;
 
@@ -25,7 +26,8 @@ namespace SkateboardNeverDie.ViewModels
         {
             Title = "Skater Details";
             SkaterTricks = new ObservableCollection<SkaterTrick>();
-            LoadSkaterTricksCommand = new Command(async () => await ExecuteLoadSkaterTricksCommand());
+            LoadSkaterTricksCommand = new Command(async () => await ExecuteLoadSkaterTricks());
+            DeleteCommand = new Command(OnDelete);
         }
 
         public string FullName
@@ -51,10 +53,16 @@ namespace SkateboardNeverDie.ViewModels
             get => _birthdate;
             set => SetProperty(ref _birthdate, value);
         }
+        public bool CanDeleteSkater
+        {
+            get => _canDeleteSkater;
+            set => SetProperty(ref _canDeleteSkater, value);
+        }
 
         public ObservableCollection<SkaterTrick> SkaterTricks { get; }
 
         public Command LoadSkaterTricksCommand { get; }
+        public Command DeleteCommand { get; }
 
         public string SkaterId
         {
@@ -79,7 +87,9 @@ namespace SkateboardNeverDie.ViewModels
                 NaturalStance = skaterHateoasResult.Data.NaturalStance;
                 Birthdate = skaterHateoasResult.Data.Birthdate;
 
-                await ExecuteLoadSkaterTricksCommand();
+                CanDeleteSkater = skaterHateoasResult.HasLink(Skater.Rels.Delete);
+
+                await ExecuteLoadSkaterTricks();
             }
             catch (Exception ex)
             {
@@ -87,7 +97,7 @@ namespace SkateboardNeverDie.ViewModels
             }
         }
 
-        private async Task ExecuteLoadSkaterTricksCommand()
+        private async Task ExecuteLoadSkaterTricks()
         {
             IsBusy = true;
 
@@ -106,6 +116,18 @@ namespace SkateboardNeverDie.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        private async void OnDelete()
+        {
+            if (!Guid.TryParse(SkaterId, out Guid skaterId))
+                return;
+
+            if (await Application.Current.MainPage.DisplayAlert("Alert!", $"Would you like to delete skater ({FullName})?", "Yes", "No"))
+            {
+                await _skateboardNeverDieApi.DeleteSkaterAsync(skaterId);
+                await Shell.Current.GoToAsync("..", false);
             }
         }
 

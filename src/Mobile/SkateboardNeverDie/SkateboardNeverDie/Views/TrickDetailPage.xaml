@@ -6,7 +6,22 @@
     
     <ScrollView>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="Details" FontSize="Title" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Details" 
+                       FontSize="Title" 
+                       VerticalOptions="EndAndExpand"/>
+
+                <Button Text="{StaticResource IconDelete}"
+                        FontFamily="{StaticResource MaterialFontFamily}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        TextColor="Red"
+                        BackgroundColor="White"
+                        FontSize="40"
+                        Command="{Binding DeleteCommand}"
+                        IsVisible="{Binding CanDeleteTrick}"/>
+            </StackLayout>
+            
             <Frame HasShadow="True">
                 <StackLayout>
                     <Label Grid.Row="0"

@@ -43,7 +43,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         public async Task<IActionResult> Get(Guid id, CancellationToken cancelationToken = default)
         {
             var skater = await _trickAppService.GetByIdAsync(id, cancelationToken);
-            return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Trick is not found!");
+            return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Trick not found!");
         }
 
         [Authorize("Tricks:Add")]
@@ -53,7 +53,17 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         public async Task<IActionResult> Post(CreateTrickDto createTrickDto, CancellationToken cancelationToken = default)
         {
             var trick = await _trickAppService.CreateAsync(createTrickDto, cancelationToken);
-            return trick != null ? Created(string.Empty, _hateoas.Create(trick)) : BadRequest("Trick is not created!");
+            return trick != null ? Created(string.Empty, _hateoas.Create(trick)) : BadRequest("Trick not created!");
+        }
+
+        [Authorize("Tricks:Remove")]
+        [HttpDelete("{id}", Name = TrickRouteNames.DeleteTrick)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancelationToken)
+        {
+            var result = await _trickAppService.DeleteAsync(id, cancelationToken);
+            return result ? Ok() : BadRequest("Trick not deleted!");
         }
     }
 }

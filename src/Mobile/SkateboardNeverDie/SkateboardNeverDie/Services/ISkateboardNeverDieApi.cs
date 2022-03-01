@@ -19,6 +19,9 @@ namespace SkateboardNeverDie.Services
         [Get("/api/v1/skaters/{id}/tricks")]
         Task<HateoasResult<PagedResult<SkaterTrick>>> GetSkaterTricksAsync(Guid id, [Query] int page = 1, [Query] int pageSize = 10);
 
+        [Delete("/api/v1/skaters/{id}")]
+        Task DeleteSkaterAsync(Guid id);
+
         [Get("/api/v1/tricks")]
         Task<HateoasResult<PagedResult<Trick>>> GetTricksAsync([Query] int page = 1, [Query] int pageSize = 10);
 
@@ -27,6 +30,9 @@ namespace SkateboardNeverDie.Services
 
         [Get("/api/v1/tricks/{id}")]
         Task<HateoasResult<Trick>> GetTrickByIdAsync(Guid id);
+
+        [Delete("/api/v1/tricks/{id}")]
+        Task DeleteTrickAsync(Guid id);
 
         [Get("/api/v1/stances")]
         Task<HateoasResult<PagedResult<Stance>>> GetStancesAsync([Query] int page = 1, [Query] int pageSize = 10);

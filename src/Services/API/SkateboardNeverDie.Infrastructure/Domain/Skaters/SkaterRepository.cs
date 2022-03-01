@@ -85,5 +85,19 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                 _ => _,
                 _ => _.TrickName);
         }
+
+        public void Delete(Guid id)
+        {
+            try
+            {
+                var skater = new Skater(id);
+                Context.Skaters.Attach(skater);
+                Context.Skaters.Remove(skater);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

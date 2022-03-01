@@ -43,7 +43,7 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         public async Task<IActionResult> Get(Guid id, CancellationToken cancelationToken = default)
         {
             var skater = await _skaterAppService.GetByIdAsync(id, cancelationToken);
-            return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater is not found!");
+            return skater != null ? Ok(_hateoas.Create(skater)) : NotFound("Skater not found!");
         }
 
         [Authorize("Skaters:Add")]
@@ -53,16 +53,17 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         public async Task<IActionResult> Post(CreateSkaterDto createSkaterDto, CancellationToken cancelationToken = default)
         {
             var skater = await _skaterAppService.CreateAsync(createSkaterDto, cancelationToken);
-            return skater != null ? Created(string.Empty, _hateoas.Create(skater)) : BadRequest("Skater is not created!");
+            return skater != null ? Created(string.Empty, _hateoas.Create(skater)) : BadRequest("Skater not created!");
         }
 
         [Authorize("Skaters:Remove")]
         [HttpDelete("{id}", Name = SkaterRouteNames.DeleteSkater)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancelationToken = default)
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancelationToken = default)
         {
-            throw new NotImplementedException();
+            var result = await _skaterAppService.DeleteAsync(id, cancelationToken);
+            return result ? Ok() : BadRequest("Skater not deleted!");
         }
 
         [Authorize("Read")]

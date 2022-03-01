@@ -13,6 +13,7 @@ namespace SkateboardNeverDie.Models
         public struct Rels
         {
             public const string Create = "create-trick";
+            public const string Delete = "delete-trick";
             public const string Next = "next";
         }
     }

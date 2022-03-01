@@ -49,5 +49,19 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Tricks
                 })
                 .FirstOrDefaultAsync(cancelationToken);
         }
+
+        public void Delete(Guid id)
+        {
+            try
+            {
+                var trick = new Trick(id);
+                Context.Tricks.Attach(trick);
+                Context.Tricks.Remove(trick);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

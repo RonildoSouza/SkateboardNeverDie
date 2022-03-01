@@ -64,7 +64,7 @@ namespace SkateboardNeverDie.ViewModels
                 Birthdate,
                 naturalStance);
 
-            await Shell.Current.GoToAsync($"{nameof(SkaterTricksPage)}?{nameof(SkaterTricksViewModel.SkaterJSON)}={JsonConvert.SerializeObject(skater)}");
+            await Shell.Current.GoToAsync($"{nameof(SkaterTricksPage)}?{nameof(SkaterTricksViewModel.SkaterJSON)}={JsonConvert.SerializeObject(skater)}", false);
         }
 
         private bool CanExecuteAddSkaterTricks()

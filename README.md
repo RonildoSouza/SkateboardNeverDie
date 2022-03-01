@@ -6,6 +6,6 @@
 
 - admin@skateboard.com
 - user01@skateboard.com
-  - Can **add** and **edit** skaters and tricks
+  - Can **add** and **remove** skaters and tricks
 - user02@skateboard.com
-  - Can **edit** skaters and tricks
+  - Can **add** skaters and tricks

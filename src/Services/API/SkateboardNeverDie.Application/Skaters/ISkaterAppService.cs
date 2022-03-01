@@ -13,5 +13,6 @@ namespace SkateboardNeverDie.Application.Skaters
         Task<PagedResult<SkaterQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken = default);
         Task<SkaterQueryData> CreateAsync(CreateSkaterDto createSkaterDto, CancellationToken cancelationToken = default);
         Task<PagedResult<SkaterTrickQueryData>> GetSkaterTricksAsync(Guid skaterId, int page, int pageSize, CancellationToken cancelationToken = default);
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancelationToken = default);
     }
 }

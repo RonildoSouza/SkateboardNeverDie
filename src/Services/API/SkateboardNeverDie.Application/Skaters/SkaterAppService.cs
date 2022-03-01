@@ -55,5 +55,21 @@ namespace SkateboardNeverDie.Application.Skaters
         {
             return await _skaterRepository.GetSkaterTricksAsync(skaterId, page, pageSize, cancelationToken);
         }
+
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancelationToken)
+        {
+            bool result;
+            try
+            {
+                _skaterRepository.Delete(id);
+                result = await _skaterRepository.UnitOfWork.CommitAsync(cancelationToken);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return result;
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace SkateboardNeverDie.Application.Tricks
         Task<TrickQueryData> GetByIdAsync(Guid id, CancellationToken cancelationToken = default);
         Task<PagedResult<TrickQueryData>> GetAllAsync(int page, int pageSize, CancellationToken cancelationToken = default);
         Task<TrickQueryData> CreateAsync(CreateTrickDto createTrickDto, CancellationToken cancelationToken = default);
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancelationToken = default);
     }
 }
