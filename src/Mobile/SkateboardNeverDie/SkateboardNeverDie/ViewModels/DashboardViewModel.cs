@@ -1,6 +1,9 @@
-﻿using SkateboardNeverDie.Models;
+﻿using Microcharts;
+using SkateboardNeverDie.Models;
 using SkateboardNeverDie.Services;
+using SkateboardNeverDie.Utils;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -9,23 +12,24 @@ namespace SkateboardNeverDie.ViewModels
 {
     public class DashboardViewModel : BaseViewModel
     {
-
-        private bool _isLogged = false;
-        ISingleSignOnService SingleSignOnService => DependencyService.Get<ISingleSignOnService>();
-        ISecureStorageManager SecureStorageManager => DependencyService.Get<ISecureStorageManager>();
+        private bool _isLogged;
+        private int _skatersCount;
+        private int _tricksCount;
+        private DonutChart _chartSkatersGoofyVsRegular;
+        private BarChart _chartSkatersCountPerAge;
+        private readonly ISingleSignOnService _singleSignOnService = DependencyService.Get<ISingleSignOnService>();
+        private readonly ISecureStorageManager _secureStorageManager = DependencyService.Get<ISecureStorageManager>();
+        private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
 
         public DashboardViewModel()
         {
             Title = "Dashboard";
-            RefreshTokenCommand = new Command(OnRefreshTokenClicked);
-            CleanTokenCommand = new Command(OnCleanTokenClicked);
             LoginCommand = new Command(OnLoginClicked);
             LogoutCommand = new Command(OnLogoutClicked);
             IsValidTokenAsync().GetAwaiter();
+            OnAppearing();
         }
 
-        public Command RefreshTokenCommand { get; }
-        public Command CleanTokenCommand { get; }
         public Command LoginCommand { get; }
         public Command LogoutCommand { get; }
         public bool IsLogged
@@ -33,47 +37,91 @@ namespace SkateboardNeverDie.ViewModels
             get => _isLogged;
             set => SetProperty(ref _isLogged, value);
         }
-
-
-        string _isRefreshed = "false";
-        public string IsRefreshed
+        public int SkatersCount
         {
-            get => _isRefreshed;
-            set => SetProperty(ref _isRefreshed, value);
+            get => _skatersCount;
+            set => SetProperty(ref _skatersCount, value);
+        }
+        public int TricksCount
+        {
+            get => _tricksCount;
+            set => SetProperty(ref _tricksCount, value);
+        }
+        public DonutChart ChartSkatersGoofyVsRegular
+        {
+            get => _chartSkatersGoofyVsRegular;
+            set => SetProperty(ref _chartSkatersGoofyVsRegular, value);
+        }
+        public BarChart ChartSkatersCountPerAge
+        {
+            get => _chartSkatersCountPerAge;
+            set => SetProperty(ref _chartSkatersCountPerAge, value);
         }
 
-
-        private async void OnRefreshTokenClicked(object obj)
+        public async void OnAppearing()
         {
+            IsBusy = true;
+
             try
             {
-                var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
-                var tokenResponseTmp = await SingleSignOnService.RefreshTokenFlowAsync(tokenResponse.RefreshToken).ConfigureAwait(false);
-
-                if (tokenResponseTmp != null)
-                {
-                    await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponseTmp);
-                    IsRefreshed = $"{tokenResponse.AccessToken == tokenResponseTmp.AccessToken}";
-                }
+                TricksCount = await _skateboardNeverDieApi.GetTricksCountAsync();
+                SkatersCount = await _skateboardNeverDieApi.GetSkatersCountAsync();
+                await ChartSkatersGoofyVsRegularBuilder();
+                await ChartSkatersCountPerAgeBuilder();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                throw;
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
-        private void OnCleanTokenClicked(object obj)
+        private async Task ChartSkatersCountPerAgeBuilder()
         {
-            SecureStorageManager.Remove(GlobalSetting.TokenResponseKey);
+            var entriesChartSkatersCountPerAge = new List<ChartEntry>();
+            foreach (var _ in await _skateboardNeverDieApi.GetSkatersCountPerAgeAsync())
+                entriesChartSkatersCountPerAge.Add(new ChartEntry(_.Count)
+                {
+                    Label = $"{_.Age}",
+                    ValueLabel = $"{_.Count}",
+                    Color = SKColorRandom.GetColor()
+                });
+
+            ChartSkatersCountPerAge = new BarChart
+            {
+                Entries = entriesChartSkatersCountPerAge,
+                LabelTextSize = 20
+            };
         }
+
+        private async Task ChartSkatersGoofyVsRegularBuilder()
+        {
+            var entriesChartSkatersGoofyVsRegular = new List<ChartEntry>();
+            foreach (var _ in await _skateboardNeverDieApi.GetSkatersGoofyVsRegularAsync())
+                entriesChartSkatersGoofyVsRegular.Add(new ChartEntry(_.Value)
+                {
+                    Label = $"{_.Key}",
+                    ValueLabel = $"{_.Value}",
+                    Color = SKColorRandom.GetColor()
+                });
+
+            ChartSkatersGoofyVsRegular = new DonutChart
+            {
+                Entries = entriesChartSkatersGoofyVsRegular,
+                LabelTextSize = 20
+            };
+        }
+
         private async void OnLoginClicked(object obj)
         {
-            var tokenResponse = await SingleSignOnService.AuthorizationCodeFlowAsync();
+            var tokenResponse = await _singleSignOnService.AuthorizationCodeFlowAsync();
 
             if (tokenResponse != null)
             {
-                await SecureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
+                await _secureStorageManager.SetAsync(GlobalSetting.TokenResponseKey, tokenResponse);
                 IsLogged = true;
             }
         }
@@ -82,11 +130,11 @@ namespace SkateboardNeverDie.ViewModels
         {
             try
             {
-                var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
+                var tokenResponse = await _secureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
 
-                if (await SingleSignOnService.LogoutAsync(tokenResponse.IdentityToken))
+                if (await _singleSignOnService.LogoutAsync(tokenResponse.IdentityToken))
                 {
-                    SecureStorageManager.Remove(GlobalSetting.TokenResponseKey);
+                    _secureStorageManager.Remove(GlobalSetting.TokenResponseKey);
                     IsLogged = false;
                 }
             }
@@ -99,7 +147,7 @@ namespace SkateboardNeverDie.ViewModels
 
         private async Task IsValidTokenAsync()
         {
-            var tokenResponse = await SecureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
+            var tokenResponse = await _secureStorageManager.GetAsync<TokenResponse>(GlobalSetting.TokenResponseKey);
             IsLogged = tokenResponse != null && !tokenResponse.IsExpired && !string.IsNullOrEmpty(tokenResponse.IdentityToken);
         }
     }

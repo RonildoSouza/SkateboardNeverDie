@@ -10,6 +10,12 @@ namespace SkateboardNeverDie.Services.Api.Controllers
 {
     [ApiController]
     [Route("api/v{version:apiVersion}/[controller]")]
+
+#if DEBUG
+    [ApiExplorerSettings(IgnoreApi = false)]
+#else
+    [ApiExplorerSettings(IgnoreApi = true)]
+#endif
     public class UsersController : ControllerBase
     {
         private readonly IUserAppService _userAppService;
@@ -22,7 +28,6 @@ namespace SkateboardNeverDie.Services.Api.Controllers
         [Authorize]
         [HttpPost("authorize")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> PostAuthorize(CancellationToken cancelationToken = default)
         {
             if (!User.Identity.IsAuthenticated)

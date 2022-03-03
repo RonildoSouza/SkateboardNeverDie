@@ -4,29 +4,77 @@
              Title="{Binding Title}"
              xmlns:viewmodels="clr-namespace:SkateboardNeverDie.ViewModels" x:DataType="viewmodels:DashboardViewModel"
              xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
              x:Class="SkateboardNeverDie.Views.DashboardPage">
 
     <ContentPage.ToolbarItems>
-        <ce:BindableToolbarItem Text="Login" 
-                                IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={StaticResource IconLogin}}" 
+        <ce:BindableToolbarItem Text="Login"
                                 Command="{Binding LoginCommand}" 
                                 IsVisible="{Binding IsLogged, Converter={StaticResource BooleanValueConverter} }" 
                                 Order="Primary" />
         
-        <ce:BindableToolbarItem Text="Logout" 
-                                IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={StaticResource IconLogout}}" 
+        <ce:BindableToolbarItem Text="Logout"
                                 Command="{Binding LogoutCommand}" 
                                 IsVisible="{Binding IsLogged}" 
                                 Order="Primary" />
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
-                <Label Text="{Binding IsRefreshed, StringFormat='Token Refreshed: {0}'}"/>
+        <ScrollView >
+            <StackLayout Padding="10">
+                <StackLayout Orientation="Horizontal">
+                    <Frame HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+                            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+                            
+                            <Label Text="{Binding SkatersCount, StringFormat='{0} Skaters'}"
+                                   IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                   LineBreakMode="WordWrap"
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   FontSize="Large" />                            
+                        </StackLayout>
+                    </Frame>
 
-                <Button VerticalOptions="Center" Text="Refresh Token" Command="{Binding RefreshTokenCommand}"/>
-                <Button VerticalOptions="Center" Text="Clean Token" Command="{Binding CleanTokenCommand}"/>
+                    <Frame HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+                            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+                            
+                            <Label Text="{Binding TricksCount, StringFormat='{0} Tricks'}"
+                                   IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                   LineBreakMode="WordWrap"
+                                   HorizontalOptions="CenterAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   FontSize="Large" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                <Frame>
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Goofy Vs Regular" FontSize="Title" HorizontalOptions="CenterAndExpand" />
+
+                        <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" HeightRequest="230" />
+                        
+                        <microcharts:ChartView Chart="{Binding ChartSkatersGoofyVsRegular}" 
+                                               IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                               WidthRequest="230"
+                                               HeightRequest="230" />
+                    </StackLayout>
+                </Frame>
+
+                <Frame>
+                    <StackLayout HorizontalOptions="CenterAndExpand">
+                        <Label Text="Skaters Count Per Age" FontSize="Title" HorizontalOptions="CenterAndExpand" />
+
+                        <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" HeightRequest="230" />
+                        
+                        <microcharts:ChartView Chart="{Binding ChartSkatersCountPerAge}" 
+                                               IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                               WidthRequest="230"
+                                               HeightRequest="230" />
+                    </StackLayout>
+                </Frame>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

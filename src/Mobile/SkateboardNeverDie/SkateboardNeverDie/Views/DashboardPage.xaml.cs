@@ -5,10 +5,18 @@ namespace SkateboardNeverDie.Views
 {
     public partial class DashboardPage : ContentPage
     {
+        private readonly DashboardViewModel _viewModel;
+
         public DashboardPage()
         {
             InitializeComponent();
-            this.BindingContext = new DashboardViewModel();
+            BindingContext = _viewModel = new DashboardViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

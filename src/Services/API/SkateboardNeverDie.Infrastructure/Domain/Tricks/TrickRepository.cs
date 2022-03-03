@@ -63,5 +63,8 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Tricks
                 throw;
             }
         }
+
+        public async Task<int> GetCountAsync(CancellationToken cancelationToken = default)
+            => await Context.Tricks.AsNoTracking().CountAsync(cancelationToken);
     }
 }

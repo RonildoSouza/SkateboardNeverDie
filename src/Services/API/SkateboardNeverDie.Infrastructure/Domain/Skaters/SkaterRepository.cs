@@ -4,8 +4,10 @@ using SkateboardNeverDie.Core.Infrastructure;
 using SkateboardNeverDie.Core.Infrastructure.Extensions;
 using SkateboardNeverDie.Domain.Skaters;
 using SkateboardNeverDie.Domain.Skaters.QueryData;
+using SkateboardNeverDie.Domain.Stances;
 using SkateboardNeverDie.Infrastructure.Database;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,6 +100,31 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
             {
                 throw;
             }
+        }
+
+        public async Task<int> GetCountAsync(CancellationToken cancelationToken = default)
+            => await Context.Skaters.AsNoTracking().CountAsync(cancelationToken);
+
+        public async Task<IDictionary<StanceType, int>> GetGoofyVsRegularAsync(CancellationToken cancelationToken = default)
+        {
+            return await Context.Skaters
+                .GroupBy(_ => _.NaturalStanceId)
+                .Select(_ => new { _.Key, Value = _.Count() })
+                .ToDictionaryAsync(_ => _.Key, _ => _.Value, cancelationToken);
+        }
+
+        public async Task<IList<SkaterCountPerAgeQueryData>> GetSkatersCountPerAgeAsync(CancellationToken cancelationToken = default)
+        {
+            return (await Context.Skaters
+                .Select(_ => _.Birthdate)
+                .ToListAsync())
+                .GroupBy(_ => (DateTime.Today - _).Days / 365)
+                .Select(_ => new SkaterCountPerAgeQueryData
+                {
+                    Count = _.Count(),
+                    Age = _.Key
+                })
+                .ToList();
         }
     }
 }
