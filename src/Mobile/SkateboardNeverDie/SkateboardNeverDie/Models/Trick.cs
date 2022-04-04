@@ -2,7 +2,7 @@
 
 namespace SkateboardNeverDie.Models
 {
-    public sealed class Trick : IEquatable<Trick>
+    public class Trick : IEquatable<Trick>
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

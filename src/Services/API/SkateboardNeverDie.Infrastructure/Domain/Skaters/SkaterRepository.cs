@@ -71,7 +71,7 @@ namespace SkateboardNeverDie.Infrastructure.Domain.Skaters
                     {
                         Id = st.Id,
                         TrickName = st.Trick.Name,
-                        TrickVariations = st.SkaterTrickVariations.Select(stv => stv.StanceId)
+                        TrickVariations = st.SkaterTrickVariations.Select(stv => stv.StanceId).OrderBy(_ => _)
                     }));
 
             //return await query.GetPagedResultAsync(

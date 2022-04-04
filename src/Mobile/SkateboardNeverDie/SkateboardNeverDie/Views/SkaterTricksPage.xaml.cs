@@ -28,7 +28,10 @@ namespace SkateboardNeverDie.Views
 
             var checkBox = (CheckBox)sender;
             var checkBoxId = checkBox.AutomationId;
-            var trick = (Trick)checkBox.BindingContext;
+            var trick = (ItemSkaterTrickViewModels)checkBox.BindingContext;
+
+            if (trick == null)
+                return;
 
             if (checkBoxId == "Natural Stance")
                 checkBoxId = _viewModel.CreateSkater.NaturalStance.ToString();

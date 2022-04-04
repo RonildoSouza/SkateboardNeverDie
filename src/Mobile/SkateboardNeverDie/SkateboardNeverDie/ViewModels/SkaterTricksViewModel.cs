@@ -4,8 +4,10 @@ using SkateboardNeverDie.Models;
 using SkateboardNeverDie.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -17,20 +19,21 @@ namespace SkateboardNeverDie.ViewModels
         private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
         private string _skaterJSON;
         private string _skaterFullName;
-        private int _pageSize = 10;
-        private bool _hasNextPage;
+        private int _pageSize = 1000;
 
         public SkaterTricksViewModel()
         {
             Title = "Skater Tricks";
-            Tricks = new ObservableCollection<Trick>();
+            Tricks = new ObservableCollection<ItemSkaterTrickViewModels>();
             LoadTricksCommand = new Command(async () => await ExecuteLoadTricksCommand());
             SaveCommand = new Command(OnSave, CanExecuteSave);
             PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
             CancelCommand = new Command(OnCancel);
+
+            LoadTricksCommand.Execute(this);
         }
 
-        public ObservableCollection<Trick> Tricks { get; }
+        public ObservableCollection<ItemSkaterTrickViewModels> Tricks { get; }
         public Command LoadTricksCommand { get; }
         public Command SaveCommand { get; set; }
         public Command CancelCommand { get; }
@@ -73,9 +76,12 @@ namespace SkateboardNeverDie.ViewModels
                 Tricks.Clear();
                 var tricksHateoasResult = await _skateboardNeverDieApi.GetTricksAsync(pageSize: _pageSize);
 
-                _hasNextPage = tricksHateoasResult.HasLink(Trick.Rels.Next);
-
-                Tricks.TryAddRange(tricksHateoasResult.Data.Results);
+                Tricks.TryAddRange(tricksHateoasResult.Data.Results.Select(_ => new ItemSkaterTrickViewModels
+                {
+                    Id = _.Id,
+                    Name = _.Name,
+                    Description = _.Description
+                }));
             }
             catch (Exception ex)
             {
@@ -124,24 +130,67 @@ namespace SkateboardNeverDie.ViewModels
 
             OnPropertyChanged(nameof(CreateSkater));
         }
+    }
 
-        protected override async Task ItemsThresholdReached()
+    public class ItemSkaterTrickViewModels : Trick, INotifyPropertyChanged
+    {
+        private bool _isCheckedNatural;
+        public bool IsCheckedNatural
         {
-            if (IsBusy || !_hasNextPage)
-                return;
-
-            try
+            get => _isCheckedNatural;
+            set
             {
-                var nextPage = (Tricks.Count / _pageSize) + 1;
-                var tricksHateoasResult = await _skateboardNeverDieApi.GetTricksAsync(nextPage, _pageSize);
-
-                _hasNextPage = tricksHateoasResult.HasLink(Trick.Rels.Next);
-                Tricks.TryAddRange(tricksHateoasResult.Data.Results);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+                if (_isCheckedNatural != value)
+                {
+                    _isCheckedNatural = value;
+                    OnPropertyChanged();
+                }
             }
         }
+
+        private bool _isCheckedFakie;
+        public bool IsCheckedFakie
+        {
+            get => _isCheckedFakie;
+            set
+            {
+                if (_isCheckedFakie != value)
+                {
+                    _isCheckedFakie = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isCheckedSwitch;
+        public bool IsCheckedSwitch
+        {
+            get => _isCheckedSwitch;
+            set
+            {
+                if (_isCheckedSwitch != value)
+                {
+                    _isCheckedSwitch = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private bool _isCheckedNollie;
+        public bool IsCheckedNollie
+        {
+            get => _isCheckedNollie;
+            set
+            {
+                if (_isCheckedNollie != value)
+                {
+                    _isCheckedNollie = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
