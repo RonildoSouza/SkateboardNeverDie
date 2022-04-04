@@ -20,6 +20,7 @@
                 <CollectionView x:Name="ChooseTricksListView"
                                 ItemsSource="{Binding Tricks}"
                                 SelectionMode="None"
+                                RemainingItemsThreshold="1"
                                 RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

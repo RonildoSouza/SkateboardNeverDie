@@ -130,8 +130,6 @@ namespace SkateboardNeverDie.ViewModels
             if (IsBusy || !_hasNextPage)
                 return;
 
-            IsBusy = true;
-
             try
             {
                 var nextPage = (Tricks.Count / _pageSize) + 1;
@@ -143,10 +141,6 @@ namespace SkateboardNeverDie.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-            }
-            finally
-            {
-                IsBusy = false;
             }
         }
     }

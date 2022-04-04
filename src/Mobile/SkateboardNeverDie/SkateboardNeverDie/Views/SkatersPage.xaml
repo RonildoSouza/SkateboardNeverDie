@@ -26,6 +26,7 @@
         <CollectionView x:Name="SkatersListView"
                         ItemsSource="{Binding Skaters}"
                         SelectionMode="None"
+                        RemainingItemsThreshold="1"
                         RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
