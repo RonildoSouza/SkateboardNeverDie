@@ -22,33 +22,39 @@
     <ContentPage.Content>
         <ScrollView >
             <StackLayout Padding="10">
-                <StackLayout Orientation="Horizontal">
-                    <Frame HorizontalOptions="FillAndExpand">
-                        <StackLayout>
-                            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
-                            
-                            <Label Text="{Binding SkatersCount, StringFormat='{0} Skaters'}"
-                                   IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
-                                   LineBreakMode="WordWrap"
-                                   HorizontalOptions="CenterAndExpand"
-                                   VerticalOptions="CenterAndExpand"
-                                   FontSize="Large" />                            
-                        </StackLayout>
-                    </Frame>
+                <Frame HorizontalOptions="FillAndExpand">
+                    <StackLayout Spacing="20">
+                        <Label Text="Count Skaters and Tricks" FontSize="Title" HorizontalOptions="CenterAndExpand" />
+                        
+                        <StackLayout Orientation="Horizontal">
+                            <Frame HorizontalOptions="FillAndExpand">
+                                <StackLayout>
+                                    <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
 
-                    <Frame HorizontalOptions="FillAndExpand">
-                        <StackLayout>
-                            <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
-                            
-                            <Label Text="{Binding TricksCount, StringFormat='{0} Tricks'}"
-                                   IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
-                                   LineBreakMode="WordWrap"
-                                   HorizontalOptions="CenterAndExpand"
-                                   VerticalOptions="CenterAndExpand"
-                                   FontSize="Large" />
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
+                                    <Label Text="{Binding SkatersCount, StringFormat='{0} Skaters'}"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                           LineBreakMode="WordWrap"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="Large" />
+                                </StackLayout>
+                            </Frame>
+
+                            <Frame HorizontalOptions="FillAndExpand">
+                                <StackLayout>
+                                    <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" />
+
+                                    <Label Text="{Binding TricksCount, StringFormat='{0} Tricks'}"
+                                           IsVisible="{Binding IsBusy, Converter={StaticResource BooleanValueConverter}}"
+                                           LineBreakMode="WordWrap"
+                                           HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="Large" />
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>                        
+                    </StackLayout>
+                </Frame>
 
                 <Frame>
                     <StackLayout HorizontalOptions="CenterAndExpand">

@@ -17,7 +17,7 @@
             <Entry Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center"/>
 
             <Label Text="Description" FontSize="Medium" VerticalOptions="Center"/>
-            <Editor Text="{Binding Description, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center"/>
+            <Editor Text="{Binding Description, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center" HeightRequest="200"/>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
                 <Button Text="Cancel" 
