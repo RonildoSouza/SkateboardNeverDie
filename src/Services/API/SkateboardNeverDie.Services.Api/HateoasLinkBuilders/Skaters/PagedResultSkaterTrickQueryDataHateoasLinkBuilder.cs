@@ -7,7 +7,7 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
 {
     public class PagedResultSkaterTrickQueryDataHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<SkaterTrickQueryData>>
     {
-        public HateoasResult<PagedResult<SkaterTrickQueryData>> Build(HateoasResult<PagedResult<SkaterTrickQueryData>> hateoasResult)
+        public HateoasResult<PagedResult<SkaterTrickQueryData>> AddLinks(HateoasResult<PagedResult<SkaterTrickQueryData>> hateoasResult)
         {
             var skaterId = hateoasResult.GetArg(0);
 

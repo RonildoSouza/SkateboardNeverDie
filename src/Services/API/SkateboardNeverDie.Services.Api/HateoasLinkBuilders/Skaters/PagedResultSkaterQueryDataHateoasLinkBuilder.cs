@@ -18,7 +18,7 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Skaters
             _authorizationService = authorizationService;
         }
 
-        public HateoasResult<PagedResult<SkaterQueryData>> Build(HateoasResult<PagedResult<SkaterQueryData>> hateoasResult)
+        public HateoasResult<PagedResult<SkaterQueryData>> AddLinks(HateoasResult<PagedResult<SkaterQueryData>> hateoasResult)
         {
             var authorizationResult = _authorizationService.AuthorizeAsync(_httpContextAccessor.HttpContext.User, hateoasResult, "Skaters:Add").Result;
 

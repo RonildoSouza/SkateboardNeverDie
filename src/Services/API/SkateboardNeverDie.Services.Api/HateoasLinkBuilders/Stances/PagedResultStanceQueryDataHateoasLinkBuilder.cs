@@ -7,7 +7,7 @@ namespace SkateboardNeverDie.Services.Api.HateoasLinkBuilders.Stances
 {
     public class PagedResultStanceQueryDataHateoasLinkBuilder : IHateoasLinkBuilder<PagedResult<StanceQueryData>>
     {
-        public HateoasResult<PagedResult<StanceQueryData>> Build(HateoasResult<PagedResult<StanceQueryData>> hateoasResult)
+        public HateoasResult<PagedResult<StanceQueryData>> AddLinks(HateoasResult<PagedResult<StanceQueryData>> hateoasResult)
         {
             return hateoasResult
                 .AddSelfLink(StanceRouteNames.GetStances, _ => new { page = _.CurrentPage, pageSize = _.PageSize })
