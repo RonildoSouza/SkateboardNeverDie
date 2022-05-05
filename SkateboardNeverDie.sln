@@ -31,8 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkateboardNeverDie.iOS", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.MVC.Attributes", "src\Nuget\SkateboardNeverDie.Core.MVC.Attributes\SkateboardNeverDie.Core.MVC.Attributes.csproj", "{78EADB15-8D79-42DE-AB1B-25A77D7FCF1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Application", "src\Nuget\SkateboardNeverDie.Core.Application\SkateboardNeverDie.Core.Application.csproj", "{3C187F66-B4ED-44FA-8444-A697ABA92664}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Collection.Extensions", "src\Nuget\SkateboardNeverDie.Core.Collection.Extensions\SkateboardNeverDie.Core.Collection.Extensions.csproj", "{19284BF0-2B07-43A6-ACA0-8753DE62D8A5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkateboardNeverDie.Core.Domain", "src\Nuget\SkateboardNeverDie.Core.Domain\SkateboardNeverDie.Core.Domain.csproj", "{3B2A9A52-877E-4930-A92D-B30386D48F79}"
@@ -179,18 +177,6 @@ Global
 		{78EADB15-8D79-42DE-AB1B-25A77D7FCF1D}.Release|iPhone.Build.0 = Release|Any CPU
 		{78EADB15-8D79-42DE-AB1B-25A77D7FCF1D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{78EADB15-8D79-42DE-AB1B-25A77D7FCF1D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|iPhone.Build.0 = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{3C187F66-B4ED-44FA-8444-A697ABA92664}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{19284BF0-2B07-43A6-ACA0-8753DE62D8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{19284BF0-2B07-43A6-ACA0-8753DE62D8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19284BF0-2B07-43A6-ACA0-8753DE62D8A5}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -266,7 +252,6 @@ Global
 		{E6531108-1190-4FE6-AE08-E6C81E8F0F88} = {21859D53-076C-45C0-B88F-22FB36FC16BE}
 		{C6BC44C0-8CDD-4048-AB0A-09A52A39B286} = {21859D53-076C-45C0-B88F-22FB36FC16BE}
 		{78EADB15-8D79-42DE-AB1B-25A77D7FCF1D} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
-		{3C187F66-B4ED-44FA-8444-A697ABA92664} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
 		{19284BF0-2B07-43A6-ACA0-8753DE62D8A5} = {DD48B47C-D5C8-4289-96EB-F33394E9FD96}
 		{3B2A9A52-877E-4930-A92D-B30386D48F79} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
 		{83DC0A79-C9C0-4157-8634-5544EB52EDAF} = {1AEB9AD7-0B1C-4D54-ADB6-782A2EA9F02A}
