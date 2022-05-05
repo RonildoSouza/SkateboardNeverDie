@@ -16,7 +16,7 @@ namespace SkateboardNeverDie.ViewModels
         private int _skatersCount;
         private int _tricksCount;
         private DonutChart _chartSkatersGoofyVsRegular;
-        private BarChart _chartSkatersCountPerAge;
+        private RadarChart _chartSkatersCountPerAge;
         private readonly ISingleSignOnService _singleSignOnService = DependencyService.Get<ISingleSignOnService>();
         private readonly ISecureStorageManager _secureStorageManager = DependencyService.Get<ISecureStorageManager>();
         private readonly ISkateboardNeverDieApi _skateboardNeverDieApi = DependencyService.Get<ISkateboardNeverDieApi>();
@@ -52,7 +52,7 @@ namespace SkateboardNeverDie.ViewModels
             get => _chartSkatersGoofyVsRegular;
             set => SetProperty(ref _chartSkatersGoofyVsRegular, value);
         }
-        public BarChart ChartSkatersCountPerAge
+        public RadarChart ChartSkatersCountPerAge
         {
             get => _chartSkatersCountPerAge;
             set => SetProperty(ref _chartSkatersCountPerAge, value);
@@ -90,10 +90,11 @@ namespace SkateboardNeverDie.ViewModels
                     Color = SKColorRandom.GetColor()
                 });
 
-            ChartSkatersCountPerAge = new BarChart
+            ChartSkatersCountPerAge = new RadarChart
             {
                 Entries = entriesChartSkatersCountPerAge,
-                LabelTextSize = 20
+                LabelTextSize = 20,
+                PointMode = PointMode.Circle
             };
         }
 

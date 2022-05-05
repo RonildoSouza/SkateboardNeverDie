@@ -3,33 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SkateboardNeverDie.Views.NewSkaterPage"
              Shell.PresentationMode="ModalAnimated"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="White">
     
     <ContentPage.Content>
         <StackLayout Spacing="3" 
                      Padding="15"
                      VerticalOptions="FillAndExpand">
             <Label Text="{Binding Title}" 
-                   FontSize="Large" 
+                   FontSize="Title" 
                    HorizontalOptions="CenterAndExpand"
                    VerticalOptions="StartAndExpand" />
 
             <Label Text="First Name" FontSize="Medium" VerticalOptions="Center" />
-            <Entry Text="{Binding FirstName, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center" />
+            <Entry Text="{Binding FirstName, Mode=TwoWay}" 
+                   FontSize="Medium" 
+                   VerticalOptions="Center"
+                   Placeholder="Enter skater firstname..."
+                   TextColor="Black" 
+                   PlaceholderColor="Gray"
+                   Margin="0, 0, 0, 20" />
 
             <Label Text="Last Name" FontSize="Medium" VerticalOptions="Center" />
-            <Entry Text="{Binding LastName, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center" />
+            <Entry Text="{Binding LastName, Mode=TwoWay}" 
+                   FontSize="Medium" 
+                   VerticalOptions="Center"
+                   Placeholder="Enter skater lastname..."
+                   TextColor="Black" 
+                   PlaceholderColor="Gray"
+                   Margin="0, 0, 0, 20" />
 
             <Label Text="Nick Name" FontSize="Medium" VerticalOptions="Center" />
-            <Entry Text="{Binding NickName, Mode=TwoWay}" FontSize="Medium" VerticalOptions="Center" />
+            <Entry Text="{Binding NickName, Mode=TwoWay}" 
+                   FontSize="Medium" 
+                   VerticalOptions="Center"
+                   Placeholder="Enter skater nickname..."
+                   TextColor="Black" 
+                   PlaceholderColor="Gray"
+                   Margin="0, 0, 0, 20" />
 
             <Label Text="Birthdate" FontSize="Medium" VerticalOptions="Center" />
-            <DatePicker Date="{Binding Birthdate}" VerticalOptions="Center" />
+            <DatePicker Date="{Binding Birthdate}" 
+                        VerticalOptions="Center"
+                        TextColor="Black" />
 
             <Label Text="What's the Natural Stance?" FontSize="Medium" VerticalOptions="Center" />
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
-                <RadioButton GroupName="naturalStances" Value="Goofy" Content="Goofy"/>
-                <RadioButton GroupName="naturalStances" Value="Regular" Content="Regular"/>
+                <RadioButton GroupName="naturalStances" 
+                             Value="Goofy" 
+                             Content="Goofy" 
+                             TextColor="White" 
+                             BackgroundColor="Black"
+                             Padding="10, 0, 10, 0" />
+                <RadioButton GroupName="naturalStances" 
+                             Value="Regular" 
+                             Content="Regular"
+                             TextColor="White" 
+                             BackgroundColor="Black"
+                             Padding="10, 0, 10, 0" />
             </StackLayout>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" 

@@ -4,12 +4,13 @@
              x:Class="SkateboardNeverDie.Views.SkaterTricksPage"
              Title="{Binding Title}"
              Shell.PresentationMode="ModalAnimated"
-             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels">
+             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"
+             BackgroundColor="White">
 
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">        
             <Label Text="{Binding SkaterFullName, StringFormat='Choose Tricks ({0})'}"
-                   FontSize="Large"
+                   FontSize="Title"
                    HorizontalOptions="CenterAndExpand"
                    VerticalOptions="CenterAndExpand"/>
 
