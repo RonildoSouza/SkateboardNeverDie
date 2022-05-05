@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SkateboardNeverDie.Services.SingleSignOn
 {
+    /// <summary>
+    /// DON'T USE THIS IN PRODUCTION
+    /// </summary>
     public class TestData : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
