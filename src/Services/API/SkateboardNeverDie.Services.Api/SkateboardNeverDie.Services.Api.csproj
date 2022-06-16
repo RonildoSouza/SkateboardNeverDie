@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>8beb9464-a29e-4afc-8f14-3b2309c87936</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="HateoasLinkBuilders\ListCustomerDtoHateoasBuilder.cs" />
+    <Compile Remove="HateoasLinkBuilders\ListOrderDtoHateoasBuilder.cs" />
+    <Compile Remove="HateoasLinkBuilders\OrderDtoHateoasBuilder.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.4.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.6" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="OpenIddict.AspNetCore" Version="3.1.1" />
+    <PackageReference Include="OpenIddict.Abstractions" Version="3.1.1" />
+    <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
+    <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />
+    <PackageReference Include="Simple.Hateoas" Version="1.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.3.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Security.Extensions\SkateboardNeverDie.Core.Security.Extensions.csproj" />
+    <ProjectReference Include="..\SkateboardNeverDie.Application\SkateboardNeverDie.Application.csproj" />
+    <ProjectReference Include="..\SkateboardNeverDie.Infrastructure.Configuration\SkateboardNeverDie.Infrastructure.Configuration.csproj" />
+  </ItemGroup>
+
+</Project>

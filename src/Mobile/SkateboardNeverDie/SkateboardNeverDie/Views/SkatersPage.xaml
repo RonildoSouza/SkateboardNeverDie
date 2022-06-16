@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.SkatersPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkatersViewModel"
+             xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
+             x:Name="SkatersPG">
+    
+    <ContentPage.ToolbarItems>
+        <ce:BindableToolbarItem 
+            Text="Add Skater" 
+            IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={StaticResource IconAdd}}"
+            Command="{Binding AddSkaterCommand}" 
+            IsVisible="{Binding CanAddSkater}" 
+            Order="Primary" />
+    </ContentPage.ToolbarItems>
+    <!--
+      x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
+      https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
+    -->
+    <RefreshView x:DataType="local:SkatersViewModel" 
+                 Command="{Binding LoadSkatersCommand}" 
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="SkatersListView"
+                        ItemsSource="{Binding Skaters}"
+                        SelectionMode="None"
+                        RemainingItemsThreshold="1"
+                        RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10, 5, 10, 5" x:DataType="model:Skater">
+                        <Frame>
+                            <Label Text="{Binding FullName}" 
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="Large" />
+                        </Frame>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:SkatersViewModel}}, Path=SkaterTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

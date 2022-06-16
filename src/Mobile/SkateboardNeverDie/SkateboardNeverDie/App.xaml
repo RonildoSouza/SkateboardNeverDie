@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.App"
+             xmlns:cvc="clr-namespace:SkateboardNeverDie.CustomValueConverters">
+    <!--
+        Define global resources and styles here, that apply to all pages in your app.
+    -->
+    <Application.Resources>
+        <OnPlatform x:Key="MaterialFontFamily" x:TypeArguments="x:String">
+            <On Platform="Android" Value="MaterialIcons-Regular.ttf#Material Icons" />
+            <On Platform="iOS" Value="Material Icons" />
+        </OnPlatform>
+
+        <x:String x:Key="IconDashboard">&#xe871;</x:String>
+        <x:String x:Key="IconSkateboarding">&#xe511;</x:String>
+        <x:String x:Key="Icon123">&#xeb8d;</x:String>
+        <x:String x:Key="IconEscalator">&#xf1a1;</x:String>
+        <x:String x:Key="IconLogin">&#xea77;</x:String>
+        <x:String x:Key="IconLogout">&#xe9ba;</x:String>
+        <x:String x:Key="IconAdd">&#xe145;</x:String>
+        <x:String x:Key="IconEdit">&#xe3c9;</x:String>
+        <x:String x:Key="IconDelete">&#xe872;</x:String>
+
+        <ResourceDictionary>
+            <Color x:Key="Primary">#2196F3</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="TextColor" Value="White"></Setter>
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="LightGray" />
+                                    <Setter Property="TextColor" Value="Gray"></Setter>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>                
+            </Style>
+
+            <cvc:BooleanValueConverter x:Key="BooleanValueConverter"/>
+        </ResourceDictionary>        
+    </Application.Resources>
+</Application>

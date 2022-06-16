@@ -1,0 +1,43 @@
+﻿@model RegisterViewModel
+@{ ViewData["Title"] = "Register"; }
+
+<div class="account card">
+    <div class="row account card-body">
+        <div class="account col-md-8"></div>
+        <div class="account col-md-4">
+            <section>
+                <h2>@ViewData["Title"]</h2>
+                <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" class="form-horizontal" role="form">
+                    <h4>Create a new account</h4>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+
+                    <div class="form-group mb-3">
+                        <input asp-for="Email" class="form-control" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password">
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <br />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-lg btn-dark">Register</button>
+                    </div>
+                </form>
+            </section>
+
+            <partial name="_TermsAndPrivacyPartial" />
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

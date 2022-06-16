@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.TrickDetailPage"
+             Title="{Binding Title}">
+    
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Details" 
+                       FontSize="Title" 
+                       VerticalOptions="EndAndExpand"/>
+
+                <Button Text="{StaticResource IconDelete}"
+                        FontFamily="{StaticResource MaterialFontFamily}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        TextColor="Red"
+                        BackgroundColor="White"
+                        FontSize="40"
+                        Command="{Binding DeleteCommand}"
+                        IsVisible="{Binding CanDeleteTrick}"/>
+            </StackLayout>
+            
+            <Frame HasShadow="True">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Name:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding Name}" 
+                           FontSize="Large"                           
+                           Margin="0, 0, 0, 20"/>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Text="Description:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding Description}" 
+                           FontSize="Large"/>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

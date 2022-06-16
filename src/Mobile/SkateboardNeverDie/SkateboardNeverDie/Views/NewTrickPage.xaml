@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.NewTrickPage"
+             Shell.PresentationMode="ModalAnimated"
+             Title="{Binding Title}"
+             BackgroundColor="White">
+    <ContentPage.Content>
+        <StackLayout Spacing="3" 
+                     Padding="15"
+                     VerticalOptions="FillAndExpand">
+            <Label Text="{Binding Title}" 
+                   FontSize="Title"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="StartAndExpand"/>
+
+            <Label Text="Name" FontSize="Medium" VerticalOptions="Center"/>
+            <Entry Text="{Binding Name, Mode=TwoWay}" 
+                   FontSize="Medium" 
+                   VerticalOptions="Center" 
+                   Placeholder="Enter trick name..."
+                   TextColor="Black" 
+                   PlaceholderColor="Gray"
+                   Margin="0, 0, 0, 20"/>
+
+            <Label Text="Description" FontSize="Medium" VerticalOptions="Center"/>
+            <Editor Text="{Binding Description, Mode=TwoWay}" 
+                    FontSize="Medium" 
+                    VerticalOptions="Center" 
+                    HeightRequest="200" 
+                    Placeholder="Enter trick description..."
+                    TextColor="Black" 
+                    PlaceholderColor="Gray"/>
+
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                <Button Text="Cancel" 
+                        Command="{Binding CancelCommand}" 
+                        HorizontalOptions="FillAndExpand" 
+                        BackgroundColor="White"
+                        BorderColor="Red"
+                        BorderWidth="1" 
+                        TextColor="Black" 
+                        CornerRadius="10"/>
+                <Button Text="Save" 
+                        Command="{Binding SaveCommand}"
+                        HorizontalOptions="FillAndExpand" 
+                        CornerRadius="10" />
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.TricksPage"
+             Title="{Binding Title}"
+             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels"  
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:TricksViewModel"
+             xmlns:ce="clr-namespace:SkateboardNeverDie.CustomElements"
+             x:Name="TricksPG">
+
+    <ContentPage.ToolbarItems>
+        <ce:BindableToolbarItem 
+            Text="Add Trick" 
+            IconImageSource="{FontImage FontFamily={StaticResource MaterialFontFamily}, Glyph={StaticResource IconAdd}}"
+            Command="{Binding AddTrickCommand}" 
+            IsVisible="{Binding CanAddTrick}" 
+            Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView x:DataType="local:TricksViewModel" 
+                 Command="{Binding LoadTricksCommand}" 
+                 IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="TricksListView"
+                        ItemsSource="{Binding Tricks}"
+                        SelectionMode="None"
+                        RemainingItemsThreshold="1"
+                        RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="10, 5, 10, 5" x:DataType="model:Trick">
+                        <Frame>
+                            <Label Text="{Binding Name}" 
+                                   LineBreakMode="NoWrap" 
+                                   Style="{DynamicResource ListItemTextStyle}" 
+                                   FontSize="Large" />                            
+                        </Frame>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:TricksViewModel}}, Path=TrickTapped}"		
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

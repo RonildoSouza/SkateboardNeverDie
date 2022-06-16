@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Infrastructure.Caching\SkateboardNeverDie.Core.Infrastructure.Caching.csproj" />
+    <ProjectReference Include="..\..\..\Nuget\SkateboardNeverDie.Core.Infrastructure\SkateboardNeverDie.Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\SkateboardNeverDie.Application\SkateboardNeverDie.Application.csproj" />
+    <ProjectReference Include="..\SkateboardNeverDie.Domain\SkateboardNeverDie.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SkateboardNeverDie.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

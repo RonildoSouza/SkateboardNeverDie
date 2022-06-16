@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SkateboardNeverDie.Views.SkaterDetailPage"
+             xmlns:local="clr-namespace:SkateboardNeverDie.ViewModels" 
+             xmlns:model="clr-namespace:SkateboardNeverDie.Models" x:DataType="local:SkaterDetailViewModel"
+             Title="{Binding Title}">
+    
+    <ScrollView>
+        <StackLayout Spacing="20" Padding="15">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Details" 
+                       FontSize="Title" 
+                       VerticalOptions="EndAndExpand"/>
+                
+                <Button Text="{StaticResource IconDelete}"
+                        FontFamily="{StaticResource MaterialFontFamily}"
+                        HorizontalOptions="EndAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        TextColor="Red"
+                        BackgroundColor="White"
+                        FontSize="40"
+                        Command="{Binding DeleteCommand}"
+                        IsVisible="{Binding CanDeleteSkater}"/>
+            </StackLayout>
+            
+            <Frame HasShadow="True">
+                <StackLayout>
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Name:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="{Binding FullName}" 
+                           FontSize="Large"                           
+                           Margin="0, 0, 0, 20"/>
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Text="Nickname:" 
+                           FontSize="Medium"/>
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="{Binding Nickname}" 
+                           FontSize="Large"                           
+                           Margin="0, 0, 0, 20"/>
+
+                    <Label Grid.Row="2"
+                           Grid.Column="0"
+                           Text="Natural Stance:"
+                           FontSize="Medium"/>
+                    <Label Grid.Row="2"
+                           Grid.Column="1"
+                           Text="{Binding NaturalStance}" 
+                           FontSize="Large"
+                           Margin="0, 0, 0, 20"/>
+
+                    <Label Grid.Row="3"
+                           Grid.Column="0"
+                           Text="Birthdate:"
+                           FontSize="Medium"/>
+                    <Label Grid.Row="3"
+                           Grid.Column="1"
+                           Text="{Binding Birthdate, StringFormat='{0:d}'}"
+                           FontSize="Large"/>
+                </StackLayout>
+            </Frame>
+
+            <StackLayout>
+                <Label Text="Tricks" FontSize="Title" />
+                <RefreshView x:DataType="local:SkaterDetailViewModel" 
+                             Command="{Binding LoadSkaterTricksCommand}" 
+                             IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                    <CollectionView x:Name="SkatertricksListView"
+                                    ItemsSource="{Binding SkaterTricks}"
+                                    SelectionMode="None"
+                                    RemainingItemsThresholdReachedCommand="{Binding ItemsThresholdReachedCommand}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="1,5,1,5">
+                                    <Frame HasShadow="True">
+                                        <StackLayout x:DataType="model:SkaterTrick">
+                                            <Label Text="{Binding TrickName}" 
+                                                    LineBreakMode="NoWrap" 
+                                                    Style="{DynamicResource ListItemTextStyle}" 
+                                                    FontSize="Large" />
+                                            <Label Text="{Binding TrickVariationsToString, StringFormat='({0})'}" 
+                                                    LineBreakMode="NoWrap"
+                                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                                    FontSize="Medium" />
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

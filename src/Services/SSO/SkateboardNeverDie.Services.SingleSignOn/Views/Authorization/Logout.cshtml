@@ -1,0 +1,20 @@
+﻿@using Microsoft.Extensions.Primitives
+
+<div class="jumbotron">
+    <form asp-controller="Authorization" asp-action="Logout" method="post" id="form-logout">
+        @* Flow the request parameters so they can be received by the LogoutPost action: *@
+        @foreach (var parameter in Context.Request.HasFormContentType ? 
+            (IEnumerable<KeyValuePair<string, StringValues>>)Context.Request.Form : Context.Request.Query)
+        {
+            <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
+        }
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $("#form-logout").submit();
+        });
+    </script>
+}
