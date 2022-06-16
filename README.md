@@ -29,7 +29,7 @@ Para implementação do **SSO** foi utilizado a biblioteca [OpenIddict](https://
 ## 🔗 Links de Acesso
 - API: https://skateboardneverdieservicesapi.azurewebsites.net/swagger/index.html
 - SSO: https://skateboardneverdieservicessinglesignon.azurewebsites.net/login
-- MOBILE (APK): 
+- MOBILE (APK): https://github.com/RonildoSouza/SkateboardNeverDie/raw/main/dist/br.com.ronildosouza.skateboardneverdie.apk
 
 
 ## 🖼️ Imagens
